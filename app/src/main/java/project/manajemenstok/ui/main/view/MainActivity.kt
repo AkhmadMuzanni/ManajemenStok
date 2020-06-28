@@ -1,7 +1,8 @@
-package project.manajemenstok
+package project.manajemenstok.ui.main.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import project.manajemenstok.R
 
 class MainActivity : AppCompatActivity() {
 
