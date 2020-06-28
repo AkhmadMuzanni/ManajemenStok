@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_beranda"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="@string/menu_beranda" />
+
+    <item
+        android:id="@+id/navigation_riwayat"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="@string/menu_riwayat" />
+
+    <item
+        android:id="@+id/navigation_kas"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/menu_kas" />
+
+</menu>
