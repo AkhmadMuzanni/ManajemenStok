@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.retrofit/retrofit2-kotlinx-serialization-converter/0.5.0/45122f7765ae615a515f1cd0db8ff1ae8499dfa3/retrofit2-kotlinx-serialization-converter-0.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.retrofit/retrofit2-kotlinx-serialization-converter/0.5.0/4e1974075e742756a5addfc4ec14c912580a3b75/retrofit2-kotlinx-serialization-converter-0.5.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.retrofit/retrofit2-kotlinx-serialization-converter/0.5.0/b3b47847b4167bae75ac1ceff947b1ee0c4b03fc/retrofit2-kotlinx-serialization-converter-0.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
