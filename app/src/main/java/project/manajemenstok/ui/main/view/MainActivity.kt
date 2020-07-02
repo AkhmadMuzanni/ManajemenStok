@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import project.manajemenstok.R
-import project.manajemenstok.data.api.ApiHelper
-import project.manajemenstok.data.api.ApiServiceImpl
+import project.manajemenstok.data.remote.ApiHelper
+import project.manajemenstok.data.remote.ApiServiceImpl
+import project.manajemenstok.data.local.DatabaseHelper
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.MainAdapter
@@ -43,6 +44,13 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
+    private fun setupViewModel() {
+        mainViewModel = ViewModelProviders.of(
+            this,
+            ViewModelFactory(ApiHelper(ApiServiceImpl()), DatabaseHelper(applicationContext))
+        ).get(MainViewModel::class.java)
+    }
+
     private fun setupObserver() {
         mainViewModel.getBarangs().observe(this, Observer {
             when (it.status) {
@@ -69,12 +77,7 @@ class MainActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    private fun setupViewModel() {
-        mainViewModel = ViewModelProviders.of(
-            this,
-            ViewModelFactory(ApiHelper(ApiServiceImpl()))
-        ).get(MainViewModel::class.java)
-    }
+
 
 
 }

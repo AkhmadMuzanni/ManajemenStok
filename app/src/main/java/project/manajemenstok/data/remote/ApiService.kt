@@ -1,4 +1,4 @@
-package project.manajemenstok.data.api
+package project.manajemenstok.data.remote
 
 import io.reactivex.Single
 import project.manajemenstok.data.model.Barang

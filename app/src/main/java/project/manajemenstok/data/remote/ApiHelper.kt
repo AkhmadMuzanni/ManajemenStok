@@ -1,4 +1,4 @@
-package project.manajemenstok.data.api
+package project.manajemenstok.data.remote
 
 class ApiHelper(private val apiService: ApiService) {
 

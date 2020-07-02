@@ -1,4 +1,4 @@
-package project.manajemenstok.data.api
+package project.manajemenstok.data.remote
 
 import com.rx2androidnetworking.Rx2AndroidNetworking
 import io.reactivex.Single

@@ -7,8 +7,9 @@ data class Barang (
     val id: Int=0,
     @SerializedName("namaBarang")
     val namaBarang: String="",
-    @SerializedName("harga_beli")
+    @SerializedName("hargaBeli")
     val hargaBeli: Int=0,
     @SerializedName("foto")
     val foto: String=""
+
 )
