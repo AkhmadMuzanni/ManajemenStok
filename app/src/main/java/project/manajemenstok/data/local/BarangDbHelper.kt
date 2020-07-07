@@ -5,17 +5,19 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import org.jetbrains.anko.db.*
 
-class DatabaseHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", null, 1) {
+class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", null, 1),
+    BarangLogic {
 
     companion object {
-        private var instance: DatabaseHelper? = null
+        private var instance: BarangDbHelper? = null
 
         @Synchronized
-        fun getInstance(ctx: Context) : DatabaseHelper{
+        fun getInstance(ctx: Context) : BarangDbHelper {
             if (instance == null){
-                instance = DatabaseHelper(ctx.applicationContext)
+                instance =
+                    BarangDbHelper(ctx.applicationContext)
             }
-            return instance as DatabaseHelper
+            return instance as BarangDbHelper
         }
     }
 
@@ -31,31 +33,36 @@ class DatabaseHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
 
 //        Insert Data
 
-        db?.insert(BarangSkema.TABLE_BARANG,
+        db?.insert(
+            BarangSkema.TABLE_BARANG,
             BarangSkema.ID to 1,
             BarangSkema.NAMA_BARANG to "Barang Nomor 1",
             BarangSkema.HARGA_BELI to 1234,
             BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
         )
-        db?.insert(BarangSkema.TABLE_BARANG,
+        db?.insert(
+            BarangSkema.TABLE_BARANG,
             BarangSkema.ID to 2,
             BarangSkema.NAMA_BARANG to "Barang Nomor 2",
             BarangSkema.HARGA_BELI to 1234,
             BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
         )
-        db?.insert(BarangSkema.TABLE_BARANG,
+        db?.insert(
+            BarangSkema.TABLE_BARANG,
             BarangSkema.ID to 3,
             BarangSkema.NAMA_BARANG to "Barang Nomor 3",
             BarangSkema.HARGA_BELI to 1234,
             BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
         )
-        db?.insert(BarangSkema.TABLE_BARANG,
+        db?.insert(
+            BarangSkema.TABLE_BARANG,
             BarangSkema.ID to 4,
             BarangSkema.NAMA_BARANG to "Barang Nomor 4",
             BarangSkema.HARGA_BELI to 1234,
             BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
         )
-        db?.insert(BarangSkema.TABLE_BARANG,
+        db?.insert(
+            BarangSkema.TABLE_BARANG,
             BarangSkema.ID to 5,
             BarangSkema.NAMA_BARANG to "Barang Nomor 5",
             BarangSkema.HARGA_BELI to 1234,
@@ -69,16 +76,25 @@ class DatabaseHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         onCreate(db)
     }
 
-    fun getBarang(): Cursor {
+    //    fun getBarang(): Cursor {
+//        val db = this.readableDatabase
+//        val retVal = db.rawQuery("SELECT * FROM TABLE_BARANG",null)
+//
+//        return retVal
+
+//    }
+
+    override fun getBarang(): Cursor {
         val db = this.readableDatabase
         val retVal = db.rawQuery("SELECT * FROM TABLE_BARANG",null)
 
         return retVal
     }
 
-    val Context.db : DatabaseHelper
-        get() = DatabaseHelper.getInstance(applicationContext)
-
+    val Context.db : BarangDbHelper
+        get() = getInstance(
+            applicationContext
+        )
 
 
 }

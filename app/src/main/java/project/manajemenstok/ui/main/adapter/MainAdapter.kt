@@ -39,8 +39,4 @@ class MainAdapter (
         barangs.addAll(list)
     }
 
-
-
-
-
 }

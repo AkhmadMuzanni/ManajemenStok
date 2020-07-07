@@ -10,9 +10,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import project.manajemenstok.R
-import project.manajemenstok.data.remote.ApiHelper
-import project.manajemenstok.data.remote.ApiServiceImpl
-import project.manajemenstok.data.local.DatabaseHelper
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.MainAdapter
@@ -45,9 +42,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
+        val is_remote = true
         mainViewModel = ViewModelProviders.of(
             this,
-            ViewModelFactory(ApiHelper(ApiServiceImpl()), DatabaseHelper(applicationContext))
+            ViewModelFactory(applicationContext,is_remote)
         ).get(MainViewModel::class.java)
     }
 

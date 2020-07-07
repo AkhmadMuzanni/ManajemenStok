@@ -1,22 +1,26 @@
 package project.manajemenstok.ui.main.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import project.manajemenstok.data.local.BarangDbHelper
 import project.manajemenstok.data.model.Barang
-import project.manajemenstok.data.repository.MainRepository
+import project.manajemenstok.data.remote.RemoteBrangLogicImpl
+import project.manajemenstok.data.repository.BarangRepository
 import project.manajemenstok.utils.Resource
 
-class MainViewModel (private val mainRepository: MainRepository) : ViewModel() {
+class MainViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
 
+    private val barangRepository = BarangRepository(
+        RemoteBrangLogicImpl(),
+        BarangDbHelper(context)
+    )
     private val barangs = MutableLiveData<Resource<List<Barang>>>()
     private val compositeDisposable = CompositeDisposable()
-
-//    For activate remote mode
-    var is_remote = true
 
     init {
         fetchBarang()
@@ -26,7 +30,7 @@ class MainViewModel (private val mainRepository: MainRepository) : ViewModel() {
         barangs.postValue(Resource.loading(null))
         if(is_remote){
             compositeDisposable.add(
-                mainRepository.getBarangs()
+                barangRepository.getBarangs()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ barangList ->
@@ -37,7 +41,7 @@ class MainViewModel (private val mainRepository: MainRepository) : ViewModel() {
             )
         } else {
             compositeDisposable.add(
-                mainRepository.getBarangsLocal()
+                barangRepository.getBarangsLocal()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ barangList ->
