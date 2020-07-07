@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import project.manajemenstok.data.local.BarangDbHelper
 import project.manajemenstok.data.model.Barang
@@ -23,9 +24,23 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
     private val compositeDisposable = CompositeDisposable()
 
     init {
-        fetchBarang()
+        getDataRemote()
     }
 
+    @SuppressLint("CheckResult")
+    private fun getDataRemote(){
+        mainRepository.getBarangs()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                mainRepository.setBarangFromRemote(it)
+                fetchBarang()
+            }, { throwable ->
+                barangs.postValue(Resource.error("Something Went Wrong", null))
+            })
+    }
+
+    @SuppressLint("CheckResult")
     private fun fetchBarang(){
         barangs.postValue(Resource.loading(null))
         if(is_remote){
@@ -51,6 +66,10 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
                     })
             )
         }
+        else {
+            barangs.postValue(Resource.success(null))
+        }
+
     }
 
     override fun onCleared() {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import org.jetbrains.anko.db.*
+import project.manajemenstok.data.model.Barang
 
 class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", null, 1),
     BarangLogic {
@@ -33,41 +34,31 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
 
 //        Insert Data
 
-        db?.insert(
-            BarangSkema.TABLE_BARANG,
-            BarangSkema.ID to 1,
-            BarangSkema.NAMA_BARANG to "Barang Nomor 1",
-            BarangSkema.HARGA_BELI to 1234,
-            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
-        )
-        db?.insert(
-            BarangSkema.TABLE_BARANG,
-            BarangSkema.ID to 2,
-            BarangSkema.NAMA_BARANG to "Barang Nomor 2",
-            BarangSkema.HARGA_BELI to 1234,
-            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
-        )
-        db?.insert(
-            BarangSkema.TABLE_BARANG,
-            BarangSkema.ID to 3,
-            BarangSkema.NAMA_BARANG to "Barang Nomor 3",
-            BarangSkema.HARGA_BELI to 1234,
-            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
-        )
-        db?.insert(
-            BarangSkema.TABLE_BARANG,
-            BarangSkema.ID to 4,
-            BarangSkema.NAMA_BARANG to "Barang Nomor 4",
-            BarangSkema.HARGA_BELI to 1234,
-            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
-        )
-        db?.insert(
-            BarangSkema.TABLE_BARANG,
-            BarangSkema.ID to 5,
-            BarangSkema.NAMA_BARANG to "Barang Nomor 5",
-            BarangSkema.HARGA_BELI to 1234,
-            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
-        )
+//        db?.insert(BarangSkema.TABLE_BARANG,
+//            BarangSkema.NAMA_BARANG to "Barang Nomor 1",
+//            BarangSkema.HARGA_BELI to 1234,
+//            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+//        )
+//        db?.insert(BarangSkema.TABLE_BARANG,
+//            BarangSkema.NAMA_BARANG to "Barang Nomor 2",
+//            BarangSkema.HARGA_BELI to 1234,
+//            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+//        )
+//        db?.insert(BarangSkema.TABLE_BARANG,
+//            BarangSkema.NAMA_BARANG to "Barang Nomor 3",
+//            BarangSkema.HARGA_BELI to 1234,
+//            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+//        )
+//        db?.insert(BarangSkema.TABLE_BARANG,
+//            BarangSkema.NAMA_BARANG to "Barang Nomor 4",
+//            BarangSkema.HARGA_BELI to 1234,
+//            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+//        )
+//        db?.insert(BarangSkema.TABLE_BARANG,
+//            BarangSkema.NAMA_BARANG to "Barang Nomor 7",
+//            BarangSkema.HARGA_BELI to 1234,
+//            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+//        )
 
     }
 
@@ -76,14 +67,6 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         onCreate(db)
     }
 
-    //    fun getBarang(): Cursor {
-//        val db = this.readableDatabase
-//        val retVal = db.rawQuery("SELECT * FROM TABLE_BARANG",null)
-//
-//        return retVal
-
-//    }
-
     override fun getBarang(): Cursor {
         val db = this.readableDatabase
         val retVal = db.rawQuery("SELECT * FROM TABLE_BARANG",null)
@@ -91,10 +74,21 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         return retVal
     }
 
-    val Context.db : BarangDbHelper
-        get() = getInstance(
-            applicationContext
-        )
+    fun setBarangFromRemote(dataBarang: List<Barang>){
+        val db = this.readableDatabase
+        for (barang in dataBarang) {
+            db?.insert(BarangSkema.TABLE_BARANG,
+                BarangSkema.NAMA_BARANG to barang.namaBarang,
+                BarangSkema.HARGA_BELI to barang.hargaBeli,
+                BarangSkema.FOTO to barang.foto
+            )
+        }
+
+    }
+
+    val Context.db : DatabaseHelper
+        get() = DatabaseHelper.getInstance(applicationContext)
+
 
 
 }
