@@ -74,7 +74,7 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         return retVal
     }
 
-    fun setBarangFromRemote(dataBarang: List<Barang>){
+    override fun setBarangFromRemote(dataBarang: List<Barang>) {
         val db = this.readableDatabase
         for (barang in dataBarang) {
             db?.insert(BarangSkema.TABLE_BARANG,
@@ -83,12 +83,11 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
                 BarangSkema.FOTO to barang.foto
             )
         }
-
     }
 
-    val Context.db : DatabaseHelper
-        get() = DatabaseHelper.getInstance(applicationContext)
 
+    val Context.db : BarangDbHelper
+        get() = BarangDbHelper.getInstance(applicationContext)
 
 
 }

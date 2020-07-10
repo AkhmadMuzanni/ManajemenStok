@@ -20,7 +20,7 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
     }
 
     fun setBarangFromRemote(dataBarang: List<Barang>){
-        appData.setBarangFromRemote(dataBarang)
+        localBarang.setBarangFromRemote(dataBarang)
     }
 
 }

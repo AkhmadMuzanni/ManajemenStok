@@ -1,5 +1,6 @@
 package project.manajemenstok.ui.main.viewmodel
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,11 +30,11 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
 
     @SuppressLint("CheckResult")
     private fun getDataRemote(){
-        mainRepository.getBarangs()
+        barangRepository.getBarangs()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                mainRepository.setBarangFromRemote(it)
+                barangRepository.setBarangFromRemote(it)
                 fetchBarang()
             }, { throwable ->
                 barangs.postValue(Resource.error("Something Went Wrong", null))
@@ -44,17 +45,6 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
     private fun fetchBarang(){
         barangs.postValue(Resource.loading(null))
         if(is_remote){
-            compositeDisposable.add(
-                barangRepository.getBarangs()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ barangList ->
-                        barangs.postValue(Resource.success(barangList))
-                    }, { throwable ->
-                        barangs.postValue(Resource.error("Something Went Wrong", null))
-                    })
-            )
-        } else {
             compositeDisposable.add(
                 barangRepository.getBarangsLocal()
                     .subscribeOn(Schedulers.io())

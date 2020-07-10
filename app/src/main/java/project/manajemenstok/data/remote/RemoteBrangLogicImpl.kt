@@ -13,7 +13,6 @@ class RemoteBrangLogicImpl : RemoteBrangLogic {
         return Rx2AndroidNetworking.get("https://tomatoleafdisease.web.app/testData.json")
             .build()
             .getObjectListSingle(Barang::class.java)
-
     }
 
 }
