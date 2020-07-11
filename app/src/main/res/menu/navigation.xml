@@ -7,13 +7,24 @@
         android:title="@string/menu_beranda" />
 
     <item
+        android:id="@+id/navigation_barang"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/menu_barang" />
+
+    <item
         android:id="@+id/navigation_riwayat"
         android:icon="@android:drawable/ic_menu_recent_history"
         android:title="@string/menu_riwayat" />
 
     <item
         android:id="@+id/navigation_kas"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@android:drawable/ic_media_play"
         android:title="@string/menu_kas" />
+
+
+    <item
+        android:id="@+id/navigation_akun"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="@string/menu_akun" />
 
 </menu>

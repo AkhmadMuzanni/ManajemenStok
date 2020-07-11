@@ -1,5 +1,6 @@
 package project.manajemenstok.ui.main.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import kotlinx.android.synthetic.main.activity_main.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
@@ -16,7 +18,7 @@ import project.manajemenstok.ui.main.adapter.MainAdapter
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.utils.Status
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener{
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: MainAdapter
@@ -27,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         setupUI()
         setupViewModel()
         setupObserver()
+
+        val navigationBarang: BottomNavigationItemView = findViewById(R.id.navigation_barang)
+        navigationBarang.setOnClickListener(this)
+
     }
 
     private fun setupUI(){
@@ -76,6 +82,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onClick(v: View) {
+        when (v.id){
+            R.id.navigation_barang->{
+                val barangIntent = Intent(this@MainActivity, BarangActivity::class.java)
+                startActivity(barangIntent)
+            }
+        }
+    }
 
 
 }
