@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         setupViewModel()
         setupObserver()
 
-        val menuPembelian: ConstraintLayout = findViewById(R.id.menuPembelian)
+        val menuPembelian: ConstraintLayout = findViewById(R.id.menu_pembelian)
         menuPembelian.setOnClickListener(this)
 
-        val navigationBarang: BottomNavigationItemView = findViewById(R.id.navigation_barang)
-        navigationBarang.setOnClickListener(this)
+//        val navigationBarang: BottomNavigationItemView = findViewById(R.id.navigation_barang)
+//        navigationBarang.setOnClickListener(this)
 
     }
 
@@ -88,9 +88,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
 
     override fun onClick(v: View) {
         when (v.id){
-            R.id.menuPembelian->{
-                val barangIntent = Intent(this@MainActivity, BarangActivity::class.java)
-                startActivity(barangIntent)
+            R.id.menu_pembelian->{
+                val pembelianIntent = Intent(this@MainActivity, PembelianActivity::class.java)
+                startActivity(pembelianIntent)
             }
         }
     }

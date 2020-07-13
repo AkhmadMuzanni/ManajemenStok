@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.main.view.PembelianActivity"></activity>
         <activity android:name=".ui.main.view.BarangActivity"></activity>
         <activity android:name=".ui.main.view.MainActivity">
             <intent-filter>
