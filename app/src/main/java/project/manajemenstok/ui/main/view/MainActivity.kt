@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         setupUI()
         setupViewModel()
         setupObserver()
+
+        val menuPembelian: ConstraintLayout = findViewById(R.id.menuPembelian)
+        menuPembelian.setOnClickListener(this)
 
         val navigationBarang: BottomNavigationItemView = findViewById(R.id.navigation_barang)
         navigationBarang.setOnClickListener(this)
@@ -59,17 +63,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         mainViewModel.getBarangs().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    progressBar.visibility = View.GONE
+//                    progressBar.visibility = View.GONE
                     it.data?.let { users -> renderList(users) }
                     recyclerView.visibility = View.VISIBLE
                 }
                 Status.LOADING -> {
-                    progressBar.visibility = View.VISIBLE
+//                    progressBar.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
                 }
                 Status.ERROR -> {
                     //Handle Error
-                    progressBar.visibility = View.GONE
+//                    progressBar.visibility = View.GONE
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
             }
@@ -84,7 +88,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
 
     override fun onClick(v: View) {
         when (v.id){
-            R.id.navigation_barang->{
+            R.id.menuPembelian->{
                 val barangIntent = Intent(this@MainActivity, BarangActivity::class.java)
                 startActivity(barangIntent)
             }
