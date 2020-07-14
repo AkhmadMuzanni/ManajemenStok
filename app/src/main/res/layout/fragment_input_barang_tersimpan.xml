@@ -10,7 +10,7 @@
         android:id="@+id/text_item_barang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Barang ke-1"
+        android:text="Masukkan Barang Tersimpan"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout"
+        android:id="@+id/textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,12 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Masukkan Barang"
-            android:theme="@style/EditTextTheme"
-            />
+            android:theme="@style/EditTextTheme"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_input_barang"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/menu_corner"

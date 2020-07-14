@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.main.view.PembelianActivity"></activity>
         <activity android:name=".ui.main.view.BarangActivity"></activity>
+        <activity android:name=".ui.main.view.InputBarangActivity"></activity>
         <activity android:name=".ui.main.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

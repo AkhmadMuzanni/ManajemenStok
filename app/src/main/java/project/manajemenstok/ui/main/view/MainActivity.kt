@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
     override fun onClick(v: View) {
         when (v.id){
             R.id.menu_pembelian->{
+//                Toast.makeText(applicationContext, "Ini adalah contoh Toast di Android", Toast.LENGTH_LONG).show()
                 val pembelianIntent = Intent(this@MainActivity, PembelianActivity::class.java)
                 startActivity(pembelianIntent)
             }
