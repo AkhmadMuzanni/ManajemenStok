@@ -12,20 +12,14 @@ import project.manajemenstok.R
 class MainAdapter (
     private val barangs: ArrayList<Barang>
 ): RecyclerView.Adapter<MainAdapter.DataViewHolder>() {
+
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(barang: Barang){
             itemView.textViewNamaBarang.text = barang.namaBarang
             itemView.textViewHargaBeli.text = barang.hargaBeli.toString()
             Glide.with(itemView.imageViewFoto.context).load(barang.foto).into(itemView.imageViewFoto)
-
         }
     }
-
-    override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
-        holder.bind(barangs[position])
-
-
-    override fun getItemCount(): Int = barangs.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
         DataViewHolder(
@@ -34,6 +28,11 @@ class MainAdapter (
                 false
             )
         )
+
+    override fun getItemCount(): Int = barangs.size
+
+    override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
+        holder.bind(barangs[position])
 
     fun addData(list: List<Barang>) {
         barangs.addAll(list)

@@ -4,92 +4,66 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import kotlinx.android.synthetic.main.activity_main.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
-import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.MainAdapter
+import project.manajemenstok.ui.main.fragment.*
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
-import project.manajemenstok.utils.Status
 
-class MainActivity : AppCompatActivity(), View.OnClickListener{
-
-    private lateinit var mainViewModel: MainViewModel
-    private lateinit var adapter: MainAdapter
+class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setupUI()
-        setupViewModel()
-        setupObserver()
+
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fl_fragment, FragmentBeranda())
+            commit()
+        }
+
+
+        val navigationBeranda: BottomNavigationItemView = findViewById(R.id.navigation_beranda)
+        navigationBeranda.setOnClickListener {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl_fragment, FragmentBeranda())
+                commit()
+            }
+        }
 
         val navigationBarang: BottomNavigationItemView = findViewById(R.id.navigation_barang)
-        navigationBarang.setOnClickListener(this)
-
-    }
-
-    private fun setupUI(){
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = MainAdapter(arrayListOf())
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                recyclerView.context,
-                (recyclerView.layoutManager as LinearLayoutManager).orientation
-            )
-        )
-        recyclerView.adapter = adapter
-    }
-
-    private fun setupViewModel() {
-        val is_remote = true
-        mainViewModel = ViewModelProviders.of(
-            this,
-            ViewModelFactory(applicationContext,is_remote)
-        ).get(MainViewModel::class.java)
-    }
-
-    private fun setupObserver() {
-        mainViewModel.getBarangs().observe(this, Observer {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    progressBar.visibility = View.GONE
-                    it.data?.let { users -> renderList(users) }
-                    recyclerView.visibility = View.VISIBLE
-                }
-                Status.LOADING -> {
-                    progressBar.visibility = View.VISIBLE
-                    recyclerView.visibility = View.GONE
-                }
-                Status.ERROR -> {
-                    //Handle Error
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-                }
+        navigationBarang.setOnClickListener {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl_fragment, FragmentBarang())
+                commit()
             }
-        })
-    }
+        }
 
-    private fun renderList(barangs: List<Barang>) {
-        adapter.addData(barangs)
-        adapter.notifyDataSetChanged()
-    }
+        val navigationRiwayat: BottomNavigationItemView = findViewById(R.id.navigation_riwayat)
+        navigationRiwayat.setOnClickListener {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl_fragment, FragmentRiwayat())
+                commit()
+            }
+        }
 
+        val navigationKas: BottomNavigationItemView = findViewById(R.id.navigation_kas)
+        navigationKas.setOnClickListener {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl_fragment, FragmentKas())
+                commit()
+            }
+        }
 
-    override fun onClick(v: View) {
-        when (v.id){
-            R.id.navigation_barang->{
-                val barangIntent = Intent(this@MainActivity, BarangActivity::class.java)
-                startActivity(barangIntent)
+        val navigationAkun: BottomNavigationItemView = findViewById(R.id.navigation_akun)
+        navigationAkun.setOnClickListener {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl_fragment, FragmentAkun())
+                commit()
             }
         }
     }
-
 
 }
