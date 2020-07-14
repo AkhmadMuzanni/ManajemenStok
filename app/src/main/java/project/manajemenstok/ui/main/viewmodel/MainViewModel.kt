@@ -25,7 +25,7 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
     private val compositeDisposable = CompositeDisposable()
 
     init {
-        getDataRemote()
+        checkBarang()
     }
 
     @SuppressLint("CheckResult")
@@ -60,6 +60,24 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
             barangs.postValue(Resource.success(null))
         }
 
+    }
+
+    private fun checkBarang(){
+        barangs.postValue(Resource.loading(null))
+        compositeDisposable.add(
+            barangRepository.getBarangsLocal()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ barangList ->
+                    if(barangList.isEmpty()){
+                        getDataRemote()
+                    } else {
+                        fetchBarang()
+                    }
+                }, { throwable ->
+                    barangs.postValue(Resource.error("Something Went Wrong", null))
+                })
+        )
     }
 
     override fun onCleared() {
