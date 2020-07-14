@@ -10,5 +10,11 @@
     <string name="txtMenuPembelian">Pembelian</string>
     <string name="txtMenuPenjualan">Penjualan</string>
 
+    <string name="labelEditTextBarang">Nama Barang</string>
+    <string name="hintEditTextBarang">Masukkan Nama Barang</string>
+    <string name="btnInputBarang">SIMPAN BARANG</string>
+
+    <string name="labelSearchBarBarang">Cari berdasarkan Nama Barang</string>
+
 
 </resources>
