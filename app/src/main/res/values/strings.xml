@@ -5,6 +5,10 @@
     <string name="menu_riwayat">Riwayat</string>
     <string name="menu_kas">Kas</string>
     <string name="menu_akun">Akun</string>
+    <string name="imgHeader">gambar</string>
+    <string name="textHeader">Manajemen Stok</string>
+    <string name="txtMenuPembelian">Pembelian</string>
+    <string name="txtMenuPenjualan">Penjualan</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
