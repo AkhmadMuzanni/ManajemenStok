@@ -22,6 +22,8 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         }
     }
 
+    private var tempBarang : ArrayList<Barang> = ArrayList()
+
     override fun onCreate(db: SQLiteDatabase?) {
 
 //        Create Table
@@ -30,7 +32,10 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
             "ID_" to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             "NAMA_BARANG" to TEXT,
             "HARGA_BELI" to INTEGER,
-            "FOTO" to TEXT)
+            "FOTO" to TEXT,
+            "JUMLAH" to INTEGER,
+            "TOTAL" to INTEGER
+        )
 
 //        Insert Data
 
@@ -80,7 +85,9 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
             db?.insert(BarangSkema.TABLE_BARANG,
                 BarangSkema.NAMA_BARANG to barang.namaBarang,
                 BarangSkema.HARGA_BELI to barang.hargaBeli,
-                BarangSkema.FOTO to barang.foto
+                BarangSkema.FOTO to barang.foto,
+                BarangSkema.JUMLAH to barang.jumlah,
+                BarangSkema.TOTAL to barang.total
             )
         }
     }
@@ -88,6 +95,14 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
 
     val Context.db : BarangDbHelper
         get() = BarangDbHelper.getInstance(applicationContext)
+
+    override fun insertTempBarang(dataBarang: Barang){
+        tempBarang.add(dataBarang)
+    }
+
+    override fun getTempBarang(): ArrayList<Barang> {
+        return tempBarang
+    }
 
 
 }

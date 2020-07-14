@@ -1,9 +1,11 @@
 package project.manajemenstok.ui.main.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import project.manajemenstok.R
