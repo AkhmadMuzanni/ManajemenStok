@@ -10,8 +10,11 @@
     <string name="txtMenuPembelian">Pembelian</string>
     <string name="txtMenuPenjualan">Penjualan</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="labelEditTextBarang">Nama Barang</string>
+    <string name="hintEditTextBarang">Masukkan Nama Barang</string>
+    <string name="btnInputBarang">SIMPAN BARANG</string>
+
+    <string name="labelSearchBarBarang">Cari berdasarkan Nama Barang</string>
 
 
 </resources>

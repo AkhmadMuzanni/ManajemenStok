@@ -10,9 +10,10 @@
         android:id="@+id/text_item_barang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Masukkan Barang"
+        android:paddingLeft="3dp"
+        android:text="@string/labelEditTextBarang"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,8 +31,9 @@
             android:id="@+id/input_barang_pembelian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Masukkan Barang"
-            android:theme="@style/EditTextTheme"/>
+            android:hint="@string/hintEditTextBarang"
+            android:textSize="14sp"
+            android:theme="@style/EditTextTheme" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -41,7 +43,7 @@
         android:background="@drawable/menu_corner"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="SIMPAN TRANSAKSI"
+        android:text="@string/btnInputBarang"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

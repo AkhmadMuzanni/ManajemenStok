@@ -10,9 +10,10 @@
         android:id="@+id/text_item_barang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Masukkan Barang Tersimpan"
+        android:paddingLeft="3dp"
+        android:text="@string/labelSearchBarBarang"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,23 +31,53 @@
             android:id="@+id/input_barang_pembelian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Masukkan Barang"
-            android:theme="@style/EditTextTheme"/>
+            android:hint="@string/hintEditTextBarang"
+            android:textSize="14sp"
+            android:theme="@style/EditTextTheme" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/separator"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/menu_corner"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="SIMPAN TRANSAKSI"
-        android:textColor="@color/white"
+        android:background="#B8B8B8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DAFTAR BARANG TERSIMPAN"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rvContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="10dp"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/separator">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
