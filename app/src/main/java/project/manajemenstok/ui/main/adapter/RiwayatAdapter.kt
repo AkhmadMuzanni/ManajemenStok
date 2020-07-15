@@ -15,7 +15,8 @@ class RiwayatAdapter (
     class DataViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind(barang: Barang){
             itemView.tv_nama_barang.text = barang.namaBarang.capitalize()
-            itemView.tv_count.text = "50"
+            itemView.tv_mount.text = barang.total.toString()
+            itemView.tv_count.text = barang.jumlah.toString()
         }
     }
 
