@@ -80,7 +80,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Masukkan harga satuan"
                     android:textSize="12sp"
-                    android:theme="@style/EditTextTheme" />
+                    android:theme="@style/EditTextTheme"
+                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -146,7 +147,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Harga total"
                 android:textSize="12sp"
-                android:theme="@style/EditTextTheme" />
+                android:theme="@style/EditTextTheme"
+                android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
