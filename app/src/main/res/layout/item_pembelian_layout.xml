@@ -95,17 +95,57 @@
             app:layout_constraintStart_toEndOf="@id/content_center"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:background="@drawable/menu_corner"
-                android:text=" Add   +"
-                android:textColor="@color/white"
-                android:textSize="10sp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                >
+
+                <Button
+                    android:id="@+id/btn_kurang"
+                    android:layout_width="30dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/btn_kurang_shape"
+                    android:text="-"
+                    android:textColor="@color/greenMars"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/text_jumlah"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_jumlah_shape"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="1"
+                    android:textAlignment="center"
+                    android:textColor="@color/greenMars"
+                    android:textColorLink="@color/greenMars"
+                    android:textCursorDrawable="@color/greenMars"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btn_kurang"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_tambah"
+                    android:layout_width="30dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/btn_tambah_shape"
+                    android:text="+"
+                    android:textColor="@color/greenMars"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/text_jumlah"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

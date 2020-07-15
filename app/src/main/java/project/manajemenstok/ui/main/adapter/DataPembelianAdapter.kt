@@ -3,6 +3,7 @@ package project.manajemenstok.ui.main.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import project.manajemenstok.data.model.Barang
@@ -16,14 +17,33 @@ class DataPembelianAdapter (
     private val barangs: ArrayList<Barang>
 ): RecyclerView.Adapter<DataPembelianAdapter.DataViewHolder>() {
 
-    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        var objBarang = Barang()
         fun bind(barang: Barang){
+            objBarang = barang
             var status = ""
             if(barang.id == 0){
                 status = " (Baru)"
             }
             itemView.textViewNamaBarang.text = barang.namaBarang.capitalize() + status
             Glide.with(itemView.image_view_barang.context).load(barang.foto).into(itemView.image_view_barang)
+
+            itemView.btn_kurang.setOnClickListener(this)
+            itemView.btn_tambah.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View) {
+            val jml = Integer.parseInt(itemView.text_jumlah.text.toString())
+            when (v.id){
+                R.id.btn_tambah->{
+                    itemView.text_jumlah.setText((jml+1).toString())
+                    objBarang.jumlah = jml+1
+                }
+                R.id.btn_kurang->{
+                    itemView.text_jumlah.setText((jml-1).toString())
+                    objBarang.jumlah = jml-1
+                }
+            }
         }
     }
 
