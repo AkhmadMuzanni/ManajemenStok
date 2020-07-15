@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.*
+import kotlinx.android.synthetic.main.item_layout.view.imageViewFoto
+import kotlinx.android.synthetic.main.item_layout.view.textViewNamaBarang
+import kotlinx.android.synthetic.main.item_pembelian_layout.view.*
 import project.manajemenstok.R
 
 class DataPembelianAdapter (
@@ -15,16 +18,19 @@ class DataPembelianAdapter (
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(barang: Barang){
-            itemView.textViewNamaBarang.text = barang.namaBarang.capitalize()
-            itemView.textViewHargaBeli.text = "Stok: " + barang.hargaBeli.toString()
-            Glide.with(itemView.imageViewFoto.context).load(barang.foto).into(itemView.imageViewFoto)
+            var status = ""
+            if(barang.id == 0){
+                status = " (Baru)"
+            }
+            itemView.textViewNamaBarang.text = barang.namaBarang.capitalize() + status
+            Glide.with(itemView.image_view_barang.context).load(barang.foto).into(itemView.image_view_barang)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
         DataViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.item_layout, parent,
+                R.layout.item_pembelian_layout, parent,
                 false
             )
         )

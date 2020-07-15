@@ -1,9 +1,12 @@
 package project.manajemenstok.ui.main.view
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import project.manajemenstok.R
@@ -30,6 +33,11 @@ class InputBarangActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id){
             R.id.icon_back->{
+                Toast.makeText(applicationContext, "Kembali", Toast.LENGTH_LONG).show()
+                val inputBarangIntent = Intent()
+                val inputBarangBundle = Bundle()
+                inputBarangIntent.putExtra("bundle",inputBarangBundle)
+                setResult(Activity.RESULT_CANCELED, inputBarangIntent)
                 finish()
             }
         }

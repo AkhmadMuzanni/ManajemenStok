@@ -1,5 +1,6 @@
 package project.manajemenstok.ui.main.fragment
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -100,10 +101,11 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 1){
-            var tempBarang = Barang()
+        if(requestCode == 1 && data != null && resultCode == RESULT_OK){
+            val tempBarang = Barang()
             tempBarang.id = data?.getBundleExtra("bundle")?.getInt("id")!!
             tempBarang.namaBarang = data?.getBundleExtra("bundle")?.getString("namaBarang")!!
+            tempBarang.foto = resources.getString(R.string.defaultImageIcon)
 //            input_barang_pembelian.setText(tempBarang.namaBarang)
             pembelianViewModel.addTempBarang(tempBarang)
         }

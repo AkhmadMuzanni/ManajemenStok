@@ -10,7 +10,7 @@ data class Barang (
     @SerializedName("hargaBeli")
     val hargaBeli: Int=0,
     @SerializedName("foto")
-    val foto: String="",
+    var foto: String="",
     @SerializedName("jumlah")
     val jumlah: Int=0,
     @SerializedName("total")
