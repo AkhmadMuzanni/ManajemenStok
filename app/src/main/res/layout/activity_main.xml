@@ -18,8 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
-
-
+    
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"

@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_beranda"
-        android:icon="@android:drawable/ic_menu_today"
+        android:icon="@drawable/ic_beranda_foreground"
         android:title="@string/menu_beranda" />
 
     <item
