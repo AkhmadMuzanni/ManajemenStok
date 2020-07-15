@@ -4,12 +4,16 @@ import com.google.gson.annotations.SerializedName
 
 data class Barang (
     @SerializedName("id")
-    val id: Int=0,
+    var id: Int=0,
     @SerializedName("namaBarang")
-    val namaBarang: String="",
+    var namaBarang: String="",
     @SerializedName("hargaBeli")
     val hargaBeli: Int=0,
     @SerializedName("foto")
-    val foto: String=""
+    val foto: String="",
+    @SerializedName("jumlah")
+    val jumlah: Int=0,
+    @SerializedName("total")
+    val total: Int=0
 
 )

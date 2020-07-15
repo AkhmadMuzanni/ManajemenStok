@@ -7,7 +7,8 @@ data class BarangSkema(val id:Long?, val namaBarang: String, val hargaBeli: Int,
         const val NAMA_BARANG: String = "NAMA_BARANG"
         const val HARGA_BELI: String = "HARGA_BELI"
         const val FOTO: String = "FOTO"
-
+        const val JUMLAH: String = "JUMLAH"
+        const val TOTAL: String = "TOTAL"
     }
 
 

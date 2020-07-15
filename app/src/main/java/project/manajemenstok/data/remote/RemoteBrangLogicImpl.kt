@@ -10,7 +10,7 @@ class RemoteBrangLogicImpl : RemoteBrangLogic {
 //        return Rx2AndroidNetworking.get("https://5e510330f2c0d300147c034c.mockapi.io/users")
 //            .build()
 //            .getObjectListSingle(Barang::class.java)
-        return Rx2AndroidNetworking.get("https://tomatoleafdisease.web.app/testData.json")
+        return Rx2AndroidNetworking.get("https://tomatoleafdisease.web.app/testData3.json")
             .build()
             .getObjectListSingle(Barang::class.java)
     }

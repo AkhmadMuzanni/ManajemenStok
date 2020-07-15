@@ -16,11 +16,19 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
 
     fun getBarangsLocal(): Single<List<Barang>> {
         val cursor  = localBarang.getBarang()
-        return Single.just(cursor.parseList(classParser<Barang>()))
+        return Single.just(cursor.parseList(classParser()))
     }
 
     fun setBarangFromRemote(dataBarang: List<Barang>){
         localBarang.setBarangFromRemote(dataBarang)
+    }
+
+    fun addTempBarang(dataBarang: Barang){
+        localBarang.insertTempBarang(dataBarang)
+    }
+
+    fun getTempBarang(): ArrayList<Barang>{
+        return localBarang.getTempBarang()
     }
 
 }
