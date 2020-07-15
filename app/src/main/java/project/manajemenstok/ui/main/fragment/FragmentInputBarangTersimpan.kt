@@ -1,5 +1,7 @@
 package project.manajemenstok.ui.main.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +18,16 @@ import kotlinx.android.synthetic.main.fragment_input_barang_tersimpan.view.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
+import project.manajemenstok.ui.main.adapter.InputBarangTersimpanAdapter
 import project.manajemenstok.ui.main.adapter.MainAdapter
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
+import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 import project.manajemenstok.utils.Status
 
 
 class FragmentInputBarangTersimpan : Fragment(){
-    private lateinit var mainViewModel: MainViewModel
-    private lateinit var adapter: MainAdapter
+    private lateinit var pembelianViewModel: PembelianViewModel
+    private lateinit var adapter: InputBarangTersimpanAdapter
     private lateinit var viewBarang : View
     private lateinit var rvBarang : RecyclerView
 
@@ -45,7 +49,7 @@ class FragmentInputBarangTersimpan : Fragment(){
     private fun setupUI(){
         rvBarang = viewBarang.recyclerView
         rvBarang.layoutManager = LinearLayoutManager(viewBarang.context)
-        adapter = MainAdapter(arrayListOf())
+        adapter = InputBarangTersimpanAdapter(arrayListOf(), this)
         rvBarang.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 rvBarang.context,
@@ -57,14 +61,14 @@ class FragmentInputBarangTersimpan : Fragment(){
 
     private fun setupViewModel() {
         val is_remote = true
-        mainViewModel = ViewModelProviders.of(
+        pembelianViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewBarang.context,is_remote)
-        ).get(MainViewModel::class.java)
+        ).get(PembelianViewModel::class.java)
     }
 
     private fun setupObserver() {
-        mainViewModel.getBarangs().observe(this, Observer {
+        pembelianViewModel.getBarangs().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
 //                    progressBar.visibility = View.GONE
@@ -87,6 +91,16 @@ class FragmentInputBarangTersimpan : Fragment(){
     private fun renderList(barangs: List<Barang>) {
         adapter.addData(barangs)
         adapter.notifyDataSetChanged()
+    }
+
+    fun sendData(barang: Barang) {
+        val inputBarangIntent = Intent()
+        val inputBarangBundle = Bundle()
+        inputBarangBundle.putInt("id", barang.id)
+        inputBarangBundle.putString("namaBarang", barang.namaBarang)
+        inputBarangIntent.putExtra("bundle",inputBarangBundle)
+        activity?.setResult(Activity.RESULT_OK, inputBarangIntent)
+        activity?.finish()
     }
 
 }

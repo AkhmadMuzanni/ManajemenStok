@@ -85,6 +85,10 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         compositeDisposable.dispose()
     }
 
+    fun getBarangs(): LiveData<Resource<List<Barang>>> {
+        return barangs
+    }
+
     fun addTempBarang(dataBarang: Barang){
         barangRepository.addTempBarang(dataBarang)
     }
