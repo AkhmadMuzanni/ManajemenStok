@@ -17,7 +17,7 @@ class DataPembelianAdapter (
     private val barangs: ArrayList<Barang>
 ): RecyclerView.Adapter<DataPembelianAdapter.DataViewHolder>() {
 
-    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnFocusChangeListener {
         var objBarang = Barang()
         fun bind(barang: Barang){
             objBarang = barang
@@ -30,6 +30,8 @@ class DataPembelianAdapter (
 
             itemView.btn_kurang.setOnClickListener(this)
             itemView.btn_tambah.setOnClickListener(this)
+            itemView.text_jumlah.onFocusChangeListener = this
+
         }
 
         override fun onClick(v: View) {
@@ -40,8 +42,21 @@ class DataPembelianAdapter (
                     objBarang.jumlah = jml+1
                 }
                 R.id.btn_kurang->{
-                    itemView.text_jumlah.setText((jml-1).toString())
-                    objBarang.jumlah = jml-1
+                    if(jml > 1){
+                        itemView.text_jumlah.setText((jml-1).toString())
+                        objBarang.jumlah = jml-1
+                    }
+                }
+            }
+        }
+
+        override fun onFocusChange(v: View, hasFocus: Boolean) {
+            when (v.id){
+                R.id.text_jumlah->{
+                    if(itemView.text_jumlah.text.toString() == "" && !hasFocus){
+                        itemView.text_jumlah.setText("1")
+                        objBarang.jumlah = 1
+                    }
                 }
             }
         }

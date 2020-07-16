@@ -33,7 +33,7 @@ class InputBarangActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id){
             R.id.icon_back->{
-                Toast.makeText(applicationContext, "Kembali", Toast.LENGTH_LONG).show()
+//                Toast.makeText(applicationContext, "Kembali", Toast.LENGTH_LONG).show()
                 val inputBarangIntent = Intent()
                 val inputBarangBundle = Bundle()
                 inputBarangIntent.putExtra("bundle",inputBarangBundle)

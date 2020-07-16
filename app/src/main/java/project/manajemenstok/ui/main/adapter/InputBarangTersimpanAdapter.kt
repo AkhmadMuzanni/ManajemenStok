@@ -27,9 +27,7 @@ class InputBarangTersimpanAdapter (
         fun bind(barang: Barang, fragment: FragmentInputBarangTersimpan){
             objBarang = barang
             fragmentInputData = fragment
-//            itemView.textViewNamaBarang.text = barang.namaBarang.capitalize()
-//            itemView.textViewHargaBeli.text = "Stok: " + barang.hargaBeli.toString()
-//            Glide.with(itemView.imageViewFoto.context).load(barang.foto).into(itemView.imageViewFoto)
+
             itemView.textViewNamaBarang.text = objBarang.namaBarang.capitalize()
             itemView.textViewHargaBeli.text = "Stoke: " + objBarang.hargaBeli.toString()
             Glide.with(itemView.imageViewFoto.context).load(objBarang.foto).into(itemView.imageViewFoto)
