@@ -1,5 +1,7 @@
 package project.manajemenstok.ui.main.adapter
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +34,8 @@ class DataPembelianAdapter (
             itemView.btn_tambah.setOnClickListener(this)
             itemView.text_jumlah.onFocusChangeListener = this
 
+            textChangedListener()
+
         }
 
         override fun onClick(v: View) {
@@ -59,6 +63,49 @@ class DataPembelianAdapter (
                     }
                 }
             }
+        }
+
+        fun textChangedListener(){
+            itemView.input_harga_satuan.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {
+                    var harga = 0
+                    val jml = Integer.parseInt(itemView.text_jumlah.text.toString())
+                    if(!s.toString().equals("")){
+                        harga = Integer.parseInt(s.toString())
+                    }
+                    itemView.input_harga_total.setText((jml*harga).toString())
+                }
+            })
+
+            itemView.text_jumlah.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {
+                    var harga = 0
+                    var jml = 0
+                    if(!s.toString().equals("")){
+                        jml = Integer.parseInt(s.toString())
+                    }
+                    if(!itemView.input_harga_satuan.text.toString().equals("")){
+                        harga = Integer.parseInt(itemView.input_harga_satuan.text.toString())
+                    }
+                    itemView.input_harga_total.setText((jml*harga).toString())
+                }
+            })
         }
     }
 

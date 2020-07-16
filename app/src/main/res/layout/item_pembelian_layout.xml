@@ -160,6 +160,19 @@
         app:layout_constraintTop_toBottomOf="@id/content_top">
 
         <TextView
+            android:id="@+id/label_sub_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:text="Subtotal"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/text_rp_2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/text_rp_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -188,7 +201,9 @@
                 android:hint="Harga total"
                 android:textSize="12sp"
                 android:theme="@style/EditTextTheme"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:focusable="false"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

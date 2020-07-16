@@ -118,9 +118,22 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/input_ongkir_layout"
+            app:layout_constraintEnd_toStartOf="@id/text_rp_ongkir"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_rp_ongkir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rp. "
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/input_ongkir_layout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_item_ongkir"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_ongkir_layout"
@@ -129,9 +142,9 @@
             app:hintEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_item_ongkir"
+            app:layout_constraintStart_toEndOf="@id/text_rp_ongkir"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.7">
+            app:layout_constraintWidth_percent="0.65">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_ongkir_pembelian"
