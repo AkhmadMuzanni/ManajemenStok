@@ -8,12 +8,12 @@ data class Barang (
     @SerializedName("namaBarang")
     var namaBarang: String="",
     @SerializedName("hargaBeli")
-    val hargaBeli: Int=0,
+    var harga: Int=0,
     @SerializedName("foto")
     var foto: String="",
     @SerializedName("jumlah")
     var jumlah: Int=0,
     @SerializedName("total")
-    val total: Int=0
+    var total: Int=0
 
 )

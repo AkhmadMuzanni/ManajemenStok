@@ -9,7 +9,11 @@ data class Pembelian (
     var idPenjual: Int=0,
     @SerializedName("tglPembelian")
     val tglPembelian: String = "",
+    @SerializedName("ongkir")
+    var ongkir: Int=0,
     @SerializedName("totalPembelian")
-    var totalPembelian: Int=0
+    var totalPembelian: Int=0,
+    @SerializedName("metode")
+    val metode: Int=0
 
 )

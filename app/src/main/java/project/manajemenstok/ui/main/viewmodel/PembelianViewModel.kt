@@ -13,8 +13,10 @@ import project.manajemenstok.data.local.BarangDbHelper
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Penjual
 import project.manajemenstok.data.remote.RemoteBrangLogicImpl
+import project.manajemenstok.data.remote.RemotePembelianLogicImpl
 import project.manajemenstok.data.remote.RemotePenjualLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
+import project.manajemenstok.data.repository.PembelianRepository
 import project.manajemenstok.data.repository.PenjualRepository
 import project.manajemenstok.utils.Resource
 
@@ -31,6 +33,11 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 
     private val penjualRepository = PenjualRepository(
         RemotePenjualLogicImpl(),
+        BarangDbHelper(context)
+    )
+
+    private val pembelianRepository = PembelianRepository(
+        RemotePembelianLogicImpl(),
         BarangDbHelper(context)
     )
 
@@ -124,6 +131,24 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 
     fun setTempBarang(dataBarang: ArrayList<Barang>){
         barangRepository.setTempBarang(dataBarang)
+    }
+
+    fun getTotalTransaksi(): Int{
+        val dataBarang = getTempBarang()
+        var total = 0
+        for (barang in dataBarang) {
+            total += barang.total
+        }
+        total += getTempOngkir()
+        return total
+    }
+
+    fun setTempOngkir(ongkir: Int){
+        pembelianRepository.setTempOngkir(ongkir)
+    }
+
+    fun getTempOngkir(): Int{
+        return pembelianRepository.getTempOngkir()
     }
 
     fun getPenjual(): LiveData<Resource<List<Penjual>>> {

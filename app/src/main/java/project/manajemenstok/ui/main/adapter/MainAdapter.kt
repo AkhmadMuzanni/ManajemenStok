@@ -16,7 +16,7 @@ class MainAdapter (
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(barang: Barang){
             itemView.textViewNamaBarang.text = barang.namaBarang.capitalize()
-            itemView.textViewHargaBeli.text = "Stok: " + barang.hargaBeli.toString()
+            itemView.textViewHargaBeli.text = "Stok: " + barang.harga.toString()
             Glide.with(itemView.imageViewFoto.context).load(barang.foto).into(itemView.imageViewFoto)
         }
     }

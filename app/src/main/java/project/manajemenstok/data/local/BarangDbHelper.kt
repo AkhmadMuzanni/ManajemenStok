@@ -5,6 +5,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import org.jetbrains.anko.db.*
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.DetailPembelian
 
 class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", null, 1),
     BarangLogic, PenjualLogic, PembelianLogic {
@@ -23,7 +24,9 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
     }
 
     private var tempBarang : ArrayList<Barang> = ArrayList()
-    private var tempPenjual = "Temp Penjual"
+    private var tempDataPembelian : ArrayList<DetailPembelian> = ArrayList()
+    private var tempPenjual = ""
+    private var tempOngkir = 0
 
     override fun onCreate(db: SQLiteDatabase?) {
 
@@ -49,7 +52,9 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
             "ID_PENJUAL" to INTEGER,
             "NO_TELP" to INTEGER,
             "TGL_PEMBELIAN" to TEXT,
+            "ONGKIR" to INTEGER,
             "TOTAL_PEMBELIAN" to INTEGER,
+            "METODE" to INTEGER,
             FOREIGN_KEY("ID_PENJUAL", "TABLE_PENJUAL", "ID_")
         )
 
@@ -58,9 +63,8 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
             "ID_PEMBELIAN" to INTEGER,
             "ID_BARANG" to INTEGER,
             "HARGA" to INTEGER,
-            "ONGKIR" to INTEGER,
             "JUMLAH" to INTEGER,
-            "METODE" to INTEGER,
+            "TOTAL" to INTEGER,
             FOREIGN_KEY("ID_PEMBELIAN", "TABLE_PEMBELIAN", "ID_"),
             FOREIGN_KEY("ID_BARANG", "TABLE_BARANG", "ID_")
         )
@@ -83,17 +87,23 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         db?.insert(PembelianSkema.TABLE_PEMBELIAN,
             PembelianSkema.ID_PENJUAL to 1,
             PembelianSkema.TGL_PEMBELIAN to "01012001",
-            PembelianSkema.TOTAL_PEMBELIAN to 1001
+            PembelianSkema.ONGKIR to 100,
+            PembelianSkema.TOTAL_PEMBELIAN to 1001,
+            PembelianSkema.METODE to 1
         )
         db?.insert(PembelianSkema.TABLE_PEMBELIAN,
             PembelianSkema.ID_PENJUAL to 1,
             PembelianSkema.TGL_PEMBELIAN to "01012001",
-            PembelianSkema.TOTAL_PEMBELIAN to 1002
+            PembelianSkema.ONGKIR to 100,
+            PembelianSkema.TOTAL_PEMBELIAN to 1002,
+            PembelianSkema.METODE to 1
         )
         db?.insert(PembelianSkema.TABLE_PEMBELIAN,
             PembelianSkema.ID_PENJUAL to 1,
             PembelianSkema.TGL_PEMBELIAN to "01012001",
-            PembelianSkema.TOTAL_PEMBELIAN to 1003
+            PembelianSkema.ONGKIR to 100,
+            PembelianSkema.TOTAL_PEMBELIAN to 1003,
+            PembelianSkema.METODE to 1
         )
 
         db?.insert(DetailPembelianSkema.TABLE_DETAIL_PEMBELIAN,
@@ -101,8 +111,7 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
             DetailPembelianSkema.ID_BARANG to 1,
             DetailPembelianSkema.HARGA to 235,
             DetailPembelianSkema.JUMLAH to 5,
-            DetailPembelianSkema.ONGKIR to 100,
-            DetailPembelianSkema.METODE to 1
+            DetailPembelianSkema.TOTAL to 1
         )
 
 //        db?.insert(BarangSkema.TABLE_BARANG,
@@ -145,7 +154,7 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         for (barang in dataBarang) {
             db?.insert(BarangSkema.TABLE_BARANG,
                 BarangSkema.NAMA_BARANG to barang.namaBarang,
-                BarangSkema.HARGA_BELI to barang.hargaBeli,
+                BarangSkema.HARGA_BELI to barang.harga,
                 BarangSkema.FOTO to barang.foto,
                 BarangSkema.JUMLAH to barang.jumlah,
                 BarangSkema.TOTAL to barang.total
@@ -189,6 +198,26 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         val retVal = db.rawQuery("SELECT * FROM TABLE_PEMBELIAN",null)
 
         return retVal
+    }
+
+    override fun getTempDataPembelian(): ArrayList<DetailPembelian> {
+        return tempDataPembelian
+    }
+
+    override fun insertTempDataPembelian(detailPembelian: DetailPembelian) {
+        tempDataPembelian.add(detailPembelian)
+    }
+
+    override fun setTempDataPembelian(detailPembelian: ArrayList<DetailPembelian>) {
+        tempDataPembelian = detailPembelian
+    }
+
+    override fun setTempOngkir(ongkir: Int) {
+        tempOngkir = ongkir
+    }
+
+    override fun getTempOngkir(): Int {
+        return tempOngkir
     }
 
 

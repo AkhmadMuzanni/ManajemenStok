@@ -4,6 +4,8 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -44,21 +46,27 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
         savedInstanceState: Bundle?
     ): View {
         viewPembelian =  inflater!!.inflate(R.layout.fragment_pembelian, container, false)
-        setupUI()
         setupViewModel()
+        setupUI()
 
         if(MainActivity.getTempData().getSerializable("dataPenjual") != null){
             viewPembelian.text_input_penjual.setText(MainActivity.getTempData().getString("dataPenjual"))
             viewPembelian.text_ongkir_pembelian.setText(MainActivity.getTempData().getString("dataOngkir"))
+            viewPembelian.text_input_total.setText(MainActivity.getTempData().getString("dataTotal"))
+
+            pembelianViewModel.setTempOngkir(Integer.parseInt(MainActivity.getTempData().getString("dataOngkir")))
         }
 
         viewPembelian.input_barang_pembelian.setOnClickListener(this)
+        viewPembelian.btn_input_barang.setOnClickListener(this)
         viewPembelian.input_barang_pembelian.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 val inputBarangIntent =  Intent(context, InputBarangActivity::class.java)
                 startActivityForResult(inputBarangIntent, INPUT_BARANG_INTENT)
             }
         }
+
+        onTextChangeListener()
 
         return viewPembelian
     }
@@ -76,7 +84,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
     private fun setupUI(){
         rvDataPembelian = viewPembelian.rv_data_pembelian
         rvDataPembelian.layoutManager = LinearLayoutManager(viewPembelian.context)
-        dataPembelianAdapter = DataPembelianAdapter(arrayListOf())
+        dataPembelianAdapter = DataPembelianAdapter(arrayListOf(), pembelianViewModel, this)
         rvDataPembelian.addItemDecoration(
             DividerItemDecoration(
                 rvDataPembelian.context,
@@ -106,6 +114,10 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
                 val inputBarangIntent =  Intent(v.context, InputBarangActivity::class.java)
                 startActivityForResult(inputBarangIntent, INPUT_BARANG_INTENT)
             }
+            R.id.btn_input_barang->{
+//                val konfirmasiPembelianIntent =  Intent(v.context, KonfirmasiPembelianActivity::class.java)
+//                startActivity(konfirmasiPembelianIntent)
+            }
         }
     }
 
@@ -116,6 +128,9 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
             tempBarang.id = data?.getBundleExtra("bundle")?.getInt("id")!!
             tempBarang.namaBarang = data?.getBundleExtra("bundle")?.getString("namaBarang")!!
             tempBarang.foto = resources.getString(R.string.defaultImageIcon)
+            tempBarang.jumlah = 1
+            tempBarang.harga = 0
+            tempBarang.total = 0
 //            input_barang_pembelian.setText(tempBarang.namaBarang)
             pembelianViewModel.addTempBarang(tempBarang)
         }
@@ -126,9 +141,27 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
         val bundle = Bundle()
         bundle.putString("dataPenjual", viewPembelian.text_input_penjual.text.toString())
         bundle.putString("dataOngkir", viewPembelian.text_ongkir_pembelian.text.toString())
+        bundle.putString("dataTotal", viewPembelian.text_input_total.text.toString())
         bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
         MainActivity.setTempData(bundle)
 //        Toast.makeText(context, a.size.toString(), Toast.LENGTH_LONG).show()
+    }
+
+    private fun onTextChangeListener(){
+        viewPembelian.text_ongkir_pembelian.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                pembelianViewModel.setTempOngkir(Integer.parseInt(s.toString()))
+                viewPembelian.text_input_total.setText(pembelianViewModel.getTotalTransaksi().toString())
+            }
+        })
     }
 
 }
