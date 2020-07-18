@@ -8,4 +8,5 @@ interface BarangLogic{
     fun setBarangFromRemote(dataBarang: List<Barang>)
     fun insertTempBarang(dataBarang: Barang)
     fun getTempBarang(): ArrayList<Barang>
+    fun setTempBarang(dataBarang: ArrayList<Barang>)
 }

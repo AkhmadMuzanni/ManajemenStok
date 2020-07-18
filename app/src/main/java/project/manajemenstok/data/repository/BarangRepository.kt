@@ -31,4 +31,8 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
         return localBarang.getTempBarang()
     }
 
+    fun setTempBarang(dataBarang: ArrayList<Barang>){
+        localBarang.setTempBarang(dataBarang)
+    }
+
 }

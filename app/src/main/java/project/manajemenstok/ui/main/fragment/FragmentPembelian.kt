@@ -25,6 +25,7 @@ import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.DataPembelianAdapter
 import project.manajemenstok.ui.main.adapter.MainAdapter
 import project.manajemenstok.ui.main.view.InputBarangActivity
+import project.manajemenstok.ui.main.view.MainActivity
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 
@@ -45,7 +46,12 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
         viewPembelian =  inflater!!.inflate(R.layout.fragment_pembelian, container, false)
         setupUI()
         setupViewModel()
-        renderDataPembelian(pembelianViewModel.getTempBarang())
+
+        if(MainActivity.getTempData().getSerializable("dataPenjual") != null){
+            viewPembelian.text_input_penjual.setText(MainActivity.getTempData().getString("dataPenjual"))
+            viewPembelian.text_ongkir_pembelian.setText(MainActivity.getTempData().getString("dataOngkir"))
+        }
+
         viewPembelian.input_barang_pembelian.setOnClickListener(this)
         viewPembelian.input_barang_pembelian.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
@@ -59,8 +65,12 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
 
     override fun onResume() {
         super.onResume()
-        renderDataPembelian(pembelianViewModel.getTempBarang())
-//        Toast.makeText(context, pembelianViewModel.getTempBarang().size.toString(), Toast.LENGTH_LONG).show()
+        var tempBarang = pembelianViewModel.getTempBarang()
+        if(MainActivity.getTempData().getSerializable("dataBarang") != null){
+            tempBarang = MainActivity.getTempData().getSerializable("dataBarang") as ArrayList<Barang>
+            pembelianViewModel.setTempBarang(tempBarang)
+        }
+        renderDataPembelian(tempBarang)
     }
 
     private fun setupUI(){
@@ -109,6 +119,16 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
 //            input_barang_pembelian.setText(tempBarang.namaBarang)
             pembelianViewModel.addTempBarang(tempBarang)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        val bundle = Bundle()
+        bundle.putString("dataPenjual", viewPembelian.text_input_penjual.text.toString())
+        bundle.putString("dataOngkir", viewPembelian.text_ongkir_pembelian.text.toString())
+        bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
+        MainActivity.setTempData(bundle)
+//        Toast.makeText(context, a.size.toString(), Toast.LENGTH_LONG).show()
     }
 
 }

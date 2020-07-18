@@ -2,17 +2,20 @@ package project.manajemenstok.ui.main.viewmodel
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import project.manajemenstok.data.local.BarangDbHelper
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.Penjual
 import project.manajemenstok.data.remote.RemoteBrangLogicImpl
+import project.manajemenstok.data.remote.RemotePenjualLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
+import project.manajemenstok.data.repository.PenjualRepository
 import project.manajemenstok.utils.Resource
 
 class PembelianViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
@@ -22,10 +25,18 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         BarangDbHelper(context)
     )
     private val barangs = MutableLiveData<Resource<List<Barang>>>()
+    private val penjuals = MutableLiveData<Resource<List<Penjual>>>()
+
     private val compositeDisposable = CompositeDisposable()
+
+    private val penjualRepository = PenjualRepository(
+        RemotePenjualLogicImpl(),
+        BarangDbHelper(context)
+    )
 
     init {
         checkBarang()
+        fetchPenjual()
     }
 
     @SuppressLint("CheckResult")
@@ -95,5 +106,43 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 
     fun getTempBarang(): ArrayList<Barang>{
         return barangRepository.getTempBarang()
+    }
+
+    private fun fetchPenjual(){
+        penjuals.postValue(Resource.loading(null))
+        compositeDisposable.add(
+            penjualRepository.getPenjualLocal()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ penjualList ->
+                    penjuals.postValue(Resource.success(penjualList))
+                }, { throwable ->
+                    penjuals.postValue(Resource.error("Something Went Wrong", null))
+                })
+        )
+    }
+
+    fun setTempBarang(dataBarang: ArrayList<Barang>){
+        barangRepository.setTempBarang(dataBarang)
+    }
+
+    fun getPenjual(): LiveData<Resource<List<Penjual>>> {
+        return penjuals
+    }
+
+    fun setTempPenjual(dataPenjual: String){
+        penjualRepository.setTempPenjual(dataPenjual)
+    }
+
+    fun getTempPenjual(): String{
+        return penjualRepository.getTempPenjual()
+    }
+
+    fun simpanPembelian(){
+        Toast.makeText(context, "Simpan Pembelian", Toast.LENGTH_LONG).show()
+//        savePenjual()
+//        savePembelian()
+//        saveDetailPembelian()
+//        updateStok()
     }
 }
