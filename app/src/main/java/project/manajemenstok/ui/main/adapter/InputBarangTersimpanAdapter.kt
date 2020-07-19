@@ -29,7 +29,7 @@ class InputBarangTersimpanAdapter (
             fragmentInputData = fragment
 
             itemView.textViewNamaBarang.text = objBarang.namaBarang.capitalize()
-            itemView.textViewHargaBeli.text = "Stoke: " + objBarang.harga.toString()
+            itemView.textViewHargaBeli.text = "Stoke: " + objBarang.jumlah.toString()
             Glide.with(itemView.imageViewFoto.context).load(objBarang.foto).into(itemView.imageViewFoto)
 
             itemView.container.setOnClickListener(this)

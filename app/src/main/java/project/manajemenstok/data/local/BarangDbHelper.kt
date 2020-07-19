@@ -207,7 +207,7 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
 
     override fun getBarangById(id: Int): Barang {
         val db = this.readableDatabase
-        val barang = db.rawQuery("SELECT * FROM TABLE_BARANG WHERE ID_ <= ?", arrayOf(id.toString()))
+        val barang = db.rawQuery("SELECT * FROM TABLE_BARANG WHERE ID_ = ?", arrayOf(id.toString()))
         return barang.parseSingle(classParser())
     }
 
