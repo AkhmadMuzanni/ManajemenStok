@@ -128,9 +128,10 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
                 bundle.putString("dataOngkir", viewPembelian.text_ongkir_pembelian.text.toString())
                 bundle.putString("dataTotal", viewPembelian.text_input_total.text.toString())
 
-                pembelianViewModel.simpanPembelian(bundle)
-//                val konfirmasiPembelianIntent =  Intent(v.context, KonfirmasiPembelianActivity::class.java)
-//                startActivity(konfirmasiPembelianIntent)
+                val isSuccess = pembelianViewModel.simpanPembelian(bundle)
+                if(isSuccess){
+                    activity?.finish()
+                }
             }
         }
     }

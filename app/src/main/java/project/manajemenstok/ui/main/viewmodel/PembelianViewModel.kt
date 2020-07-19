@@ -167,7 +167,7 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         return penjualRepository.getTempPenjual()
     }
 
-    fun simpanPembelian(bundle: Bundle){
+    fun simpanPembelian(bundle: Bundle): Boolean{
         var dataPenjual = Penjual()
         dataPenjual.namaPenjual = bundle.getBundle("dataPenjual")!!.getString("namaPenjual")!!
         dataPenjual.noTelp = bundle.getBundle("dataPenjual")!!.getString("noTelp")!!
@@ -208,6 +208,7 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         }
 
         Toast.makeText(context, "Berhasil Menyimpan Pembelian", Toast.LENGTH_LONG).show()
+        return true
     }
 
     fun deleteTempBarang(position: Int){
