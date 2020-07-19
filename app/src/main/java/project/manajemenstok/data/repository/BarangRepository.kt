@@ -47,4 +47,8 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
         return localBarang.getBarangById(id)
     }
 
+    fun deleteTempBarang(position: Int){
+        localBarang.deleteTempBarang(position)
+    }
+
 }

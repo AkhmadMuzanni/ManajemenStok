@@ -25,12 +25,13 @@ class DataPembelianAdapter (
 ): RecyclerView.Adapter<DataPembelianAdapter.DataViewHolder>() {
 
     class DataViewHolder(
-        itemView: View, pembelianViewModel: PembelianViewModel, fragment: FragmentPembelian
+        itemView: View, pembelianViewModel: PembelianViewModel, fragment: FragmentPembelian, dataAdapter: DataPembelianAdapter
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnFocusChangeListener {
         var objBarang = Barang()
         var pos = 0
         val viewModel = pembelianViewModel
         val fragment = fragment
+        val dataAdapter = dataAdapter
 
         fun bind(barang: Barang, position: Int){
             objBarang = barang
@@ -47,6 +48,7 @@ class DataPembelianAdapter (
 
             itemView.btn_kurang.setOnClickListener(this)
             itemView.btn_tambah.setOnClickListener(this)
+            itemView.delete_icon.setOnClickListener(this)
             itemView.text_jumlah.onFocusChangeListener = this
 
             textChangedListener()
@@ -65,6 +67,13 @@ class DataPembelianAdapter (
                         itemView.text_jumlah.setText((jml-1).toString())
                         objBarang.jumlah = jml-1
                     }
+                }
+                R.id.delete_icon->{
+                    Toast.makeText(itemView.context, "Delete", Toast.LENGTH_LONG).show()
+                    viewModel.deleteTempBarang(pos)
+                    dataAdapter.setData(viewModel.getTempBarang())
+                    dataAdapter.notifyItemRemoved(pos)
+                    dataAdapter.notifyItemRangeChanged(pos, viewModel.getTempBarang().size)
                 }
             }
         }
@@ -159,7 +168,7 @@ class DataPembelianAdapter (
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_pembelian_layout, parent,
                 false
-            ), pembelianViewModel, fragment
+            ), pembelianViewModel, fragment, this
         )
 
     override fun getItemCount(): Int = barangs.size

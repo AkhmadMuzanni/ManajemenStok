@@ -209,4 +209,8 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 
         Toast.makeText(context, "Berhasil Menyimpan Pembelian", Toast.LENGTH_LONG).show()
     }
+
+    fun deleteTempBarang(position: Int){
+        barangRepository.deleteTempBarang(position)
+    }
 }

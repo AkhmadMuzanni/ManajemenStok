@@ -12,4 +12,5 @@ interface BarangLogic{
     fun createBarang(barang: Barang): Int
     fun updateBarang(barang: Barang)
     fun getBarangById(id: Int): Barang
+    fun deleteTempBarang(id: Int)
 }

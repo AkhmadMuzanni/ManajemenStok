@@ -211,6 +211,10 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         return barang.parseSingle(classParser())
     }
 
+    override fun deleteTempBarang(id: Int) {
+        tempBarang.removeAt(id)
+    }
+
     override fun getPenjual(): Cursor {
         val db = this.readableDatabase
         val retVal = db.rawQuery("SELECT * FROM TABLE_PENJUAL",null)

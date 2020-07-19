@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_pembelian.*
 import kotlinx.android.synthetic.main.fragment_pembelian.view.*
+import kotlinx.android.synthetic.main.item_pembelian_layout.view.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
