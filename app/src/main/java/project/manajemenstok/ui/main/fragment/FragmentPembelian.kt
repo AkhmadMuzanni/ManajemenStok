@@ -149,15 +149,16 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    fun destroyView(saveDraft: Boolean){
+//        Toast.makeText(context, "Masuk", Toast.LENGTH_LONG).show()
         val bundle = Bundle()
-        bundle.putString("dataPenjual", viewPembelian.text_input_penjual.text.toString())
-        bundle.putString("dataOngkir", viewPembelian.text_ongkir_pembelian.text.toString())
-        bundle.putString("dataTotal", viewPembelian.text_input_total.text.toString())
-        bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
+        if(saveDraft){
+            bundle.putString("dataPenjual", viewPembelian.text_input_penjual.text.toString())
+            bundle.putString("dataOngkir", viewPembelian.text_ongkir_pembelian.text.toString())
+            bundle.putString("dataTotal", viewPembelian.text_input_total.text.toString())
+            bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
+        }
         MainActivity.setTempData(bundle)
-//        Toast.makeText(context, a.size.toString(), Toast.LENGTH_LONG).show()
     }
 
     private fun onTextChangeListener(){

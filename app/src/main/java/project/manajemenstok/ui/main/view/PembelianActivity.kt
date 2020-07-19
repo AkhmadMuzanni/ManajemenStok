@@ -1,16 +1,18 @@
 package project.manajemenstok.ui.main.view
 
+import android.app.AlertDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.threetenabp.AndroidThreeTen
 import project.manajemenstok.R
 import project.manajemenstok.ui.main.adapter.PembelianAdapter
+import project.manajemenstok.ui.main.fragment.FragmentPembelian
 
 class PembelianActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -35,7 +37,24 @@ class PembelianActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id){
             R.id.icon_back->{
-                finish()
+                val fragment = supportFragmentManager.findFragmentById(R.id.viewpager_main) as FragmentPembelian
+                var builder = AlertDialog.Builder(this, R.style.CustomDialogTheme)
+                builder.setTitle("Konfirmasi")
+                builder.setMessage("Simpan Sebagai Draft?")
+
+                builder.setPositiveButton("KEMBALI") { dialog, which ->
+                }
+
+                builder.setNegativeButton("HAPUS") { dialog, which ->
+                    fragment.destroyView(false)
+                    finish()
+                }
+
+                builder.setNeutralButton("SIMPAN DRAFT") { dialog, which ->
+                    fragment.destroyView(true)
+                    finish()
+                }
+                builder.show()
             }
         }
     }
