@@ -54,7 +54,9 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
             viewPembelian.text_ongkir_pembelian.setText(MainActivity.getTempData().getString("dataOngkir"))
             viewPembelian.text_input_total.setText(MainActivity.getTempData().getString("dataTotal"))
 
-            pembelianViewModel.setTempOngkir(Integer.parseInt(MainActivity.getTempData().getString("dataOngkir")))
+            if(MainActivity.getTempData().getString("dataOngkir") != ""){
+                pembelianViewModel.setTempOngkir(Integer.parseInt(MainActivity.getTempData().getString("dataOngkir")))
+            }
         }
 
         viewPembelian.input_barang_pembelian.setOnClickListener(this)
@@ -115,6 +117,17 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
                 startActivityForResult(inputBarangIntent, INPUT_BARANG_INTENT)
             }
             R.id.btn_input_barang->{
+                var bundle = Bundle()
+
+                var bundlePenjual = Bundle()
+                bundlePenjual.putString("namaPenjual", viewPembelian.text_input_penjual.text.toString())
+                bundlePenjual.putString("noTelp", "000")
+
+                bundle.putBundle("dataPenjual", bundlePenjual)
+                bundle.putString("dataOngkir", viewPembelian.text_ongkir_pembelian.text.toString())
+                bundle.putString("dataTotal", viewPembelian.text_input_total.text.toString())
+
+                pembelianViewModel.simpanPembelian(bundle)
 //                val konfirmasiPembelianIntent =  Intent(v.context, KonfirmasiPembelianActivity::class.java)
 //                startActivity(konfirmasiPembelianIntent)
             }

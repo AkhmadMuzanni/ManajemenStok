@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.jakewharton.threetenabp.AndroidThreeTen
 import project.manajemenstok.R
 import project.manajemenstok.ui.main.adapter.PembelianAdapter
 
@@ -16,6 +17,8 @@ class PembelianActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pembelian)
+
+        AndroidThreeTen.init(this)
 
         val fragmentAdapter = PembelianAdapter(supportFragmentManager)
 

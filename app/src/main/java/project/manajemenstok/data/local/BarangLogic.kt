@@ -9,4 +9,7 @@ interface BarangLogic{
     fun insertTempBarang(dataBarang: Barang)
     fun getTempBarang(): ArrayList<Barang>
     fun setTempBarang(dataBarang: ArrayList<Barang>)
+    fun createBarang(barang: Barang): Int
+    fun updateBarang(barang: Barang)
+    fun getBarangById(id: Int): Barang
 }

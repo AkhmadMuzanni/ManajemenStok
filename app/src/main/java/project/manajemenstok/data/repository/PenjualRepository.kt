@@ -27,4 +27,12 @@ class PenjualRepository(private val remotePenjual: RemotePenjualLogic, private v
         return localPenjual.getTempPenjual()
     }
 
+    fun createPenjual(penjual: Penjual): Int{
+        return localPenjual.createPenjual(penjual)
+    }
+
+    fun getListPenjual(): List<Penjual>{
+        return localPenjual.getListPenjual()
+    }
+
 }

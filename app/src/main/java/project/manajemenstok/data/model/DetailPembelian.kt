@@ -8,7 +8,7 @@ data class DetailPembelian (
     @SerializedName("idBarang")
     var idBarang: Int=0,
     @SerializedName("harga")
-    val harga: Int=0,
+    var harga: Int=0,
     @SerializedName("jumlah")
     var jumlah: Int=0,
     @SerializedName("total")

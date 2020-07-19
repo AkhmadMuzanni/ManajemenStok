@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase
 import org.jetbrains.anko.db.*
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.DetailPembelian
+import project.manajemenstok.data.model.Pembelian
+import project.manajemenstok.data.model.Penjual
 
 class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", null, 1),
     BarangLogic, PenjualLogic, PembelianLogic {
@@ -44,13 +46,12 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         db?.createTable("TABLE_PENJUAL", true,
             "ID_" to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             "NAMA_PENJUAL" to TEXT,
-            "NO_TELP" to INTEGER
+            "NO_TELP" to TEXT
         )
 
         db?.createTable("TABLE_PEMBELIAN", true,
             "ID_" to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             "ID_PENJUAL" to INTEGER,
-            "NO_TELP" to INTEGER,
             "TGL_PEMBELIAN" to TEXT,
             "ONGKIR" to INTEGER,
             "TOTAL_PEMBELIAN" to INTEGER,
@@ -73,15 +74,15 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
 
         db?.insert(PenjualSkema.TABLE_PENJUAL,
             PenjualSkema.NAMA_PENJUAL to "Penjual 1",
-            PenjualSkema.NO_TELP to 1234
+            PenjualSkema.NO_TELP to "1234"
         )
 
         db?.insert(BarangSkema.TABLE_BARANG,
             BarangSkema.NAMA_BARANG to "Barang Nomor 1",
-            BarangSkema.HARGA_BELI to 1234,
+            BarangSkema.HARGA_BELI to 0,
             BarangSkema.FOTO to "https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_1280.png",
-            BarangSkema.JUMLAH to 12,
-            BarangSkema.TOTAL to 13
+            BarangSkema.JUMLAH to 0,
+            BarangSkema.TOTAL to 0
         )
 
         db?.insert(PembelianSkema.TABLE_PEMBELIAN,
@@ -178,6 +179,38 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
         tempBarang = dataBarang
     }
 
+    override fun createBarang(barang: Barang): Int {
+        val db = this.readableDatabase
+        db?.insert(BarangSkema.TABLE_BARANG,
+            BarangSkema.NAMA_BARANG to barang.namaBarang,
+            BarangSkema.HARGA_BELI to barang.harga,
+            BarangSkema.FOTO to barang.foto,
+            BarangSkema.JUMLAH to barang.jumlah,
+            BarangSkema.TOTAL to barang.total
+        )
+
+        val lastItem = db.rawQuery("SELECT * FROM TABLE_BARANG",null)
+        lastItem.moveToLast()
+        return lastItem.getInt(lastItem.getColumnIndex(BarangSkema.ID))
+    }
+
+    override fun updateBarang(barang: Barang) {
+        val db = this.readableDatabase
+        db.update(BarangSkema.TABLE_BARANG,
+            BarangSkema.NAMA_BARANG to barang.namaBarang,
+            BarangSkema.HARGA_BELI to barang.harga,
+            BarangSkema.FOTO to barang.foto,
+            BarangSkema.JUMLAH to barang.jumlah,
+            BarangSkema.TOTAL to barang.total
+        ).whereSimple("ID_ = ?", barang.id.toString()).exec()
+    }
+
+    override fun getBarangById(id: Int): Barang {
+        val db = this.readableDatabase
+        val barang = db.rawQuery("SELECT * FROM TABLE_BARANG WHERE ID_ <= ?", arrayOf(id.toString()))
+        return barang.parseSingle(classParser())
+    }
+
     override fun getPenjual(): Cursor {
         val db = this.readableDatabase
         val retVal = db.rawQuery("SELECT * FROM TABLE_PENJUAL",null)
@@ -191,6 +224,24 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
 
     override fun getTempPenjual(): String {
         return tempPenjual
+    }
+
+    override fun createPenjual(penjual: Penjual): Int {
+        val db = this.readableDatabase
+        db?.insert(PenjualSkema.TABLE_PENJUAL,
+            PenjualSkema.NAMA_PENJUAL to penjual.namaPenjual,
+            PenjualSkema.NO_TELP to penjual.noTelp
+        )
+
+        val lastItem = db.rawQuery("SELECT * FROM TABLE_PENJUAL",null)
+        lastItem.moveToLast()
+        return lastItem.getInt(lastItem.getColumnIndex(PenjualSkema.ID))
+    }
+
+    override fun getListPenjual(): List<Penjual> {
+        val db = this.readableDatabase
+        val listPenjual = db.rawQuery("SELECT * FROM TABLE_PENJUAL",null)
+        return listPenjual.parseList(classParser())
     }
 
     override fun getPembelian(): Cursor {
@@ -218,6 +269,42 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
 
     override fun getTempOngkir(): Int {
         return tempOngkir
+    }
+
+    override fun createPembelian(pembelian: Pembelian): Int {
+        val db = this.readableDatabase
+        db?.insert(PembelianSkema.TABLE_PEMBELIAN,
+            PembelianSkema.ID_PENJUAL to pembelian.idPenjual,
+            PembelianSkema.TGL_PEMBELIAN to pembelian.tglPembelian,
+            PembelianSkema.ONGKIR to pembelian.ongkir,
+            PembelianSkema.METODE to pembelian.metode,
+            PembelianSkema.TOTAL_PEMBELIAN to pembelian.totalPembelian
+        )
+
+        val lastItem = db.rawQuery("SELECT * FROM TABLE_PEMBELIAN",null)
+        lastItem.moveToLast()
+        return lastItem.getInt(lastItem.getColumnIndex(PembelianSkema.ID))
+    }
+
+    override fun getListPembelian(): List<Pembelian> {
+        val db = this.readableDatabase
+        val listPembelian = db.rawQuery("SELECT * FROM TABLE_PEMBELIAN",null)
+        return listPembelian.parseList(classParser())
+    }
+
+    override fun createDetailPembelian(detailPembelian: DetailPembelian): Int {
+        val db = this.readableDatabase
+        db?.insert(DetailPembelianSkema.TABLE_DETAIL_PEMBELIAN,
+            DetailPembelianSkema.ID_PEMBELIAN to detailPembelian.idPembelian,
+            DetailPembelianSkema.ID_BARANG to detailPembelian.idBarang,
+            DetailPembelianSkema.HARGA to detailPembelian.harga,
+            DetailPembelianSkema.JUMLAH to detailPembelian.jumlah,
+            DetailPembelianSkema.TOTAL to detailPembelian.total
+        )
+
+        val lastItem = db.rawQuery("SELECT * FROM TABLE_DETAIL_PEMBELIAN",null)
+        lastItem.moveToLast()
+        return lastItem.getInt(lastItem.getColumnIndex(DetailPembelianSkema.ID))
     }
 
 

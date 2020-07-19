@@ -1,6 +1,6 @@
 package project.manajemenstok.data.local
 
-data class PenjualSkema(val id:Long?, val namaPenjual: String, val noTelp: Int) {
+data class PenjualSkema(val id:Long?, val namaPenjual: String, val noTelp: String) {
     companion object {
         const val TABLE_PENJUAL : String = "TABLE_PENJUAL"
         const val ID: String = "ID_"

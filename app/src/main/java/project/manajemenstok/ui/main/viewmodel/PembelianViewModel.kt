@@ -2,6 +2,7 @@ package project.manajemenstok.ui.main.viewmodel
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,8 +10,11 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.threeten.bp.LocalDateTime
 import project.manajemenstok.data.local.BarangDbHelper
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.DetailPembelian
+import project.manajemenstok.data.model.Pembelian
 import project.manajemenstok.data.model.Penjual
 import project.manajemenstok.data.remote.RemoteBrangLogicImpl
 import project.manajemenstok.data.remote.RemotePembelianLogicImpl
@@ -163,11 +167,46 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         return penjualRepository.getTempPenjual()
     }
 
-    fun simpanPembelian(){
-        Toast.makeText(context, "Simpan Pembelian", Toast.LENGTH_LONG).show()
-//        savePenjual()
-//        savePembelian()
-//        saveDetailPembelian()
-//        updateStok()
+    fun simpanPembelian(bundle: Bundle){
+        var dataPenjual = Penjual()
+        dataPenjual.namaPenjual = bundle.getBundle("dataPenjual")!!.getString("namaPenjual")!!
+        dataPenjual.noTelp = bundle.getBundle("dataPenjual")!!.getString("noTelp")!!
+
+        val idPenjual = penjualRepository.createPenjual(dataPenjual)
+
+        var dataPembelian = Pembelian()
+        dataPembelian.idPenjual = idPenjual
+        dataPembelian.tglPembelian = LocalDateTime.now().toString()
+        dataPembelian.ongkir = Integer.parseInt(bundle.getString("dataOngkir")!!)
+        dataPembelian.totalPembelian = Integer.parseInt(bundle.getString("dataTotal")!!)
+        dataPembelian.metode = 0
+
+        val idPembelian = pembelianRepository.createPembelian(dataPembelian)
+
+        val dataDetailPembelian = barangRepository.getTempBarang()
+
+        for(detail in dataDetailPembelian){
+            val detailPembelian = DetailPembelian()
+            if(detail.id == 0){
+                val idBarang = barangRepository.createBarang(detail)
+                detailPembelian.idBarang = idBarang
+            } else {
+                detailPembelian.idBarang = detail.id
+                var existedBarang = barangRepository.getBarangById(detail.id)
+                existedBarang.jumlah += detail.jumlah
+                existedBarang.total += detail.total
+                existedBarang.harga = existedBarang.total / existedBarang.jumlah
+
+                barangRepository.updateBarang(existedBarang)
+            }
+            detailPembelian.idPembelian = idPembelian
+            detailPembelian.harga = detail.harga
+            detailPembelian.jumlah = detail.jumlah
+            detailPembelian.total = detail.total
+
+            pembelianRepository.createDetailPembelian(detailPembelian)
+        }
+
+        Toast.makeText(context, "Berhasil Menyimpan Pembelian", Toast.LENGTH_LONG).show()
     }
 }

@@ -35,4 +35,16 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
         localBarang.setTempBarang(dataBarang)
     }
 
+    fun createBarang(barang: Barang): Int{
+        return localBarang.createBarang(barang)
+    }
+
+    fun updateBarang(barang: Barang){
+        localBarang.updateBarang(barang)
+    }
+
+    fun getBarangById(id: Int): Barang{
+        return localBarang.getBarangById(id)
+    }
+
 }

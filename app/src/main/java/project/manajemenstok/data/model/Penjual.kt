@@ -8,5 +8,5 @@ data class Penjual (
     @SerializedName("namaPenjual")
     var namaPenjual: String="",
     @SerializedName("noTelp")
-    val noTelp: Int=0
+    var noTelp: String=""
 )
