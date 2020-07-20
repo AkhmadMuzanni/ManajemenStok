@@ -184,7 +184,11 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
 
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                pembelianViewModel.setTempOngkir(Integer.parseInt(s.toString()))
+                if(s.toString() == ""){
+                    pembelianViewModel.setTempOngkir(0)
+                } else {
+                    pembelianViewModel.setTempOngkir(Integer.parseInt(s.toString()))
+                }
                 viewPembelian.text_input_total.setText(pembelianViewModel.getTotalTransaksi().toString())
             }
         })
