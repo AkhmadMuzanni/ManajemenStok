@@ -29,6 +29,7 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
     private var tempDataPembelian : ArrayList<DetailPembelian> = ArrayList()
     private var tempPenjual = ""
     private var tempOngkir = 0
+    private var barangUsed : ArrayList<Barang> = ArrayList()
 
     override fun onCreate(db: SQLiteDatabase?) {
 
@@ -213,6 +214,37 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
 
     override fun deleteTempBarang(id: Int) {
         tempBarang.removeAt(id)
+
+    }
+
+    override fun getBarangUsed(): ArrayList<Barang> {
+        barangUsed = ArrayList()
+        for (barang in tempBarang){
+            if(barang.id != 0){
+                barangUsed.add(barang)
+            }
+        }
+        return barangUsed
+    }
+
+    override fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang> {
+        val allBarang: List<Barang> = getBarang().parseList(classParser())
+
+        var result = ArrayList<Barang>()
+        for(barang in allBarang){
+            var isUsed = false
+            for(used in barangUsed){
+                if(barang.id == used.id){
+                    isUsed = true
+                    break
+                }
+            }
+            if(!isUsed){
+                result.add(barang)
+            }
+        }
+
+        return result
     }
 
     override fun getPenjual(): Cursor {

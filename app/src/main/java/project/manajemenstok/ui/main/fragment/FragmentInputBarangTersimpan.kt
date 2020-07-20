@@ -20,6 +20,7 @@ import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.InputBarangTersimpanAdapter
 import project.manajemenstok.ui.main.adapter.MainAdapter
+import project.manajemenstok.ui.main.view.InputBarangActivity
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 import project.manajemenstok.utils.Status
@@ -89,7 +90,8 @@ class FragmentInputBarangTersimpan : Fragment(){
     }
 
     private fun renderList(barangs: List<Barang>) {
-        adapter.addData(barangs)
+        val barangUsed = (activity as InputBarangActivity).getBarangUsed()
+        adapter.addData(pembelianViewModel.getUnusedBarang(barangUsed))
         adapter.notifyDataSetChanged()
     }
 

@@ -13,4 +13,6 @@ interface BarangLogic{
     fun updateBarang(barang: Barang)
     fun getBarangById(id: Int): Barang
     fun deleteTempBarang(id: Int)
+    fun getBarangUsed(): ArrayList<Barang>
+    fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>
 }

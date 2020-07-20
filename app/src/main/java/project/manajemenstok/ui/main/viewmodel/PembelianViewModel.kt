@@ -223,4 +223,12 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         }
         return subtotal
     }
+
+    fun getBarangUsed(): ArrayList<Barang>{
+        return barangRepository.getBarangUsed()
+    }
+
+    fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>{
+        return barangRepository.getUnusedBarang(barangUsed)
+    }
 }

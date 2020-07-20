@@ -51,4 +51,12 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
         localBarang.deleteTempBarang(position)
     }
 
+    fun getBarangUsed(): ArrayList<Barang>{
+        return localBarang.getBarangUsed()
+    }
+
+    fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>{
+        return localBarang.getUnusedBarang(barangUsed)
+    }
+
 }

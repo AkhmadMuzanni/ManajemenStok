@@ -113,14 +113,19 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
     }
 
     override fun onClick(v: View) {
+        var bundle = Bundle()
         when (v.id){
             R.id.input_barang_pembelian->{
                 val inputBarangIntent =  Intent(v.context, InputBarangActivity::class.java)
+                if(pembelianViewModel.getBarangUsed().size != 0){
+                    bundle.putSerializable("dataBarangUsed", pembelianViewModel.getBarangUsed())
+                    bundle.putBoolean("isBarangUsed", true)
+                    inputBarangIntent.putExtra("dataPembelian", bundle)
+                }
+
                 startActivityForResult(inputBarangIntent, INPUT_BARANG_INTENT)
             }
             R.id.btn_input_barang->{
-                var bundle = Bundle()
-
                 var bundlePenjual = Bundle()
                 bundlePenjual.putString("namaPenjual", viewPembelian.text_input_penjual.text.toString())
                 bundlePenjual.putString("noTelp", "000")

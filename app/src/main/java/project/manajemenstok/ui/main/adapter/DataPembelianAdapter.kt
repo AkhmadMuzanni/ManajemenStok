@@ -69,7 +69,7 @@ class DataPembelianAdapter (
                     }
                 }
                 R.id.delete_icon->{
-                    Toast.makeText(itemView.context, "Delete", Toast.LENGTH_LONG).show()
+                    Toast.makeText(itemView.context, "Berhasil Dihapus", Toast.LENGTH_LONG).show()
                     viewModel.deleteTempBarang(pos)
                     dataAdapter.setData(viewModel.getTempBarang())
                     dataAdapter.notifyItemRemoved(pos)

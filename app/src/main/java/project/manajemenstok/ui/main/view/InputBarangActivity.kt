@@ -10,13 +10,20 @@ import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import project.manajemenstok.R
+import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.main.adapter.InputBarangAdapter
 
 class InputBarangActivity : AppCompatActivity(), View.OnClickListener {
 
+    private var barangUsed = ArrayList<Barang>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_barang)
+
+        if(intent.getBundleExtra("dataPembelian") != null){
+            barangUsed = intent.getBundleExtra("dataPembelian").getSerializable("dataBarangUsed") as ArrayList<Barang>
+        }
 
         val fragmentAdapter = InputBarangAdapter(supportFragmentManager)
 
@@ -41,5 +48,9 @@ class InputBarangActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
         }
+    }
+
+    fun getBarangUsed(): ArrayList<Barang>{
+        return barangUsed
     }
 }
