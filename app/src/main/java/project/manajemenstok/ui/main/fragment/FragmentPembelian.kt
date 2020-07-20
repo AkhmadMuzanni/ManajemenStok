@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -32,6 +33,10 @@ import project.manajemenstok.ui.main.view.KonfirmasiPembelianActivity
 import project.manajemenstok.ui.main.view.MainActivity
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.utils.NumberTextWatcher
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeListener{
@@ -58,7 +63,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             viewPembelian.text_input_total.setText(MainActivity.getTempData().getString("dataTotal"))
 
             if(MainActivity.getTempData().getString("dataOngkir") != ""){
-                pembelianViewModel.setTempOngkir(Integer.parseInt(MainActivity.getTempData().getString("dataOngkir")))
+                pembelianViewModel.setTempOngkir(getAngka(MainActivity.getTempData().getString("dataOngkir")))
             }
         }
 
@@ -133,8 +138,8 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
                 bundlePenjual.putString("noTelp", "000")
 
                 bundle.putBundle("dataPenjual", bundlePenjual)
-                bundle.putString("dataOngkir", viewPembelian.text_ongkir_pembelian.text.toString())
-                bundle.putString("dataTotal", viewPembelian.text_input_total.text.toString())
+                bundle.putString("dataOngkir", getAngka(viewPembelian.text_ongkir_pembelian.text.toString()).toString())
+                bundle.putString("dataTotal", getAngka(viewPembelian.text_input_total.text.toString()).toString())
                 bundle.putString("dataSubtotal", pembelianViewModel.getSubtotal().toString())
                 bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
 
@@ -176,22 +181,15 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
     }
 
     private fun onTextChangeListener(){
-        viewPembelian.text_ongkir_pembelian.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
+        viewPembelian.text_ongkir_pembelian.addTextChangedListener(object: NumberTextWatcher(viewPembelian.text_ongkir_pembelian){
+            override fun afterTextChanged(s: Editable) {
+                super.afterTextChanged(s)
                 if(s.toString() == ""){
                     pembelianViewModel.setTempOngkir(0)
                 } else {
-                    pembelianViewModel.setTempOngkir(Integer.parseInt(s.toString()))
+                    pembelianViewModel.setTempOngkir(getAngka(viewPembelian.text_ongkir_pembelian.text.toString()))
                 }
-                viewPembelian.text_input_total.setText(pembelianViewModel.getTotalTransaksi().toString())
+                viewPembelian.text_input_total.setText(getFormat(Integer.parseInt(pembelianViewModel.getTotalTransaksi().toString())))
             }
         })
     }
@@ -204,6 +202,18 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
                 }
             }
         }
+    }
+
+    fun getAngka(string: String): Int{
+        val idLocale = Locale("id", "ID")
+        val nf = NumberFormat.getNumberInstance(idLocale)
+        return nf.parse(string).toInt()
+    }
+
+    fun getFormat(int: Int): String{
+        val idLocale = Locale("id", "ID")
+        val nf = NumberFormat.getNumberInstance(idLocale)
+        return nf.format(int)
     }
 
 }

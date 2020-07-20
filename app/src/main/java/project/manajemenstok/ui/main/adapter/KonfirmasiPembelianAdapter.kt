@@ -8,6 +8,9 @@ import kotlinx.android.synthetic.main.item_konfirmasi_pembelian_layout.view.*
 import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.textViewNamaBarang
 import project.manajemenstok.R
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class KonfirmasiPembelianAdapter (
     private val barangs: ArrayList<Barang>
@@ -24,9 +27,21 @@ class KonfirmasiPembelianAdapter (
             pos = position
 
             itemView.textViewNamaBarang.setText(barang.namaBarang.capitalize())
-            itemView.text_harga_satuan.setText(barang.harga.toString())
-            itemView.text_harga_total.setText(barang.total.toString())
+            itemView.text_harga_satuan.setText(getFormat(barang.harga))
+            itemView.text_harga_total.setText(getFormat(barang.total))
             itemView.text_jumlah_barang.setText(barang.jumlah.toString() + "x")
+        }
+
+        fun getAngka(string: String): Int{
+            val idLocale = Locale("id", "ID")
+            val nf = NumberFormat.getNumberInstance(idLocale)
+            return nf.parse(string).toInt()
+        }
+
+        fun getFormat(int: Int): String{
+            val idLocale = Locale("id", "ID")
+            val nf = NumberFormat.getNumberInstance(idLocale)
+            return nf.format(int)
         }
     }
 
@@ -51,5 +66,4 @@ class KonfirmasiPembelianAdapter (
         barangs.clear()
         barangs.addAll(list)
     }
-
 }

@@ -17,6 +17,9 @@ import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.KonfirmasiPembelianAdapter
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class KonfirmasiPembelianActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var pembelianViewModel: PembelianViewModel
@@ -34,9 +37,9 @@ class KonfirmasiPembelianActivity : AppCompatActivity(), View.OnClickListener {
         bundlePembelian = intent.getBundleExtra("dataPembelian")
         val dataBarang = intent.getBundleExtra("dataPembelian").getSerializable("dataBarang") as ArrayList<Barang>
         val dataPenjual = intent.getBundleExtra("dataPembelian").getBundle("dataPenjual").getString("namaPenjual").capitalize()
-        val dataOngkir = intent.getBundleExtra("dataPembelian").getString("dataOngkir")
-        val dataSubtotal = intent.getBundleExtra("dataPembelian").getString("dataSubtotal")
-        val dataTotal = intent.getBundleExtra("dataPembelian").getString("dataTotal")
+        val dataOngkir = getFormat(Integer.parseInt(intent.getBundleExtra("dataPembelian").getString("dataOngkir")))
+        val dataSubtotal = getFormat(Integer.parseInt(intent.getBundleExtra("dataPembelian").getString("dataSubtotal")))
+        val dataTotal = getFormat(Integer.parseInt(intent.getBundleExtra("dataPembelian").getString("dataTotal")))
 
         findViewById<TextView>(R.id.value_penjual).setText(dataPenjual)
         findViewById<TextView>(R.id.value_ongkir).setText(dataOngkir)
@@ -95,5 +98,17 @@ class KonfirmasiPembelianActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    fun getAngka(string: String): Int{
+        val idLocale = Locale("id", "ID")
+        val nf = NumberFormat.getNumberInstance(idLocale)
+        return nf.parse(string).toInt()
+    }
+
+    fun getFormat(int: Int): String{
+        val idLocale = Locale("id", "ID")
+        val nf = NumberFormat.getNumberInstance(idLocale)
+        return nf.format(int)
     }
 }

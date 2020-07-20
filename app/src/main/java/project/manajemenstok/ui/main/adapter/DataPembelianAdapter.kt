@@ -17,6 +17,10 @@ import kotlinx.android.synthetic.main.item_pembelian_layout.view.*
 import project.manajemenstok.R
 import project.manajemenstok.ui.main.fragment.FragmentPembelian
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.utils.NumberTextWatcher
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DataPembelianAdapter (
     private val barangs: ArrayList<Barang>,
@@ -42,8 +46,9 @@ class DataPembelianAdapter (
                 status = " (Baru)"
             }
             itemView.textViewNamaBarang.setText(barang.namaBarang.capitalize() + status)
-            itemView.input_harga_satuan.setText(barang.harga.toString())
-            itemView.input_harga_total.setText(barang.total.toString())
+            itemView.input_harga_satuan.setText(dataAdapter.getFormat(barang.harga))
+            itemView.input_harga_total.setText(dataAdapter.getFormat(barang.total))
+            itemView.text_jumlah.setText(dataAdapter.getFormat(barang.jumlah))
             Glide.with(itemView.image_view_barang.context).load(barang.foto).into(itemView.image_view_barang)
 
             itemView.btn_kurang.setOnClickListener(this)
@@ -56,15 +61,15 @@ class DataPembelianAdapter (
         }
 
         override fun onClick(v: View) {
-            val jml = Integer.parseInt(itemView.text_jumlah.text.toString())
+            val jml = dataAdapter.getAngka(itemView.text_jumlah.text.toString())
             when (v.id){
                 R.id.btn_tambah->{
-                    itemView.text_jumlah.setText((jml+1).toString())
+                    itemView.text_jumlah.setText(dataAdapter.getFormat(jml+1))
                     objBarang.jumlah = jml+1
                 }
                 R.id.btn_kurang->{
                     if(jml > 1){
-                        itemView.text_jumlah.setText((jml-1).toString())
+                        itemView.text_jumlah.setText(dataAdapter.getFormat(jml-1))
                         objBarang.jumlah = jml-1
                     }
                 }
@@ -90,22 +95,18 @@ class DataPembelianAdapter (
         }
 
         fun textChangedListener(){
-            itemView.input_harga_satuan.addTextChangedListener(object : TextWatcher {
+            itemView.input_harga_satuan.addTextChangedListener(object: NumberTextWatcher(itemView.input_harga_satuan){
+                override fun afterTextChanged(s: Editable) {
+                    super.afterTextChanged(s)
 
-                override fun afterTextChanged(s: Editable) {}
-
-                override fun beforeTextChanged(s: CharSequence, start: Int,
-                                               count: Int, after: Int) {
-                }
-
-                override fun onTextChanged(s: CharSequence, start: Int,
-                                           before: Int, count: Int) {
                     var harga = 0
-                    val jml = Integer.parseInt(itemView.text_jumlah.text.toString())
-                    if(!s.toString().equals("")){
-                        harga = Integer.parseInt(s.toString())
+                    val jml = dataAdapter.getAngka(itemView.text_jumlah.text.toString())
+                    val textHarga = itemView.input_harga_satuan.text.toString()
+
+                    if(!textHarga.equals("")){
+                        harga = dataAdapter.getAngka(textHarga)
                     }
-                    itemView.input_harga_total.setText((jml*harga).toString())
+                    itemView.input_harga_total.setText(dataAdapter.getFormat(jml*harga))
 
                     objBarang.harga = harga
                     objBarang.total = jml*harga
@@ -114,25 +115,22 @@ class DataPembelianAdapter (
                 }
             })
 
-            itemView.text_jumlah.addTextChangedListener(object : TextWatcher {
+            itemView.text_jumlah.addTextChangedListener(object: NumberTextWatcher(itemView.text_jumlah){
+                override fun afterTextChanged(s: Editable) {
+                    super.afterTextChanged(s)
 
-                override fun afterTextChanged(s: Editable) {}
-
-                override fun beforeTextChanged(s: CharSequence, start: Int,
-                                               count: Int, after: Int) {
-                }
-
-                override fun onTextChanged(s: CharSequence, start: Int,
-                                           before: Int, count: Int) {
                     var harga = 0
                     var jml = 0
-                    if(!s.toString().equals("")){
-                        jml = Integer.parseInt(s.toString())
+                    val textJumlah = itemView.text_jumlah.text.toString()
+                    if(!textJumlah.equals("")){
+                        jml = dataAdapter.getAngka(textJumlah)
                     }
+
                     if(!itemView.input_harga_satuan.text.toString().equals("")){
-                        harga = Integer.parseInt(itemView.input_harga_satuan.text.toString())
+                        harga = dataAdapter.getAngka(itemView.input_harga_satuan.text.toString())
                     }
-                    itemView.input_harga_total.setText((jml*harga).toString())
+
+                    itemView.input_harga_total.setText(dataAdapter.getFormat(jml*harga))
 
                     objBarang.harga = harga
                     objBarang.total = jml*harga
@@ -159,8 +157,7 @@ class DataPembelianAdapter (
 
         fun updateTotalTransaksi(){
             val total = viewModel.getTotalTransaksi()
-//            itemView.text_input_total.setText(total.toString())
-            fragment.activity?.findViewById<TextView>(R.id.text_input_total)?.setText(total.toString())
+            fragment.activity?.findViewById<TextView>(R.id.text_input_total)?.setText(dataAdapter.getFormat(total))
         }
     }
 
@@ -184,6 +181,18 @@ class DataPembelianAdapter (
     fun setData(list: List<Barang>) {
         barangs.clear()
         barangs.addAll(list)
+    }
+
+    fun getAngka(string: String): Int{
+        val idLocale = Locale("id", "ID")
+        val nf = NumberFormat.getNumberInstance(idLocale)
+        return nf.parse(string).toInt()
+    }
+
+    fun getFormat(int: Int): String{
+        val idLocale = Locale("id", "ID")
+        val nf = NumberFormat.getNumberInstance(idLocale)
+        return nf.format(int)
     }
 
 }
