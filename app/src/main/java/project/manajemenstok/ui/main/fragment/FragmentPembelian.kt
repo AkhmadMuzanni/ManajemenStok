@@ -34,7 +34,7 @@ import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 
 
-class FragmentPembelian : Fragment(), View.OnClickListener{
+class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeListener{
 
     private val INPUT_BARANG_INTENT = 1
     private val KONFIRMASI_INTENT = 2
@@ -70,6 +70,8 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
                 startActivityForResult(inputBarangIntent, INPUT_BARANG_INTENT)
             }
         }
+        viewPembelian.text_ongkir_pembelian.setOnFocusChangeListener(this)
+
 
         onTextChangeListener()
 
@@ -192,6 +194,16 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
                 viewPembelian.text_input_total.setText(pembelianViewModel.getTotalTransaksi().toString())
             }
         })
+    }
+
+    override fun onFocusChange(v: View, hasFocus: Boolean) {
+        when (v.id){
+            R.id.text_ongkir_pembelian->{
+                if(viewPembelian.text_ongkir_pembelian.text.toString() == "" && !hasFocus){
+                    viewPembelian.text_ongkir_pembelian.setText("0")
+                }
+            }
+        }
     }
 
 }

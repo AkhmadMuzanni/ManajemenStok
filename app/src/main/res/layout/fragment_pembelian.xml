@@ -152,6 +152,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Masukkan Ongkos Kirim"
                 android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:text="0"
                 android:textSize="14sp"
                 android:theme="@style/EditTextTheme" />
         </com.google.android.material.textfield.TextInputLayout>

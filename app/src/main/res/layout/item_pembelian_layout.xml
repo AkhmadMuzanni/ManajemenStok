@@ -79,9 +79,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Masukkan harga satuan"
+                    android:inputType="number"
+                    android:selectAllOnFocus="true"
                     android:textSize="12sp"
-                    android:theme="@style/EditTextTheme"
-                    android:inputType="number"/>
+                    android:theme="@style/EditTextTheme" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -134,6 +135,7 @@
                     android:background="@drawable/text_jumlah_shape"
                     android:ems="10"
                     android:inputType="number"
+                    android:selectAllOnFocus="true"
                     android:text="1"
                     android:textAlignment="center"
                     android:textColor="@color/greenMars"
@@ -209,12 +211,12 @@
                 android:id="@+id/input_harga_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Harga total"
-                android:textSize="12sp"
-                android:theme="@style/EditTextTheme"
-                android:inputType="number"
                 android:focusable="false"
-                />
+                android:hint="Harga total"
+                android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:textSize="12sp"
+                android:theme="@style/EditTextTheme" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
