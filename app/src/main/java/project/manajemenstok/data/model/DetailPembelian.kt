@@ -1,6 +1,7 @@
 package project.manajemenstok.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class DetailPembelian (
     @SerializedName("idPembelian")
@@ -13,5 +14,4 @@ data class DetailPembelian (
     var jumlah: Int=0,
     @SerializedName("total")
     var total: Int=0
-
-)
+): Serializable

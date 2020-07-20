@@ -1,6 +1,7 @@
 package project.manajemenstok.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Pembelian (
     @SerializedName("id")
@@ -16,4 +17,4 @@ data class Pembelian (
     @SerializedName("metode")
     var metode: Int=0
 
-)
+): Serializable

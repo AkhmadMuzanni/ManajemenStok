@@ -1,6 +1,7 @@
 package project.manajemenstok.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Barang (
     @SerializedName("id")
@@ -16,4 +17,4 @@ data class Barang (
     @SerializedName("total")
     var total: Int=0
 
-)
+): Serializable

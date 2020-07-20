@@ -183,7 +183,7 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 
         val idPembelian = pembelianRepository.createPembelian(dataPembelian)
 
-        val dataDetailPembelian = barangRepository.getTempBarang()
+        val dataDetailPembelian = bundle.getSerializable("dataBarang") as ArrayList<Barang>
 
         for(detail in dataDetailPembelian){
             val detailPembelian = DetailPembelian()
@@ -213,5 +213,14 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 
     fun deleteTempBarang(position: Int){
         barangRepository.deleteTempBarang(position)
+    }
+
+    fun getSubtotal(): Int{
+        val dataPembelian = barangRepository.getTempBarang()
+        var subtotal = 0
+        for(detail in dataPembelian){
+            subtotal += detail.total
+        }
+        return subtotal
     }
 }

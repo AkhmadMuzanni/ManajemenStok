@@ -136,6 +136,7 @@ class DataPembelianAdapter (
 
                     objBarang.harga = harga
                     objBarang.total = jml*harga
+                    objBarang.jumlah = Integer.parseInt(s.toString())
 
                     updateTotalTransaksi()
                 }

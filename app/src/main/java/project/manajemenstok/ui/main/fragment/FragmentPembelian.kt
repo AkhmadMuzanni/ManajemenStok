@@ -28,6 +28,7 @@ import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.DataPembelianAdapter
 import project.manajemenstok.ui.main.adapter.MainAdapter
 import project.manajemenstok.ui.main.view.InputBarangActivity
+import project.manajemenstok.ui.main.view.KonfirmasiPembelianActivity
 import project.manajemenstok.ui.main.view.MainActivity
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
@@ -36,6 +37,7 @@ import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 class FragmentPembelian : Fragment(), View.OnClickListener{
 
     private val INPUT_BARANG_INTENT = 1
+    private val KONFIRMASI_INTENT = 2
     private lateinit var pembelianViewModel: PembelianViewModel
     private lateinit var viewPembelian: View
     private lateinit var dataPembelianAdapter: DataPembelianAdapter
@@ -106,7 +108,6 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
     }
 
     private fun renderDataPembelian(barangs: List<Barang>) {
-//        dataPembelianAdapter.addData(barangs)
         dataPembelianAdapter.setData(barangs)
         dataPembelianAdapter.notifyDataSetChanged()
     }
@@ -127,18 +128,19 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
                 bundle.putBundle("dataPenjual", bundlePenjual)
                 bundle.putString("dataOngkir", viewPembelian.text_ongkir_pembelian.text.toString())
                 bundle.putString("dataTotal", viewPembelian.text_input_total.text.toString())
+                bundle.putString("dataSubtotal", pembelianViewModel.getSubtotal().toString())
+                bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
 
-                val isSuccess = pembelianViewModel.simpanPembelian(bundle)
-                if(isSuccess){
-                    activity?.finish()
-                }
+                val konfirmasiPembelianIntent =  Intent(v.context, KonfirmasiPembelianActivity::class.java)
+                konfirmasiPembelianIntent.putExtra("dataPembelian", bundle)
+                startActivityForResult(konfirmasiPembelianIntent, KONFIRMASI_INTENT)
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 1 && data != null && resultCode == RESULT_OK){
+        if(requestCode == INPUT_BARANG_INTENT && data != null && resultCode == RESULT_OK){
             val tempBarang = Barang()
             tempBarang.id = data?.getBundleExtra("bundle")?.getInt("id")!!
             tempBarang.namaBarang = data?.getBundleExtra("bundle")?.getString("namaBarang")!!
@@ -148,6 +150,9 @@ class FragmentPembelian : Fragment(), View.OnClickListener{
             tempBarang.total = 0
 //            input_barang_pembelian.setText(tempBarang.namaBarang)
             pembelianViewModel.addTempBarang(tempBarang)
+        } else if(requestCode == KONFIRMASI_INTENT && data != null && resultCode == RESULT_OK){
+            destroyView(false)
+            activity?.finish()
         }
     }
 
