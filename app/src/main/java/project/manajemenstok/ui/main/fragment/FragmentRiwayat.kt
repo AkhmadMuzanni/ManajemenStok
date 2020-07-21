@@ -1,6 +1,7 @@
 package project.manajemenstok.ui.main.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,24 +13,28 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_barang.*
 import kotlinx.android.synthetic.main.fragment_riwayat.*
 
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
+import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
+import project.manajemenstok.ui.main.view.DetailRiwayatActivity
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.utils.Status
 
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentRiwayat : Fragment(), View.OnClickListener {
+class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: RiwayatAdapter
     private lateinit var viewFragmentRiwayat: View
     private lateinit var rv: RecyclerView
+//    private lateinit var temp: List<Barang>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +50,7 @@ class FragmentRiwayat : Fragment(), View.OnClickListener {
     private fun setupUI(){
         rv = viewFragmentRiwayat.findViewById(R.id.rv_riwayat)
         rv.layoutManager = LinearLayoutManager(viewFragmentRiwayat.context)
-        adapter = RiwayatAdapter(arrayListOf())
+        adapter = RiwayatAdapter(arrayListOf(), this)
         rv.addItemDecoration(
             DividerItemDecoration(
                 rv.context,
@@ -70,6 +75,7 @@ class FragmentRiwayat : Fragment(), View.OnClickListener {
                     progressBarRiwayat.visibility = View.GONE
                     it.data?.let { users -> renderList(users) }
                     rv.visibility = View.VISIBLE
+
                 }
                 Status.LOADING -> {
                     progressBarRiwayat.visibility = View.VISIBLE
@@ -87,9 +93,15 @@ class FragmentRiwayat : Fragment(), View.OnClickListener {
     private fun renderList(barangs: List<Barang>) {
         adapter.addData(barangs)
         adapter.notifyDataSetChanged()
+//        temp = barangs
     }
 
-    override fun onClick(p0: View?) {
-        TODO("Not yet implemented")
+    override fun onItemClick(item: Barang, position: Int) {
+        val historyTransaction = Intent(viewFragmentRiwayat.context, DetailRiwayatActivity::class.java)
+        val historyTransactionBundle = Bundle()
+        historyTransactionBundle.putString("HISTORYTRANSACTION", "gusna ikhsan")
+        historyTransaction.putExtra("historyTransaction", historyTransactionBundle)
+        startActivity(historyTransaction)
     }
+
 }

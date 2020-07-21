@@ -9,14 +9,18 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 
 class RiwayatAdapter (
-    private val barangs: ArrayList<Barang>
+    private val barangs: ArrayList<Barang>,
+    private val clickListener: OnRiwayatItemClickListener
 ): RecyclerView.Adapter<RiwayatAdapter.DataViewHolder>(){
 
     class DataViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(barang: Barang){
+        fun bind(barang: Barang, action: OnRiwayatItemClickListener){
             itemView.tv_nama_barang.text = barang.namaBarang.capitalize()
             itemView.tv_mount.text = barang.total.toString()
             itemView.tv_count.text = barang.jumlah.toString()
+            itemView.setOnClickListener {
+                action.onItemClick(barang, adapterPosition)
+            }
         }
     }
 
@@ -30,10 +34,14 @@ class RiwayatAdapter (
 
     override fun getItemCount(): Int = barangs.size
 
-    override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
-        holder.bind(barangs[position])
+    override fun onBindViewHolder(holder: RiwayatAdapter.DataViewHolder, position: Int) =
+        holder.bind(barangs[position], clickListener)
 
     fun addData(list: List<Barang>) {
         barangs.addAll(list)
     }
+}
+
+interface OnRiwayatItemClickListener{
+    fun onItemClick(item: Barang, position: Int)
 }
