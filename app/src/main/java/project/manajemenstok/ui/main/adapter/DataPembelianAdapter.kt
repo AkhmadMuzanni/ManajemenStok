@@ -79,6 +79,7 @@ class DataPembelianAdapter (
                     dataAdapter.setData(viewModel.getTempBarang())
                     dataAdapter.notifyItemRemoved(pos)
                     dataAdapter.notifyItemRangeChanged(pos, viewModel.getTempBarang().size)
+                    updateTotalTransaksi()
                 }
             }
         }

@@ -58,4 +58,8 @@ class PembelianActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+    override fun onBackPressed() {
+        findViewById<ImageView>(R.id.icon_back).performClick()
+    }
 }
