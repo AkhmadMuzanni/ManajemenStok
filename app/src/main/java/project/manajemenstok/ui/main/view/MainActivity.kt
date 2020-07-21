@@ -15,6 +15,17 @@ import project.manajemenstok.ui.main.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(){
 
+    companion object {
+        var tempPenjual = Bundle()
+        fun setTempData(data: Bundle){
+            tempPenjual = data
+        }
+
+        fun getTempData(): Bundle{
+            return tempPenjual
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

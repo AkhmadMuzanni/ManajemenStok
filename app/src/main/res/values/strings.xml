@@ -16,5 +16,7 @@
 
     <string name="labelSearchBarBarang">Cari berdasarkan Nama Barang</string>
 
+    <string name="defaultImageIcon">https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_1280.png</string>
+
 
 </resources>

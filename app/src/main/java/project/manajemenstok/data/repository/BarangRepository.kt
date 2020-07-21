@@ -31,4 +31,32 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
         return localBarang.getTempBarang()
     }
 
+    fun setTempBarang(dataBarang: ArrayList<Barang>){
+        localBarang.setTempBarang(dataBarang)
+    }
+
+    fun createBarang(barang: Barang): Int{
+        return localBarang.createBarang(barang)
+    }
+
+    fun updateBarang(barang: Barang){
+        localBarang.updateBarang(barang)
+    }
+
+    fun getBarangById(id: Int): Barang{
+        return localBarang.getBarangById(id)
+    }
+
+    fun deleteTempBarang(position: Int){
+        localBarang.deleteTempBarang(position)
+    }
+
+    fun getBarangUsed(): ArrayList<Barang>{
+        return localBarang.getBarangUsed()
+    }
+
+    fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>{
+        return localBarang.getUnusedBarang(barangUsed)
+    }
+
 }

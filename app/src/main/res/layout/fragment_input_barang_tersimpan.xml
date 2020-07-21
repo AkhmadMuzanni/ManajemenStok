@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hintEditTextBarang"
+            android:singleLine="true"
             android:textSize="14sp"
             android:theme="@style/EditTextTheme" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -15,4 +15,10 @@
 
     </style>
 
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
 </resources>

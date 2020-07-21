@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "854189089540",
+    "firebase_url": "https://manajemenstok-4d541.firebaseio.com",
+    "project_id": "manajemenstok-4d541",
+    "storage_bucket": "manajemenstok-4d541.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854189089540:android:7e68a1e8e2e55d039fa651",
+        "android_client_info": {
+          "package_name": "project.manajemenstok"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854189089540-ftfuvdsngt7vpjelkcgq9ceoccnlc23b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG9z3Gt27ECau9WeQKif6Y0KYpGs7Pjfg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854189089540-ftfuvdsngt7vpjelkcgq9ceoccnlc23b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
