@@ -13,16 +13,17 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_barang.*
+import kotlinx.android.synthetic.main.fragment_barang.*
 import kotlinx.android.synthetic.main.fragment_riwayat.*
 
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.Pembelian
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
 import project.manajemenstok.ui.main.view.DetailRiwayatActivity
-import project.manajemenstok.ui.main.viewmodel.MainViewModel
+import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 import project.manajemenstok.utils.Status
 
 /**
@@ -30,7 +31,7 @@ import project.manajemenstok.utils.Status
  */
 class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var pembelianViewModel: PembelianViewModel
     private lateinit var adapter: RiwayatAdapter
     private lateinit var viewFragmentRiwayat: View
     private lateinit var rv: RecyclerView
@@ -62,20 +63,19 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
 
     private fun setupViewModel() {
         val is_remote = true
-        mainViewModel = ViewModelProviders.of(
+        pembelianViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewFragmentRiwayat.context,is_remote)
-        ).get(MainViewModel::class.java)
+        ).get(PembelianViewModel::class.java)
     }
 
     private fun setupObserver() {
-        mainViewModel.getBarangs().observe(this, Observer {
+        pembelianViewModel.getPembelian().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarRiwayat.visibility = View.GONE
-                    it.data?.let { users -> renderList(users) }
+                    it.data?.let { pembelians -> renderList(pembelians) }
                     rv.visibility = View.VISIBLE
-
                 }
                 Status.LOADING -> {
                     progressBarRiwayat.visibility = View.VISIBLE
@@ -90,16 +90,15 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
         })
     }
 
-    private fun renderList(barangs: List<Barang>) {
-        adapter.addData(barangs)
+    private fun renderList(pembelians: List<Pembelian>) {
+        adapter.addData(pembelians)
         adapter.notifyDataSetChanged()
-//        temp = barangs
     }
 
-    override fun onItemClick(item: Barang, position: Int) {
+    override fun onItemClick(item: Pembelian, position: Int) {
         val historyTransaction = Intent(viewFragmentRiwayat.context, DetailRiwayatActivity::class.java)
         val historyTransactionBundle = Bundle()
-        historyTransactionBundle.putString("HISTORYTRANSACTION", "gusna ikhsan")
+        historyTransactionBundle.putSerializable("HISTORYTRANSACTION", item)
         historyTransaction.putExtra("historyTransaction", historyTransactionBundle)
         startActivity(historyTransaction)
     }

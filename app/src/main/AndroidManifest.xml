@@ -14,6 +14,7 @@
         
         <activity android:name=".ui.main.view.DetailRiwayatActivity" />
         <activity android:name=".ui.main.view.PembelianActivity" />
+        <activity android:name=".ui.main.view.KonfirmasiPembelianActivity" />
         <activity android:name=".ui.main.view.BarangActivity" />
         <activity android:name=".ui.main.view.InputBarangActivity" />
         <activity android:name=".ui.main.view.MainActivity">

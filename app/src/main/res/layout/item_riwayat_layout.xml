@@ -69,17 +69,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="55dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Jumlah :"
+            android:text="Ongkir : Rp. "
             android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/tv_count"
             app:layout_constraintTop_toBottomOf="@+id/tv_mount" />
 
         <TextView
             android:id="@+id/tv_count"
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="17dp"

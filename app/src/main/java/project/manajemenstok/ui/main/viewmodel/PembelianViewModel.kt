@@ -11,14 +11,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDateTime
-import project.manajemenstok.data.local.BarangDbHelper
+import project.manajemenstok.data.local.DbHelper
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.DetailPembelian
 import project.manajemenstok.data.model.Pembelian
 import project.manajemenstok.data.model.Penjual
-import project.manajemenstok.data.remote.RemoteBrangLogicImpl
-import project.manajemenstok.data.remote.RemotePembelianLogicImpl
-import project.manajemenstok.data.remote.RemotePenjualLogicImpl
+import project.manajemenstok.data.remote.impl.RemoteBarangLogicImpl
+import project.manajemenstok.data.remote.impl.RemotePembelianLogicImpl
+import project.manajemenstok.data.remote.impl.RemotePenjualLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
 import project.manajemenstok.data.repository.PembelianRepository
 import project.manajemenstok.data.repository.PenjualRepository
@@ -27,27 +27,29 @@ import project.manajemenstok.utils.Resource
 class PembelianViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
 
     private val barangRepository = BarangRepository(
-        RemoteBrangLogicImpl(),
-        BarangDbHelper(context)
+        RemoteBarangLogicImpl(),
+        DbHelper(context)
     )
     private val barangs = MutableLiveData<Resource<List<Barang>>>()
     private val penjuals = MutableLiveData<Resource<List<Penjual>>>()
+    private val pembelians = MutableLiveData<Resource<List<Pembelian>>>()
 
     private val compositeDisposable = CompositeDisposable()
 
     private val penjualRepository = PenjualRepository(
         RemotePenjualLogicImpl(),
-        BarangDbHelper(context)
+        DbHelper(context)
     )
 
     private val pembelianRepository = PembelianRepository(
         RemotePembelianLogicImpl(),
-        BarangDbHelper(context)
+        DbHelper(context)
     )
 
     init {
         checkBarang()
         fetchPenjual()
+        fetchPembelian()
     }
 
     @SuppressLint("CheckResult")
@@ -231,4 +233,24 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
     fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>{
         return barangRepository.getUnusedBarang(barangUsed)
     }
+
+    @SuppressLint("CheckResult")
+    fun fetchPembelian(){
+        pembelians.postValue(Resource.loading(null))
+        compositeDisposable.add(
+            pembelianRepository.getPembelian()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ pembelianList ->
+                    pembelians.postValue(Resource.success(pembelianList))
+                }, { throwable ->
+                    pembelians.postValue(Resource.error("Something Went Wrong", null))
+                })
+        )
+    }
+
+    fun getPembelian(): LiveData<Resource<List<Pembelian>>>{
+        return pembelians
+    }
+
 }
