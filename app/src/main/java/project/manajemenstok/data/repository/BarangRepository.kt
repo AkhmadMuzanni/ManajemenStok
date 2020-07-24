@@ -1,5 +1,6 @@
 package project.manajemenstok.data.repository
 
+import com.google.firebase.database.DatabaseReference
 import io.reactivex.Single
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
@@ -57,6 +58,10 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
 
     fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>{
         return localBarang.getUnusedBarang(barangUsed)
+    }
+
+    fun getDbReference(query: String): DatabaseReference{
+        return remoteBarang.getDbReference(query)
     }
 
 }

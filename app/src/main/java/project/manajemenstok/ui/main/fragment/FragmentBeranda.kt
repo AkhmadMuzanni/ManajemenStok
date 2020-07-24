@@ -10,9 +10,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_beranda.*
 import kotlinx.android.synthetic.main.fragment_beranda.view.*
 
@@ -34,11 +40,6 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
     private lateinit var viewFragmentBeranda: View
     private lateinit var rv: RecyclerView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,9 +48,30 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
 
         viewFragmentBeranda = inflater.inflate(R.layout.fragment_beranda, container, false)
         viewFragmentBeranda.btn_pembelian.setOnClickListener(this)
+        viewFragmentBeranda.btn_penjualan.setOnClickListener(this)
         setupUI()
         setupViewModel()
-        setupObserver()
+//        setupObserver()
+
+//        val database = Firebase.database
+//        val dataBarang = database.getReference("barang")
+        val dataBarang = mainViewModel.getDbReference("barang")
+
+        val listBarang = ArrayList<Barang>()
+        dataBarang.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+//                            listBarang.add
+                    listBarang.add(it.getValue<Barang>(Barang::class.java)!!)
+                    renderList(listBarang)
+                    progressBarBeranda.visibility = View.GONE
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
         return viewFragmentBeranda
     }
 
@@ -96,7 +118,8 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
     }
 
     private fun renderList(barangs: List<Barang>) {
-        adapter.addData(barangs)
+//        adapter.addData(barangs)
+        adapter.setData(barangs)
         adapter.notifyDataSetChanged()
     }
 
@@ -106,6 +129,9 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
 //                Toast.makeText(applicationContext, "Ini adalah contoh Toast di Android", Toast.LENGTH_LONG).show()
                 val pembelianIntent = Intent(this.context, PembelianActivity::class.java)
                 startActivity(pembelianIntent)
+            }
+            R.id.btn_penjualan->{
+
             }
         }
     }

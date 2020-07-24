@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DatabaseReference
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
@@ -87,5 +88,9 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
 
     fun getBarangs(): LiveData<Resource<List<Barang>>> {
         return barangs
+    }
+
+    fun getDbReference(query: String): DatabaseReference{
+        return barangRepository.getDbReference(query)
     }
 }

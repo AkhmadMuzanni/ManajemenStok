@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_layout.view.*
 import project.manajemenstok.R
 
 class MainAdapter (
-    private val barangs: ArrayList<Barang>
+    private var barangs: ArrayList<Barang>
 ): RecyclerView.Adapter<MainAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -35,6 +35,11 @@ class MainAdapter (
         holder.bind(barangs[position])
 
     fun addData(list: List<Barang>) {
+        barangs.addAll(list)
+    }
+
+    fun setData(list: List<Barang>) {
+        barangs.clear()
         barangs.addAll(list)
     }
 

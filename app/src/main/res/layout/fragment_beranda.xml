@@ -154,7 +154,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="433dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
             app:layout_constraintVertical_bias="0.157"
@@ -176,7 +176,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_riwayat_transaksi"
                 android:layout_width="388dp"
-                android:layout_height="361dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"
                 app:layout_constraintVertical_bias="1.0"

@@ -73,69 +73,69 @@ class BarangDbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok
 
 //        Insert Data
 
-        db?.insert(PenjualSkema.TABLE_PENJUAL,
-            PenjualSkema.NAMA_PENJUAL to "Penjual 1",
-            PenjualSkema.NO_TELP to "1234"
-        )
-
-        db?.insert(BarangSkema.TABLE_BARANG,
-            BarangSkema.NAMA_BARANG to "Barang Nomor 1",
-            BarangSkema.HARGA_BELI to 0,
-            BarangSkema.FOTO to "https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_1280.png",
-            BarangSkema.JUMLAH to 0,
-            BarangSkema.TOTAL to 0
-        )
-
-        db?.insert(PembelianSkema.TABLE_PEMBELIAN,
-            PembelianSkema.ID_PENJUAL to 1,
-            PembelianSkema.TGL_PEMBELIAN to "01012001",
-            PembelianSkema.ONGKIR to 100,
-            PembelianSkema.TOTAL_PEMBELIAN to 1001,
-            PembelianSkema.METODE to 1
-        )
-        db?.insert(PembelianSkema.TABLE_PEMBELIAN,
-            PembelianSkema.ID_PENJUAL to 1,
-            PembelianSkema.TGL_PEMBELIAN to "01012001",
-            PembelianSkema.ONGKIR to 100,
-            PembelianSkema.TOTAL_PEMBELIAN to 1002,
-            PembelianSkema.METODE to 1
-        )
-        db?.insert(PembelianSkema.TABLE_PEMBELIAN,
-            PembelianSkema.ID_PENJUAL to 1,
-            PembelianSkema.TGL_PEMBELIAN to "01012001",
-            PembelianSkema.ONGKIR to 100,
-            PembelianSkema.TOTAL_PEMBELIAN to 1003,
-            PembelianSkema.METODE to 1
-        )
-
-        db?.insert(DetailPembelianSkema.TABLE_DETAIL_PEMBELIAN,
-            DetailPembelianSkema.ID_PEMBELIAN to 1,
-            DetailPembelianSkema.ID_BARANG to 1,
-            DetailPembelianSkema.HARGA to 235,
-            DetailPembelianSkema.JUMLAH to 5,
-            DetailPembelianSkema.TOTAL to 1
-        )
-
-//        db?.insert(BarangSkema.TABLE_BARANG,
-//            BarangSkema.NAMA_BARANG to "Barang Nomor 2",
-//            BarangSkema.HARGA_BELI to 1234,
-//            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+//        db?.insert(PenjualSkema.TABLE_PENJUAL,
+//            PenjualSkema.NAMA_PENJUAL to "Penjual 1",
+//            PenjualSkema.NO_TELP to "1234"
 //        )
+//
 //        db?.insert(BarangSkema.TABLE_BARANG,
-//            BarangSkema.NAMA_BARANG to "Barang Nomor 3",
-//            BarangSkema.HARGA_BELI to 1234,
-//            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+//            BarangSkema.NAMA_BARANG to "Barang Nomor 1",
+//            BarangSkema.HARGA_BELI to 0,
+//            BarangSkema.FOTO to "https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_1280.png",
+//            BarangSkema.JUMLAH to 0,
+//            BarangSkema.TOTAL to 0
 //        )
-//        db?.insert(BarangSkema.TABLE_BARANG,
-//            BarangSkema.NAMA_BARANG to "Barang Nomor 4",
-//            BarangSkema.HARGA_BELI to 1234,
-//            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+//
+//        db?.insert(PembelianSkema.TABLE_PEMBELIAN,
+//            PembelianSkema.ID_PENJUAL to 1,
+//            PembelianSkema.TGL_PEMBELIAN to "01012001",
+//            PembelianSkema.ONGKIR to 100,
+//            PembelianSkema.TOTAL_PEMBELIAN to 1001,
+//            PembelianSkema.METODE to 1
 //        )
-//        db?.insert(BarangSkema.TABLE_BARANG,
-//            BarangSkema.NAMA_BARANG to "Barang Nomor 7",
-//            BarangSkema.HARGA_BELI to 1234,
-//            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+//        db?.insert(PembelianSkema.TABLE_PEMBELIAN,
+//            PembelianSkema.ID_PENJUAL to 1,
+//            PembelianSkema.TGL_PEMBELIAN to "01012001",
+//            PembelianSkema.ONGKIR to 100,
+//            PembelianSkema.TOTAL_PEMBELIAN to 1002,
+//            PembelianSkema.METODE to 1
 //        )
+//        db?.insert(PembelianSkema.TABLE_PEMBELIAN,
+//            PembelianSkema.ID_PENJUAL to 1,
+//            PembelianSkema.TGL_PEMBELIAN to "01012001",
+//            PembelianSkema.ONGKIR to 100,
+//            PembelianSkema.TOTAL_PEMBELIAN to 1003,
+//            PembelianSkema.METODE to 1
+//        )
+//
+//        db?.insert(DetailPembelianSkema.TABLE_DETAIL_PEMBELIAN,
+//            DetailPembelianSkema.ID_PEMBELIAN to 1,
+//            DetailPembelianSkema.ID_BARANG to 1,
+//            DetailPembelianSkema.HARGA to 235,
+//            DetailPembelianSkema.JUMLAH to 5,
+//            DetailPembelianSkema.TOTAL to 1
+//        )
+//
+////        db?.insert(BarangSkema.TABLE_BARANG,
+////            BarangSkema.NAMA_BARANG to "Barang Nomor 2",
+////            BarangSkema.HARGA_BELI to 1234,
+////            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+////        )
+////        db?.insert(BarangSkema.TABLE_BARANG,
+////            BarangSkema.NAMA_BARANG to "Barang Nomor 3",
+////            BarangSkema.HARGA_BELI to 1234,
+////            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+////        )
+////        db?.insert(BarangSkema.TABLE_BARANG,
+////            BarangSkema.NAMA_BARANG to "Barang Nomor 4",
+////            BarangSkema.HARGA_BELI to 1234,
+////            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+////        )
+////        db?.insert(BarangSkema.TABLE_BARANG,
+////            BarangSkema.NAMA_BARANG to "Barang Nomor 7",
+////            BarangSkema.HARGA_BELI to 1234,
+////            BarangSkema.FOTO to "https://s3.amazonaws.com/uifaces/faces/twitter/brenmurrell/128.jpg"
+////        )
 
     }
 
