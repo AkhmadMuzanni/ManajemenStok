@@ -7,6 +7,8 @@ import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.main.adapter.MainAdapter
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Firebase.database.setPersistenceEnabled(true)
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().apply {

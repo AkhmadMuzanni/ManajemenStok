@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DatabaseReference
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import project.manajemenstok.data.local.BarangDbHelper
 import project.manajemenstok.data.model.Barang
@@ -92,5 +91,17 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
 
     fun getDbReference(query: String): DatabaseReference{
         return barangRepository.getDbReference(query)
+    }
+
+    fun getLiveBarang(): MutableLiveData<ArrayList<Barang>>{
+        return barangRepository.getLiveBarang()
+    }
+
+    fun fetchLiveBarang(){
+        barangRepository.fetchLiveBarang()
+    }
+
+    fun setBarangLocal(listBarang: List<Barang>){
+        barangRepository.setBarangFromRemote(listBarang)
     }
 }

@@ -1,5 +1,6 @@
 package project.manajemenstok.data.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DatabaseReference
 import io.reactivex.Single
 import org.jetbrains.anko.db.classParser
@@ -62,6 +63,14 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
 
     fun getDbReference(query: String): DatabaseReference{
         return remoteBarang.getDbReference(query)
+    }
+
+    fun getLiveBarang(): MutableLiveData<ArrayList<Barang>>{
+        return remoteBarang.getLiveBarang()
+    }
+
+    fun fetchLiveBarang(){
+        remoteBarang.fetchLiveBarang()
     }
 
 }

@@ -1,6 +1,10 @@
 package project.manajemenstok.data.remote
 
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.rx2androidnetworking.Rx2AndroidNetworking
@@ -9,7 +13,7 @@ import project.manajemenstok.data.model.Barang
 
 class RemoteBrangLogicImpl : RemoteBrangLogic {
     val database = Firebase.database
-    val dataBarang = database.getReference("barang")
+    private var liveBarang = MutableLiveData<ArrayList<Barang>>()
 
     override fun getBarangs(): Single<List<Barang>> {
 //        Get Live Data
@@ -23,6 +27,31 @@ class RemoteBrangLogicImpl : RemoteBrangLogic {
 
     override fun getDbReference(query: String): DatabaseReference {
         return database.getReference(query)
+    }
+
+    override fun setLiveBarang(listBarang: ArrayList<Barang>) {
+        liveBarang.postValue(listBarang)
+    }
+
+    override fun getLiveBarang(): MutableLiveData<ArrayList<Barang>> {
+        return liveBarang
+    }
+
+    override fun fetchLiveBarang() {
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var listBarang = ArrayList<Barang>()
+                dataSnapshot.children.forEach {
+                    listBarang.add(it.getValue<Barang>(Barang::class.java)!!)
+                }
+                setLiveBarang(listBarang)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
     }
 
 }
