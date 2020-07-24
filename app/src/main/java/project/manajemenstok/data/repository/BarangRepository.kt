@@ -5,9 +5,9 @@ import com.google.firebase.database.DatabaseReference
 import io.reactivex.Single
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
-import project.manajemenstok.data.local.BarangLogic
+import project.manajemenstok.data.local.logic.BarangLogic
 import project.manajemenstok.data.model.Barang
-import project.manajemenstok.data.remote.RemoteBrangLogic
+import project.manajemenstok.data.remote.logic.RemoteBrangLogic
 
 
 class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val localBarang: BarangLogic) {

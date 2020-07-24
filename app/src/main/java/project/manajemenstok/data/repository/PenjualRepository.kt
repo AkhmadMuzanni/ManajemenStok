@@ -3,9 +3,9 @@ package project.manajemenstok.data.repository
 import io.reactivex.Single
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
-import project.manajemenstok.data.local.PenjualLogic
+import project.manajemenstok.data.local.logic.PenjualLogic
 import project.manajemenstok.data.model.Penjual
-import project.manajemenstok.data.remote.RemotePenjualLogic
+import project.manajemenstok.data.remote.logic.RemotePenjualLogic
 
 
 class PenjualRepository(private val remotePenjual: RemotePenjualLogic, private val localPenjual: PenjualLogic) {

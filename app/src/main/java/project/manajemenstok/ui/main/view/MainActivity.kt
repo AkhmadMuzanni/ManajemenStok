@@ -4,11 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.jetbrains.anko.toast
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.main.adapter.MainAdapter
@@ -16,7 +19,6 @@ import project.manajemenstok.ui.main.fragment.*
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(){
-
     companion object {
         var tempPenjual = Bundle()
         fun setTempData(data: Bundle){
@@ -38,45 +40,62 @@ class MainActivity : AppCompatActivity(){
             commit()
         }
 
+        val navigation: BottomNavigationView = findViewById(R.id.navigation)
+        navigation.setOnNavigationItemSelectedListener { item ->
+            when(item.itemId){
 
-        val navigationBeranda: BottomNavigationItemView = findViewById(R.id.navigation_beranda)
-        navigationBeranda.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_fragment, FragmentBeranda())
-                commit()
-            }
-        }
+                R.id.navigation_beranda -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .apply {
+                            replace(R.id.fl_fragment, FragmentBeranda())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit()
+                        }
+                }
 
-        val navigationBarang: BottomNavigationItemView = findViewById(R.id.navigation_barang)
-        navigationBarang.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_fragment, FragmentBarang())
-                commit()
-            }
-        }
+                R.id.navigation_barang -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .apply {
+                            replace(R.id.fl_fragment, FragmentBarang())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit()
+                        }
+                }
 
-        val navigationRiwayat: BottomNavigationItemView = findViewById(R.id.navigation_riwayat)
-        navigationRiwayat.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_fragment, FragmentRiwayat())
-                commit()
-            }
-        }
+                R.id.navigation_riwayat -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .apply {
+                            replace(R.id.fl_fragment, FragmentRiwayat())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit()
+                        }
+                }
 
-        val navigationKas: BottomNavigationItemView = findViewById(R.id.navigation_kas)
-        navigationKas.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_fragment, FragmentKas())
-                commit()
-            }
-        }
+                R.id.navigation_kas -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .apply {
+                            replace(R.id.fl_fragment, FragmentKas())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit()
+                        }
+                }
 
-        val navigationAkun: BottomNavigationItemView = findViewById(R.id.navigation_akun)
-        navigationAkun.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_fragment, FragmentAkun())
-                commit()
+                R.id.navigation_akun -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .apply {
+                            replace(R.id.fl_fragment, FragmentAkun())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                        }
+                }
+
             }
+            true
         }
     }
 

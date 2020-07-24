@@ -9,17 +9,17 @@ import com.google.firebase.database.DatabaseReference
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import project.manajemenstok.data.local.BarangDbHelper
+import project.manajemenstok.data.local.DbHelper
 import project.manajemenstok.data.model.Barang
-import project.manajemenstok.data.remote.RemoteBrangLogicImpl
+import project.manajemenstok.data.remote.impl.RemoteBarangLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
 import project.manajemenstok.utils.Resource
 
 class MainViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
 
     private val barangRepository = BarangRepository(
-        RemoteBrangLogicImpl(),
-        BarangDbHelper(context)
+        RemoteBarangLogicImpl(),
+        DbHelper(context)
     )
     private val barangs = MutableLiveData<Resource<List<Barang>>>()
     private val compositeDisposable = CompositeDisposable()
