@@ -5,7 +5,9 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import project.manajemenstok.data.local.logic.PembelianLogic
 import project.manajemenstok.data.model.DetailPembelian
+import project.manajemenstok.data.model.DetailTransaksiFirebase
 import project.manajemenstok.data.model.Pembelian
+import project.manajemenstok.data.model.TransaksiFirebase
 import project.manajemenstok.data.remote.logic.RemotePembelianLogic
 
 
@@ -31,6 +33,14 @@ class PembelianRepository(private val remotePembelian: RemotePembelianLogic, pri
     fun getPembelian(): Single<List<Pembelian>> {
         val cursor = localPembelian.getPembelian()
         return Single.just(cursor.parseList(classParser()))
+    }
+
+    fun createTransaksi(transaksi: TransaksiFirebase): String{
+        return remotePembelian.createTransaksi(transaksi)
+    }
+
+    fun createDetailTransaksi(detailTransaksiFirebase: DetailTransaksiFirebase): String{
+        return remotePembelian.createDetailTransaksi(detailTransaksiFirebase)
     }
 
 }

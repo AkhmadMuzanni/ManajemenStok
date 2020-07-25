@@ -4,6 +4,7 @@ import io.reactivex.Single
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import project.manajemenstok.data.local.logic.PenjualLogic
+import project.manajemenstok.data.model.KlienFirebase
 import project.manajemenstok.data.model.Penjual
 import project.manajemenstok.data.remote.logic.RemotePenjualLogic
 
@@ -33,6 +34,10 @@ class PenjualRepository(private val remotePenjual: RemotePenjualLogic, private v
 
     fun getListPenjual(): List<Penjual>{
         return localPenjual.getListPenjual()
+    }
+
+    fun createKlien(klien: KlienFirebase): String{
+        return remotePenjual.setKlien(klien)
     }
 
 }

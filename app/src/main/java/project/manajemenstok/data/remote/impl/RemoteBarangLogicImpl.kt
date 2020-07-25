@@ -16,6 +16,7 @@ class RemoteBarangLogicImpl : RemoteBrangLogic {
     val database = Firebase.database
     private var liveBarang = MutableLiveData<ArrayList<Barang>>()
     private var unusedBarang = MutableLiveData<ArrayList<Barang>>()
+    private var tempBarang = MutableLiveData<Barang>()
 
     override fun getBarangs(): Single<List<Barang>> {
 //        Get Live Data
@@ -68,6 +69,43 @@ class RemoteBarangLogicImpl : RemoteBrangLogic {
 
     override fun setUnusedBarang(listBarang: ArrayList<Barang>) {
         unusedBarang.postValue(listBarang)
+    }
+
+    override fun createBarang(barang: Barang): String {
+        val dbKlien = getDbReference("barang")
+        val key = dbKlien.push().key!!
+        barang.uuid = key
+        dbKlien.child(key).setValue(barang)
+        return key
+    }
+
+    override fun getBarangById(): MutableLiveData<Barang> {
+        return tempBarang
+    }
+
+    override fun fetchBarangById(id: String) {
+        getDbReference("barang/$id").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                setBarangById(dataSnapshot.getValue<Barang>(Barang::class.java)!!)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
+    }
+
+    override fun setBarangById(barang: Barang) {
+        tempBarang.postValue(barang)
+    }
+
+    override fun updateBarang(barang: Barang) {
+        val dbBarang = getDbReference("barang")
+        val barangUpdates: MutableMap<String, Any> = HashMap()
+        barangUpdates[barang.uuid] = barang
+
+        dbBarang.updateChildren(barangUpdates)
     }
 
     override fun getLiveBarang(): MutableLiveData<ArrayList<Barang>> {

@@ -6,22 +6,21 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDateTime
 import project.manajemenstok.data.local.DbHelper
-import project.manajemenstok.data.model.Barang
-import project.manajemenstok.data.model.DetailPembelian
-import project.manajemenstok.data.model.Pembelian
-import project.manajemenstok.data.model.Penjual
+import project.manajemenstok.data.model.*
 import project.manajemenstok.data.remote.impl.RemoteBarangLogicImpl
 import project.manajemenstok.data.remote.impl.RemotePembelianLogicImpl
 import project.manajemenstok.data.remote.impl.RemotePenjualLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
 import project.manajemenstok.data.repository.PembelianRepository
 import project.manajemenstok.data.repository.PenjualRepository
+import project.manajemenstok.ui.main.view.KonfirmasiPembelianActivity
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Resource
 
@@ -217,44 +216,50 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
     }*/
 
 //    SimpanPembelian to Firebase
-    fun simpanPembelian(bundle: Bundle): Boolean{
-        var dataPenjual = Penjual()
-        dataPenjual.namaPenjual = bundle.getBundle("dataPenjual")!!.getString("namaPenjual")!!
+    fun simpanPembelian(bundle: Bundle, activity: KonfirmasiPembelianActivity): Boolean{
+        var dataPenjual = KlienFirebase()
+        dataPenjual.nama = bundle.getBundle("dataPenjual")!!.getString("namaPenjual")!!
         dataPenjual.noTelp = bundle.getBundle("dataPenjual")!!.getString("noTelp")!!
 
-        val idPenjual = penjualRepository.createPenjual(dataPenjual)
+        val idPenjual = penjualRepository.createKlien(dataPenjual)
 
-        var dataPembelian = Pembelian()
-        dataPembelian.idPenjual = idPenjual
-        dataPembelian.tglPembelian = LocalDateTime.now().toString()
+        var dataPembelian = TransaksiFirebase()
+        dataPembelian.idKlien = idPenjual
+        dataPembelian.tglTransaksi = LocalDateTime.now().toString()
         dataPembelian.ongkir = Integer.parseInt(bundle.getString("dataOngkir")!!)
-        dataPembelian.totalPembelian = Integer.parseInt(bundle.getString("dataTotal")!!)
+        dataPembelian.totalTransaksi = Integer.parseInt(bundle.getString("dataTotal")!!)
         dataPembelian.metode = Constants.MetodePembayaran.CASH
+        dataPembelian.jenisTransaksi = Constants.JenisTransaksiValue.PEMBELIAN
 
-        val idPembelian = pembelianRepository.createPembelian(dataPembelian)
-
+        val idPembelian = pembelianRepository.createTransaksi(dataPembelian)
+//
         val dataDetailPembelian = bundle.getSerializable("dataBarang") as ArrayList<Barang>
 
         for(detail in dataDetailPembelian){
-            val detailPembelian = DetailPembelian()
-            if(detail.id == 0){
+            val detailPembelian = DetailTransaksiFirebase()
+            if(detail.uuid == ""){
                 val idBarang = barangRepository.createBarang(detail)
                 detailPembelian.idBarang = idBarang
             } else {
-                detailPembelian.idBarang = detail.id
-                var existedBarang = barangRepository.getBarangById(detail.id)
-                existedBarang.jumlah += detail.jumlah
-                existedBarang.total += detail.total
-                existedBarang.harga = existedBarang.total / existedBarang.jumlah
+                detailPembelian.idBarang = detail.uuid
+                barangRepository.getBarangById().observe(activity, Observer {
+                    var existedBarang = it
+                    existedBarang.jumlah += detail.jumlah
+                    existedBarang.total += detail.total
+                    existedBarang.harga = existedBarang.total / existedBarang.jumlah
 
-                barangRepository.updateBarang(existedBarang)
+                    barangRepository.updateBarang(existedBarang)
+                })
+
+                barangRepository.fetchBarangById(detail.uuid)
             }
-            detailPembelian.idPembelian = idPembelian
+            detailPembelian.uuid = idPembelian
             detailPembelian.harga = detail.harga
             detailPembelian.jumlah = detail.jumlah
             detailPembelian.total = detail.total
-
-            pembelianRepository.createDetailPembelian(detailPembelian)
+//
+//            pembelianRepository.createDetailPembelian(detailPembelian)
+            pembelianRepository.createDetailTransaksi(detailPembelian)
         }
 
         Toast.makeText(context, "Berhasil Menyimpan Pembelian", Toast.LENGTH_LONG).show()

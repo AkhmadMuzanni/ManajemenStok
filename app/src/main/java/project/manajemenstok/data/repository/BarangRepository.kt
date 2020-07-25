@@ -37,12 +37,14 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
         localBarang.setTempBarang(dataBarang)
     }
 
-    fun createBarang(barang: Barang): Int{
-        return localBarang.createBarang(barang)
+    fun createBarang(barang: Barang): String{
+//        return localBarang.createBarang(barang)
+        return remoteBarang.createBarang(barang)
     }
 
     fun updateBarang(barang: Barang){
-        localBarang.updateBarang(barang)
+//        localBarang.updateBarang(barang)
+        remoteBarang.updateBarang(barang)
     }
 
     fun getBarangById(id: Int): Barang{
@@ -79,6 +81,14 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
 
     fun getUnusedBarang(): MutableLiveData<ArrayList<Barang>>{
         return remoteBarang.getUnusedBarang()
+    }
+
+    fun fetchBarangById(id: String){
+        remoteBarang.fetchBarangById(id)
+    }
+
+    fun getBarangById(): MutableLiveData<Barang>{
+        return remoteBarang.getBarangById()
     }
 
 }

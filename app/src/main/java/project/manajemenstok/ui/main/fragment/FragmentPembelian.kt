@@ -135,7 +135,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             R.id.btn_input_barang->{
                 var bundlePenjual = Bundle()
                 bundlePenjual.putString("namaPenjual", viewPembelian.text_input_penjual.text.toString())
-                bundlePenjual.putString("noTelp", "000")
+                bundlePenjual.putString("noTelp", "")
 
                 bundle.putBundle("dataPenjual", bundlePenjual)
                 bundle.putString("dataOngkir", getAngka(viewPembelian.text_ongkir_pembelian.text.toString()).toString())

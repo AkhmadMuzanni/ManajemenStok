@@ -89,7 +89,7 @@ class KonfirmasiPembelianActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             R.id.btn_simpan_transaksi->{
-                val isSuccess = pembelianViewModel.simpanPembelian(bundlePembelian)
+                val isSuccess = pembelianViewModel.simpanPembelian(bundlePembelian, this)
                 if(isSuccess){
                     val konfirmasiIntent = Intent()
                     konfirmasiIntent.putExtra("bundle",bundlePembelian)
