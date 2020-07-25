@@ -113,10 +113,10 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
                 startActivity(pembelianIntent)
             }
             R.id.btn_penjualan->{
-//                val dbBarang = mainViewModel.getDbReference("barang")
-//                val key = dbBarang.push().key
-//                dbBarang.child(key!!).setValue(Barang(0, "Sarung", 222, "https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_1280.png", 1, 1))
-//                Toast.makeText(context, "Berhasil menambah barang", Toast.LENGTH_LONG).show()
+                val dbBarang = mainViewModel.getDbReference("barang")
+                val key = dbBarang.push().key
+                dbBarang.child(key!!).setValue(Barang(0, "Piyama", 222, "https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_1280.png", 1, 1))
+                Toast.makeText(context, "Berhasil menambah barang", Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -15,6 +15,8 @@ data class Barang (
     @SerializedName("jumlah")
     var jumlah: Int=0,
     @SerializedName("total")
-    var total: Int=0
+    var total: Int=0,
+    @SerializedName("uuid")
+    var uuid: String=""
 
 ): Serializable

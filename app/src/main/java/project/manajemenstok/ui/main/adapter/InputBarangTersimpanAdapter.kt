@@ -36,7 +36,7 @@ class InputBarangTersimpanAdapter (
         }
 
         override fun onClick(v: View) {
-//            Toast.makeText(v.context, objBarang.id.toString(), Toast.LENGTH_LONG).show()
+//            Toast.makeText(v.context, objBarang.uuid, Toast.LENGTH_LONG).show()
             fragmentInputData.sendData(objBarang)
         }
     }
@@ -55,6 +55,11 @@ class InputBarangTersimpanAdapter (
         holder.bind(barangs[position], fragment)
 
     fun addData(list: List<Barang>) {
+        barangs.addAll(list)
+    }
+
+    fun setData(list: List<Barang>) {
+        barangs.clear()
         barangs.addAll(list)
     }
 

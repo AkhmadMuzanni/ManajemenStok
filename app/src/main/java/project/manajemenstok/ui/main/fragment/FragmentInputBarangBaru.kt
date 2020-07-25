@@ -34,6 +34,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener{
                 val inputBarangBundle = Bundle()
                 inputBarangBundle.putInt("id", 0)
                 inputBarangBundle.putString("namaBarang", this.input_barang_pembelian.text.toString())
+                inputBarangBundle.putString("uuid", "")
                 inputBarangIntent.putExtra("bundle",inputBarangBundle)
                 activity?.setResult(RESULT_OK, inputBarangIntent)
                 activity?.finish()

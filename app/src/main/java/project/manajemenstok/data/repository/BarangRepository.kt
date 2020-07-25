@@ -73,4 +73,12 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
         remoteBarang.fetchLiveBarang()
     }
 
+    fun fetchUnusedBarang(barangUsed: ArrayList<Barang>){
+        remoteBarang.fetchUnusedBarang(barangUsed)
+    }
+
+    fun getUnusedBarang(): MutableLiveData<ArrayList<Barang>>{
+        return remoteBarang.getUnusedBarang()
+    }
+
 }

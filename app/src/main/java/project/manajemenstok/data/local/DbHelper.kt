@@ -49,7 +49,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
             "HARGA_BELI" to INTEGER,
             "FOTO" to TEXT,
             "JUMLAH" to INTEGER,
-            "TOTAL" to INTEGER
+            "TOTAL" to INTEGER,
+            "UUID" to TEXT
         )
 
         db?.createTable("TABLE_PENJUAL", true,
@@ -168,7 +169,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
                 BarangSkema.HARGA_BELI to barang.harga,
                 BarangSkema.FOTO to barang.foto,
                 BarangSkema.JUMLAH to barang.jumlah,
-                BarangSkema.TOTAL to barang.total
+                BarangSkema.TOTAL to barang.total,
+                BarangSkema.UUID to barang.uuid
             )
         }
     }
@@ -197,7 +199,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
             BarangSkema.HARGA_BELI to barang.harga,
             BarangSkema.FOTO to barang.foto,
             BarangSkema.JUMLAH to barang.jumlah,
-            BarangSkema.TOTAL to barang.total
+            BarangSkema.TOTAL to barang.total,
+            BarangSkema.UUID to barang.uuid
         )
 
         val lastItem = db.rawQuery("SELECT * FROM TABLE_BARANG",null)
@@ -213,7 +216,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
             BarangSkema.HARGA_BELI to barang.harga,
             BarangSkema.FOTO to barang.foto,
             BarangSkema.JUMLAH to barang.jumlah,
-            BarangSkema.TOTAL to barang.total
+            BarangSkema.TOTAL to barang.total,
+            BarangSkema.UUID to barang.uuid
         ).whereSimple("ID_ = ?", barang.id.toString()).exec()
     }
 
@@ -231,7 +235,13 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
     override fun getBarangUsed(): ArrayList<Barang> {
         barangUsed = ArrayList()
         for (barang in tempBarang){
-            if(barang.id != 0){
+//            Classify by non-zero id
+//            if(barang.id != 0){
+//                barangUsed.add(barang)
+//            }
+
+//            Classify by non-empty uuid
+            if(barang.uuid != ""){
                 barangUsed.add(barang)
             }
         }

@@ -11,5 +11,7 @@ interface RemoteBrangLogic {
     fun fetchLiveBarang()
     fun getLiveBarang(): MutableLiveData<ArrayList<Barang>>
     fun setLiveBarang(listBarang: ArrayList<Barang>)
-
+    fun getUnusedBarang(): MutableLiveData<ArrayList<Barang>>
+    fun fetchUnusedBarang(barangUsed: ArrayList<Barang>)
+    fun setUnusedBarang(listBarang: ArrayList<Barang>)
 }

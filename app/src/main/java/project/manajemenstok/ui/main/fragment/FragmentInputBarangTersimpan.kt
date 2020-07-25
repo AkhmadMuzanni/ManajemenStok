@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_input_barang_tersimpan.view.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
@@ -41,7 +40,15 @@ class FragmentInputBarangTersimpan : Fragment(){
         viewBarang = inflater!!.inflate(R.layout.fragment_input_barang_tersimpan, container, false)
         setupUI()
         setupViewModel()
-        setupObserver()
+
+        pembelianViewModel.getUnusedBarang().observe(this, Observer {
+            renderList(it)
+        })
+
+        val barangUsed = (activity as InputBarangActivity).getBarangUsed()
+
+        pembelianViewModel.fetchUnusedBarang(barangUsed)
+
         return viewBarang
 //        return inflater!!.inflate(R.layout.fragment_input_barang_tersimpan, container, false)
 
@@ -90,8 +97,9 @@ class FragmentInputBarangTersimpan : Fragment(){
     }
 
     private fun renderList(barangs: List<Barang>) {
-        val barangUsed = (activity as InputBarangActivity).getBarangUsed()
-        adapter.addData(pembelianViewModel.getUnusedBarang(barangUsed))
+//        val barangUsed = (activity as InputBarangActivity).getBarangUsed()
+//        adapter.addData(pembelianViewModel.getUnusedBarang(barangUsed))
+        adapter.setData(barangs)
         adapter.notifyDataSetChanged()
     }
 
@@ -100,6 +108,7 @@ class FragmentInputBarangTersimpan : Fragment(){
         val inputBarangBundle = Bundle()
         inputBarangBundle.putInt("id", barang.id)
         inputBarangBundle.putString("namaBarang", barang.namaBarang)
+        inputBarangBundle.putString("uuid", barang.uuid)
         inputBarangIntent.putExtra("bundle",inputBarangBundle)
         activity?.setResult(Activity.RESULT_OK, inputBarangIntent)
         activity?.finish()

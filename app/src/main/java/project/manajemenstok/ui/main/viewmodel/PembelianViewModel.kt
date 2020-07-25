@@ -253,4 +253,20 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         return pembelians
     }
 
+    fun getLiveBarang(): MutableLiveData<ArrayList<Barang>>{
+        return barangRepository.getLiveBarang()
+    }
+
+    fun fetchLiveBarang(){
+        barangRepository.fetchLiveBarang()
+    }
+
+    fun getUnusedBarang(): MutableLiveData<ArrayList<Barang>>{
+        return barangRepository.getUnusedBarang()
+    }
+
+    fun fetchUnusedBarang(barangUsed: ArrayList<Barang>){
+        barangRepository.fetchUnusedBarang(barangUsed)
+    }
+
 }

@@ -15,6 +15,7 @@ import project.manajemenstok.data.remote.logic.RemoteBrangLogic
 class RemoteBarangLogicImpl : RemoteBrangLogic {
     val database = Firebase.database
     private var liveBarang = MutableLiveData<ArrayList<Barang>>()
+    private var unusedBarang = MutableLiveData<ArrayList<Barang>>()
 
     override fun getBarangs(): Single<List<Barang>> {
 //        Get Live Data
@@ -32,6 +33,41 @@ class RemoteBarangLogicImpl : RemoteBrangLogic {
 
     override fun setLiveBarang(listBarang: ArrayList<Barang>) {
         liveBarang.postValue(listBarang)
+    }
+
+    override fun getUnusedBarang(): MutableLiveData<ArrayList<Barang>>{
+        return unusedBarang
+    }
+
+    override fun fetchUnusedBarang(barangUsed: ArrayList<Barang>) {
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var result = ArrayList<Barang>()
+                dataSnapshot.children.forEach {
+                    val barang = it.getValue<Barang>(Barang::class.java)!!
+                    var isUsed = false
+                    for(used in barangUsed){
+                        if(barang.uuid == used.uuid){
+                            isUsed = true
+                            break
+                        }
+                    }
+                    if(!isUsed){
+                        result.add(barang)
+                    }
+                }
+                setUnusedBarang(result)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
+    }
+
+    override fun setUnusedBarang(listBarang: ArrayList<Barang>) {
+        unusedBarang.postValue(listBarang)
     }
 
     override fun getLiveBarang(): MutableLiveData<ArrayList<Barang>> {

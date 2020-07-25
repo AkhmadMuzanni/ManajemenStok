@@ -160,6 +160,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             tempBarang.jumlah = 1
             tempBarang.harga = 0
             tempBarang.total = 0
+            tempBarang.uuid = data?.getBundleExtra("bundle")?.getString("uuid")!!
 //            input_barang_pembelian.setText(tempBarang.namaBarang)
             pembelianViewModel.addTempBarang(tempBarang)
         } else if(requestCode == KONFIRMASI_INTENT && data != null && resultCode == RESULT_OK){

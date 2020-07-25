@@ -42,7 +42,10 @@ class DataPembelianAdapter (
             pos = position
 
             var status = ""
-            if(barang.id == 0){
+//            if(barang.id == 0){
+//                status = " (Baru)"
+//            }
+            if(barang.uuid == ""){
                 status = " (Baru)"
             }
             itemView.textViewNamaBarang.setText(barang.namaBarang.capitalize() + status)
