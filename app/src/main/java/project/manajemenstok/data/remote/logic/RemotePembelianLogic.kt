@@ -7,5 +7,5 @@ import project.manajemenstok.data.model.TransaksiFirebase
 interface RemotePembelianLogic {
     fun getDbReference(query: String): DatabaseReference
     fun createTransaksi(transaksi: TransaksiFirebase): String
-    fun createDetailTransaksi(detailTransaksi: DetailTransaksiFirebase): String
+    fun createDetailTransaksi(detailTransaksi: DetailTransaksiFirebase, idDetailTransaksi: String): String
 }

@@ -39,8 +39,8 @@ class PembelianRepository(private val remotePembelian: RemotePembelianLogic, pri
         return remotePembelian.createTransaksi(transaksi)
     }
 
-    fun createDetailTransaksi(detailTransaksiFirebase: DetailTransaksiFirebase): String{
-        return remotePembelian.createDetailTransaksi(detailTransaksiFirebase)
+    fun createDetailTransaksi(detailTransaksiFirebase: DetailTransaksiFirebase, idDetailTransaksi: String): String{
+        return remotePembelian.createDetailTransaksi(detailTransaksiFirebase, idDetailTransaksi)
     }
 
 }

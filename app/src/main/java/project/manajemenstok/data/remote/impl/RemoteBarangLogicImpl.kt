@@ -1,10 +1,7 @@
 package project.manajemenstok.data.remote.impl
 
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.rx2androidnetworking.Rx2AndroidNetworking
@@ -113,6 +110,29 @@ class RemoteBarangLogicImpl : RemoteBrangLogic {
     }
 
     override fun fetchLiveBarang() {
+        getDbReference("barang").addChildEventListener(object : ChildEventListener{
+            var listBarang = ArrayList<Barang>()
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                setLiveBarang(listBarang)
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+//                setLiveBarang(listBarang)
+            }
+        })
+
         getDbReference("barang").addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

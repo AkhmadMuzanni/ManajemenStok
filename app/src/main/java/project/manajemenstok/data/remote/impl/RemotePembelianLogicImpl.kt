@@ -22,9 +22,14 @@ class RemotePembelianLogicImpl :
         return key
     }
 
-    override fun createDetailTransaksi(detailTransaksi: DetailTransaksiFirebase): String {
+    override fun createDetailTransaksi(detailTransaksi: DetailTransaksiFirebase, idDetailTransaksi: String): String {
         val dbTransaksi = getDbReference("detailTransaksi")
-        val key = dbTransaksi.push().key!!
+        var key = ""
+        if(idDetailTransaksi == ""){
+            key = dbTransaksi.push().key!!
+        } else {
+            key = idDetailTransaksi
+        }
         detailTransaksi.uuid = key
         dbTransaksi.child(key).child(detailTransaksi.idTransaksi).child(detailTransaksi.idBarang).setValue(detailTransaksi)
         return key

@@ -235,6 +235,8 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 //
         val dataDetailPembelian = bundle.getSerializable("dataBarang") as ArrayList<Barang>
 
+        var idDetailPembelian = ""
+
         for(detail in dataDetailPembelian){
             val detailPembelian = DetailTransaksiFirebase()
             if(detail.uuid == ""){
@@ -253,13 +255,13 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 
                 barangRepository.fetchBarangById(detail.uuid)
             }
-            detailPembelian.uuid = idPembelian
+            detailPembelian.idTransaksi = idPembelian
             detailPembelian.harga = detail.harga
             detailPembelian.jumlah = detail.jumlah
             detailPembelian.total = detail.total
 //
 //            pembelianRepository.createDetailPembelian(detailPembelian)
-            pembelianRepository.createDetailTransaksi(detailPembelian)
+            idDetailPembelian = pembelianRepository.createDetailTransaksi(detailPembelian, idDetailPembelian)
         }
 
         Toast.makeText(context, "Berhasil Menyimpan Pembelian", Toast.LENGTH_LONG).show()
