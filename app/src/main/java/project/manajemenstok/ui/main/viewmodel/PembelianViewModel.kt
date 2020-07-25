@@ -22,6 +22,7 @@ import project.manajemenstok.data.remote.impl.RemotePenjualLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
 import project.manajemenstok.data.repository.PembelianRepository
 import project.manajemenstok.data.repository.PenjualRepository
+import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Resource
 
 class PembelianViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
@@ -169,6 +170,7 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         return penjualRepository.getTempPenjual()
     }
 
+    /* // Simpan Pembelian Local
     fun simpanPembelian(bundle: Bundle): Boolean{
         var dataPenjual = Penjual()
         dataPenjual.namaPenjual = bundle.getBundle("dataPenjual")!!.getString("namaPenjual")!!
@@ -181,7 +183,53 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         dataPembelian.tglPembelian = LocalDateTime.now().toString()
         dataPembelian.ongkir = Integer.parseInt(bundle.getString("dataOngkir")!!)
         dataPembelian.totalPembelian = Integer.parseInt(bundle.getString("dataTotal")!!)
-        dataPembelian.metode = 0
+        dataPembelian.metode = Constants.MetodePembayaran.CASH
+        dataPembelian.jenisTransaksi = Constants.JenisTransaksiValue.PEMBELIAN
+
+        val idPembelian = pembelianRepository.createPembelian(dataPembelian)
+
+        val dataDetailPembelian = bundle.getSerializable("dataBarang") as ArrayList<Barang>
+
+        for(detail in dataDetailPembelian){
+            val detailPembelian = DetailPembelian()
+            if(detail.id == 0){
+                val idBarang = barangRepository.createBarang(detail)
+                detailPembelian.idBarang = idBarang
+            } else {
+                detailPembelian.idBarang = detail.id
+                var existedBarang = barangRepository.getBarangById(detail.id)
+                existedBarang.jumlah += detail.jumlah
+                existedBarang.total += detail.total
+                existedBarang.harga = existedBarang.total / existedBarang.jumlah
+
+                barangRepository.updateBarang(existedBarang)
+            }
+            detailPembelian.idPembelian = idPembelian
+            detailPembelian.harga = detail.harga
+            detailPembelian.jumlah = detail.jumlah
+            detailPembelian.total = detail.total
+
+            pembelianRepository.createDetailPembelian(detailPembelian)
+        }
+
+        Toast.makeText(context, "Berhasil Menyimpan Pembelian", Toast.LENGTH_LONG).show()
+        return true
+    }*/
+
+//    SimpanPembelian to Firebase
+    fun simpanPembelian(bundle: Bundle): Boolean{
+        var dataPenjual = Penjual()
+        dataPenjual.namaPenjual = bundle.getBundle("dataPenjual")!!.getString("namaPenjual")!!
+        dataPenjual.noTelp = bundle.getBundle("dataPenjual")!!.getString("noTelp")!!
+
+        val idPenjual = penjualRepository.createPenjual(dataPenjual)
+
+        var dataPembelian = Pembelian()
+        dataPembelian.idPenjual = idPenjual
+        dataPembelian.tglPembelian = LocalDateTime.now().toString()
+        dataPembelian.ongkir = Integer.parseInt(bundle.getString("dataOngkir")!!)
+        dataPembelian.totalPembelian = Integer.parseInt(bundle.getString("dataTotal")!!)
+        dataPembelian.metode = Constants.MetodePembayaran.CASH
 
         val idPembelian = pembelianRepository.createPembelian(dataPembelian)
 
