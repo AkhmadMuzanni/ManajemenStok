@@ -33,6 +33,7 @@ import project.manajemenstok.ui.main.view.KonfirmasiPembelianActivity
 import project.manajemenstok.ui.main.view.MainActivity
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.NumberTextWatcher
 import java.text.NumberFormat
 import java.util.*
@@ -69,12 +70,6 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
 
         viewPembelian.input_barang_pembelian.setOnClickListener(this)
         viewPembelian.btn_input_barang.setOnClickListener(this)
-        viewPembelian.input_barang_pembelian.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                val inputBarangIntent =  Intent(context, InputBarangActivity::class.java)
-                startActivityForResult(inputBarangIntent, INPUT_BARANG_INTENT)
-            }
-        }
         viewPembelian.text_ongkir_pembelian.setOnFocusChangeListener(this)
 
 
@@ -123,14 +118,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
         var bundle = Bundle()
         when (v.id){
             R.id.input_barang_pembelian->{
-                val inputBarangIntent =  Intent(v.context, InputBarangActivity::class.java)
-                if(pembelianViewModel.getBarangUsed().size != 0){
-                    bundle.putSerializable("dataBarangUsed", pembelianViewModel.getBarangUsed())
-                    bundle.putBoolean("isBarangUsed", true)
-                    inputBarangIntent.putExtra("dataPembelian", bundle)
-                }
-
-                startActivityForResult(inputBarangIntent, INPUT_BARANG_INTENT)
+                goToInput(v)
             }
             R.id.btn_input_barang->{
                 var bundlePenjual = Bundle()
@@ -202,6 +190,9 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
                     viewPembelian.text_ongkir_pembelian.setText("0")
                 }
             }
+            R.id.input_barang_pembelian->{
+                goToInput(v)
+            }
         }
     }
 
@@ -215,6 +206,21 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
         val idLocale = Locale("id", "ID")
         val nf = NumberFormat.getNumberInstance(idLocale)
         return nf.format(int)
+    }
+
+    fun goToInput(v: View){
+        var bundle = Bundle()
+
+        val inputBarangIntent =  Intent(v.context, InputBarangActivity::class.java)
+        if(pembelianViewModel.getBarangUsed().size != 0){
+            bundle.putSerializable("dataBarangUsed", pembelianViewModel.getBarangUsed())
+            bundle.putBoolean("isBarangUsed", true)
+            inputBarangIntent.putExtra("dataTransaksi", bundle)
+        }
+
+        inputBarangIntent.putExtra("parent",0)
+
+        startActivityForResult(inputBarangIntent, Constants.RequestCodeIntent.INPUT_BARANG)
     }
 
 }

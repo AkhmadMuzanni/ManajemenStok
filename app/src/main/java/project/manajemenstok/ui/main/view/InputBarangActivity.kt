@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_input_barang.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.main.adapter.InputBarangAdapter
@@ -21,11 +22,19 @@ class InputBarangActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_barang)
 
-        if(intent.getBundleExtra("dataPembelian") != null){
-            barangUsed = intent.getBundleExtra("dataPembelian").getSerializable("dataBarangUsed") as ArrayList<Barang>
+        if(intent.getBundleExtra("dataTransaksi") != null){
+            barangUsed = intent.getBundleExtra("dataTransaksi").getSerializable("dataBarangUsed") as ArrayList<Barang>
         }
 
-        val fragmentAdapter = InputBarangAdapter(supportFragmentManager)
+        val parentActivity = intent.getIntExtra("parent", 0)
+
+        if(parentActivity == 0){
+            txt_header.text = "Pembelian"
+        } else {
+            txt_header.text = "Penjualan"
+        }
+
+        val fragmentAdapter = InputBarangAdapter(supportFragmentManager, parentActivity)
 
         val viewPagerInputBarang : ViewPager = findViewById(R.id.viewpager_main)
         val tabs : TabLayout = findViewById(R.id.tabs_main)

@@ -12,17 +12,19 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_konfirmasi_pembelian.*
+import kotlinx.android.synthetic.main.activity_penjualan.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.KonfirmasiPembelianAdapter
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 import project.manajemenstok.ui.main.viewmodel.PenjualanViewModel
+import project.manajemenstok.utils.Constants
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PenjualanActivity : AppCompatActivity(), View.OnClickListener {
+class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener {
     private lateinit var penjualanViewModel: PenjualanViewModel
     private lateinit var dataPembelianAdapter: KonfirmasiPembelianAdapter
     private lateinit var rvDataPembelian: RecyclerView
@@ -48,6 +50,9 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener {
 //        renderDataPembelian(dataBarang)
 
 //        val iconBack : ImageView = findViewById(R.id.icon_back)
+
+        input_barang_penjualan.setOnClickListener(this)
+        input_barang_penjualan.onFocusChangeListener = this
 
 //        iconBack.setOnClickListener(this)
 //        btn_simpan_transaksi.setOnClickListener(this)
@@ -80,6 +85,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
+        var bundle = Bundle()
         when (v.id){
             R.id.icon_back->{
                 val konfirmasiIntent = Intent()
@@ -87,6 +93,9 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener {
                 konfirmasiIntent.putExtra("bundle",konfirmasiBundle)
                 setResult(Activity.RESULT_CANCELED, konfirmasiIntent)
                 finish()
+            }
+            R.id.input_barang_penjualan->{
+                goToInput(v)
             }
         }
     }
@@ -101,5 +110,30 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener {
         val idLocale = Locale("id", "ID")
         val nf = NumberFormat.getNumberInstance(idLocale)
         return nf.format(int)
+    }
+
+    override fun onFocusChange(v: View, hasFocus: Boolean) {
+        when (v.id){
+            R.id.input_barang_penjualan->{
+                if (hasFocus) {
+                    goToInput(v)
+                }
+            }
+        }
+    }
+
+    fun goToInput(v: View){
+        var bundle = Bundle()
+
+        val inputBarangIntent =  Intent(v.context, InputBarangActivity::class.java)
+//        if(penjualanViewModel.getBarangUsed().size != 0){
+//            bundle.putSerializable("dataBarangUsed", penjualanViewModel.getBarangUsed())
+//            bundle.putBoolean("isBarangUsed", true)
+//            inputBarangIntent.putExtra("dataTransaksi", bundle)
+//        }
+
+        inputBarangIntent.putExtra("parent",1)
+
+        startActivityForResult(inputBarangIntent, Constants.RequestCodeIntent.INPUT_BARANG)
     }
 }

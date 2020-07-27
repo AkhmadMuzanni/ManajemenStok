@@ -91,12 +91,12 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/input_penjual_layout"
+                app:layout_constraintEnd_toStartOf="@id/input_pembeli_layout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_penjual_layout"
+                android:id="@+id/input_pembeli_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:hintEnabled="false"
@@ -106,7 +106,7 @@
                 app:layout_constraintWidth_percent="0.7">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_input_penjual"
+                    android:id="@+id/text_input_pembeli"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Masukkan Pembeli"
@@ -149,7 +149,7 @@
                 app:layout_constraintWidth_percent="0.7">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_barang_pembelian"
+                    android:id="@+id/input_barang_penjualan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Tekan untuk Tambah Barang"
