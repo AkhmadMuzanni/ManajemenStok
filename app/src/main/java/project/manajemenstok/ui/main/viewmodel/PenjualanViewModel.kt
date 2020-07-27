@@ -26,8 +26,52 @@ import project.manajemenstok.utils.Resource
 
 class PenjualanViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
 
-    init {
+    private val barangRepository = BarangRepository(
+        RemoteBarangLogicImpl(),
+        DbHelper(context)
+    )
 
+    private val pembelianRepository = PembelianRepository(
+        RemotePembelianLogicImpl(),
+        DbHelper(context)
+    )
+
+    fun addTempBarang(dataBarang: Barang){
+        barangRepository.addTempBarang(dataBarang)
+    }
+
+    fun getTempBarang(): ArrayList<Barang>{
+        return barangRepository.getTempBarang()
+    }
+
+    fun deleteTempBarang(position: Int){
+        barangRepository.deleteTempBarang(position)
+    }
+
+    fun getTotalTransaksi(): Int{
+        val dataBarang = getTempBarang()
+        var total = 0
+        for (barang in dataBarang) {
+            total += barang.total
+        }
+        total += getTempOngkir()
+        return total
+    }
+
+    fun setTempOngkir(ongkir: Int){
+        pembelianRepository.setTempOngkir(ongkir)
+    }
+
+    fun getTempOngkir(): Int{
+        return pembelianRepository.getTempOngkir()
+    }
+
+    fun setTempBarang(dataBarang: ArrayList<Barang>){
+        barangRepository.setTempBarang(dataBarang)
+    }
+
+    fun getBarangUsed(): ArrayList<Barang>{
+        return barangRepository.getBarangUsed()
     }
 
 

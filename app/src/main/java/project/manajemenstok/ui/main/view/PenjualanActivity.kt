@@ -1,74 +1,87 @@
 package project.manajemenstok.ui.main.view
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_konfirmasi_pembelian.*
 import kotlinx.android.synthetic.main.activity_penjualan.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
-import project.manajemenstok.ui.main.adapter.KonfirmasiPembelianAdapter
-import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.ui.main.adapter.DataPenjualanAdapter
 import project.manajemenstok.ui.main.viewmodel.PenjualanViewModel
 import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.NumberTextWatcher
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener {
     private lateinit var penjualanViewModel: PenjualanViewModel
-    private lateinit var dataPembelianAdapter: KonfirmasiPembelianAdapter
-    private lateinit var rvDataPembelian: RecyclerView
+    private lateinit var dataPenjualanAdapter: DataPenjualanAdapter
+    private lateinit var rvDataPenjualan: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_penjualan)
 
         setupViewModel()
-//        setupUI()
+        setupUI()
 
-//        bundlePembelian = intent.getBundleExtra("dataPembelian")
-//        val dataBarang = intent.getBundleExtra("dataPembelian").getSerializable("dataBarang") as ArrayList<Barang>
-//        val dataPenjual = intent.getBundleExtra("dataPembelian").getBundle("dataPenjual").getString("namaPenjual").capitalize()
-//        val dataOngkir = getFormat(Integer.parseInt(intent.getBundleExtra("dataPembelian").getString("dataOngkir")))
-//        val dataSubtotal = getFormat(Integer.parseInt(intent.getBundleExtra("dataPembelian").getString("dataSubtotal")))
-//        val dataTotal = getFormat(Integer.parseInt(intent.getBundleExtra("dataPembelian").getString("dataTotal")))
+        if(MainActivity.getTempData().getSerializable("dataPenjual") != null){
+            text_input_pembeli.setText(MainActivity.getTempData().getString("dataPenjual"))
+            text_ongkir_pembelian.setText(MainActivity.getTempData().getString("dataOngkir"))
+            text_input_total.setText(MainActivity.getTempData().getString("dataTotal"))
 
-//        findViewById<TextView>(R.id.value_penjual).setText(dataPenjual)
-//        findViewById<TextView>(R.id.value_ongkir).setText(dataOngkir)
-//        findViewById<TextView>(R.id.value_total).setText(dataTotal)
-//        findViewById<TextView>(R.id.value_subtotal).setText(dataSubtotal)
-//        renderDataPembelian(dataBarang)
+            if(MainActivity.getTempData().getString("dataOngkir") != ""){
+                penjualanViewModel.setTempOngkir(getAngka(MainActivity.getTempData().getString("dataOngkir")))
+            }
+        }
 
-//        val iconBack : ImageView = findViewById(R.id.icon_back)
+        val iconBack : ImageView = findViewById(R.id.icon_back)
 
         input_barang_penjualan.setOnClickListener(this)
+        iconBack.setOnClickListener(this)
+//        btn_simpan_transaksi.setOnClickListener(this)
+
         input_barang_penjualan.onFocusChangeListener = this
 
-//        iconBack.setOnClickListener(this)
-//        btn_simpan_transaksi.setOnClickListener(this)
+        onTextChangeListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var tempBarang = penjualanViewModel.getTempBarang()
+        if(MainActivity.getTempData().getSerializable("dataBarang") != null){
+            tempBarang = MainActivity.getTempData().getSerializable("dataBarang") as ArrayList<Barang>
+            penjualanViewModel.setTempBarang(tempBarang)
+        }
+        renderDataPenjualan(tempBarang)
+    }
+
+    override fun onBackPressed() {
+        findViewById<ImageView>(R.id.icon_back).performClick()
     }
 
     private fun setupUI(){
-        rvDataPembelian = findViewById(R.id.rv_data_pembelian)
-        rvDataPembelian.layoutManager = LinearLayoutManager(applicationContext)
-        dataPembelianAdapter = KonfirmasiPembelianAdapter(arrayListOf())
-        rvDataPembelian.addItemDecoration(
+        rvDataPenjualan = findViewById(R.id.rv_data_penjualan)
+        rvDataPenjualan.layoutManager = LinearLayoutManager(applicationContext)
+        dataPenjualanAdapter = DataPenjualanAdapter(arrayListOf(), penjualanViewModel, this)
+        rvDataPenjualan.addItemDecoration(
             DividerItemDecoration(
-                rvDataPembelian.context,
-                (rvDataPembelian.layoutManager as LinearLayoutManager).orientation
+                rvDataPenjualan.context,
+                (rvDataPenjualan.layoutManager as LinearLayoutManager).orientation
             )
         )
-        rvDataPembelian.adapter = dataPembelianAdapter
+        rvDataPenjualan.adapter = dataPenjualanAdapter
     }
 
     private fun setupViewModel() {
@@ -79,23 +92,35 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
         ).get(PenjualanViewModel::class.java)
     }
 
-    private fun renderDataPembelian(barangs: List<Barang>) {
-        dataPembelianAdapter.setData(barangs)
-        dataPembelianAdapter.notifyDataSetChanged()
+    private fun renderDataPenjualan(barangs: List<Barang>) {
+        dataPenjualanAdapter.setData(barangs)
+        dataPenjualanAdapter.notifyDataSetChanged()
     }
 
     override fun onClick(v: View) {
         var bundle = Bundle()
         when (v.id){
-            R.id.icon_back->{
-                val konfirmasiIntent = Intent()
-                val konfirmasiBundle = Bundle()
-                konfirmasiIntent.putExtra("bundle",konfirmasiBundle)
-                setResult(Activity.RESULT_CANCELED, konfirmasiIntent)
-                finish()
-            }
             R.id.input_barang_penjualan->{
                 goToInput(v)
+            }
+            R.id.icon_back->{
+                var builder = AlertDialog.Builder(this, R.style.CustomDialogTheme)
+                builder.setTitle("Konfirmasi")
+                builder.setMessage("Simpan Sebagai Draft?")
+
+                builder.setPositiveButton("KEMBALI") { dialog, which ->
+                }
+
+                builder.setNegativeButton("HAPUS") { dialog, which ->
+                    destroyView(false)
+                    finish()
+                }
+
+                builder.setNeutralButton("SIMPAN DRAFT") { dialog, which ->
+                    destroyView(true)
+                    finish()
+                }
+                builder.show()
             }
         }
     }
@@ -126,14 +151,55 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
         var bundle = Bundle()
 
         val inputBarangIntent =  Intent(v.context, InputBarangActivity::class.java)
-//        if(penjualanViewModel.getBarangUsed().size != 0){
-//            bundle.putSerializable("dataBarangUsed", penjualanViewModel.getBarangUsed())
-//            bundle.putBoolean("isBarangUsed", true)
-//            inputBarangIntent.putExtra("dataTransaksi", bundle)
-//        }
+        if(penjualanViewModel.getBarangUsed().size != 0){
+            bundle.putSerializable("dataBarangUsed", penjualanViewModel.getBarangUsed())
+            bundle.putBoolean("isBarangUsed", true)
+            inputBarangIntent.putExtra("dataTransaksi", bundle)
+        }
 
         inputBarangIntent.putExtra("parent",1)
 
         startActivityForResult(inputBarangIntent, Constants.RequestCodeIntent.INPUT_BARANG)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == Constants.RequestCodeIntent.INPUT_BARANG && data != null && resultCode == Activity.RESULT_OK){
+            val tempBarang = Barang()
+            tempBarang.id = data?.getBundleExtra("bundle")?.getInt("id")!!
+            tempBarang.namaBarang = data?.getBundleExtra("bundle")?.getString("namaBarang")!!
+            tempBarang.foto = resources.getString(R.string.defaultImageIcon)
+            tempBarang.jumlah = 1
+            tempBarang.harga = 0
+            tempBarang.total = 0
+            tempBarang.uuid = data?.getBundleExtra("bundle")?.getString("uuid")!!
+            penjualanViewModel.addTempBarang(tempBarang)
+        }
+    }
+
+    private fun onTextChangeListener(){
+        text_ongkir_pembelian.addTextChangedListener(object: NumberTextWatcher(text_ongkir_pembelian){
+            override fun afterTextChanged(s: Editable) {
+                super.afterTextChanged(s)
+                if(s.toString() == ""){
+                    penjualanViewModel.setTempOngkir(0)
+                } else {
+                    penjualanViewModel.setTempOngkir(getAngka(text_ongkir_pembelian.text.toString()))
+                }
+                text_input_total.setText(getFormat(Integer.parseInt(penjualanViewModel.getTotalTransaksi().toString())))
+            }
+        })
+    }
+
+    fun destroyView(saveDraft: Boolean){
+        val bundle = Bundle()
+        if(saveDraft){
+            bundle.putString("dataPenjual", text_input_pembeli.text.toString())
+            bundle.putString("dataOngkir", text_ongkir_pembelian.text.toString())
+            bundle.putString("dataTotal", text_input_total.text.toString())
+            bundle.putSerializable("dataBarang", penjualanViewModel.getTempBarang())
+        }
+        MainActivity.setTempData(bundle)
     }
 }
