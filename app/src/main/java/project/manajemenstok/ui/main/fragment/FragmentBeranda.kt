@@ -23,6 +23,7 @@ import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.MainAdapter
 import project.manajemenstok.ui.main.view.PembelianActivity
+import project.manajemenstok.ui.main.view.PenjualanActivity
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.utils.Status
 
@@ -115,6 +116,8 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
                 startActivity(pembelianIntent)
             }
             R.id.btn_penjualan->{
+                val penjualanIntent = Intent(this.context, PenjualanActivity::class.java)
+                startActivity(penjualanIntent)
 //                val dbBarang = mainViewModel.getDbReference("barang")
 //                val key = dbBarang.push().key
 //                dbBarang.child(key!!).setValue(Barang(0, "Piyama", 222, "https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_1280.png", 1, 1))
