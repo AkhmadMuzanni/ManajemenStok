@@ -7,5 +7,6 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="greenMars">#008c8c</color>
-
+    <color name="globalBackgroud">#D8D8D8</color>
+    <color name="globalOrangeBackgroud">#e4a53e</color>
 </resources>
