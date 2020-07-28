@@ -22,9 +22,8 @@
             android:layout_width="32dp"
             android:layout_height="54dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginBottom="15dp"
             android:tint="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/tabContainer"
+            app:layout_constraintBottom_toTopOf="@id/tabContainer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="?attr/actionModeCloseDrawable" />
@@ -37,7 +36,7 @@
             android:text="@string/app_name"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/tabContainer"
+            app:layout_constraintBottom_toTopOf="@id/tabContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,37 +50,34 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/txt_header_konfirmasi"
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Konfirmasi Pembelian"
+                android:text="Penjualan"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_container"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_container">
-
+        app:layout_constraintTop_toBottomOf="@+id/header_container">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/penjual_container"
+            android:id="@+id/pembeli_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -91,105 +87,91 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="3dp"
-                android:text="Penjual"
+                android:text="Pembeli"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/value_penjual"
+                app:layout_constraintEnd_toStartOf="@id/input_pembeli_layout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/value_penjual"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_pembeli_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="3dp"
-                android:text="NamaPenjual"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_item_penjual"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.7" />
+                app:layout_constraintWidth_percent="0.7">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_input_pembeli"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Masukkan Pembeli"
+                    android:singleLine="true"
+                    android:textSize="14sp"
+                    android:theme="@style/EditTextTheme" />
+            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_data_pembelian"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:padding="10dp"
-            android:paddingBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/subtotal_container"
-            app:layout_constraintTop_toBottomOf="@id/penjual_container"
-            tools:layout_editor_absoluteX="16dp" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/subtotal_container"
+            android:id="@+id/barang_baru_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/ongkir_container"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pembeli_container">
 
             <TextView
-                android:id="@+id/text_item_subtotal"
+                android:id="@+id/text_item_barang"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="3dp"
-                android:text="Subtotal"
+                android:text="Barang"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/text_rp_subtotal"
+                app:layout_constraintEnd_toStartOf="@id/text_input_layout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.65" />
-
-            <TextView
-                android:id="@+id/text_rp_subtotal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Rp. "
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/value_subtotal"
-                app:layout_constraintStart_toEndOf="@id/text_item_subtotal"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/value_subtotal"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1.000.000"
-                android:textAlignment="textEnd"
-                android:textColor="@color/black"
-                android:textSize="12sp"
+                app:hintEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/text_rp_subtotal"
+                app:layout_constraintStart_toEndOf="@id/text_item_barang"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.25" />
+                app:layout_constraintWidth_percent="0.7">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_barang_penjualan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tekan untuk Tambah Barang"
+                    android:textSize="14sp"
+                    android:theme="@style/EditTextTheme" />
+            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_data_penjualan"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@id/ongkir_container"
+            app:layout_constraintTop_toBottomOf="@id/barang_baru_container"
+            tools:layout_editor_absoluteX="16dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ongkir_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
             app:layout_constraintBottom_toTopOf="@id/total_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -205,37 +187,43 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/text_rp_ongkir"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.65" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_rp_ongkir"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Rp. "
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/value_ongkir"
+                app:layout_constraintEnd_toStartOf="@id/input_ongkir_layout"
                 app:layout_constraintStart_toEndOf="@id/text_item_ongkir"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/value_ongkir"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_ongkir_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1.000.000"
-                android:textAlignment="textEnd"
-                android:textColor="@color/black"
-                android:textSize="12sp"
+                app:hintEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_rp_ongkir"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.25" />
+                app:layout_constraintWidth_percent="0.65">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_ongkir_pembelian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Masukkan Ongkos Kirim"
+                    android:inputType="number"
+                    android:selectAllOnFocus="true"
+                    android:text="0"
+                    android:textSize="14sp"
+                    android:theme="@style/EditTextTheme" />
+            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -243,60 +231,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_simpan_transaksi"
+            app:layout_constraintBottom_toTopOf="@id/btn_input_barang"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/text_item_total"
+                android:id="@+id/text_label_total"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="3dp"
-                android:text="TOTAL PEMBELIAN"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="TOTAL"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/text_rp_total"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.65" />
-
-            <TextView
-                android:id="@+id/text_rp_total"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Rp. "
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/value_total"
-                app:layout_constraintStart_toEndOf="@id/text_item_total"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/value_total"
-                android:layout_width="0dp"
+                android:id="@+id/text_rp_total"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="1.000.000"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
+                android:text="Rp. "
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_input_total"
+                app:layout_constraintStart_toEndOf="@id/text_label_total"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_input_total"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingStart="3dp"
+                android:text="0 "
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_rp_total"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.25" />
+                app:layout_constraintWidth_percent="0.65" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/btn_simpan_transaksi"
+            android:id="@+id/btn_input_barang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/menu_corner"
@@ -308,5 +295,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

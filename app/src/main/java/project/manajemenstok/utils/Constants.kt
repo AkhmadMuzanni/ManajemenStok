@@ -15,4 +15,11 @@ class Constants {
             val KREDIT = 2
         }
     }
+
+    class RequestCodeIntent{
+        companion object {
+            val INPUT_BARANG = 1
+            val KONFIRMASI_TRANSAKSI = 2
+        }
+    }
 }

@@ -14,6 +14,7 @@ class RemoteBarangLogicImpl : RemoteBrangLogic {
     private var liveBarang = MutableLiveData<ArrayList<Barang>>()
     private var unusedBarang = MutableLiveData<ArrayList<Barang>>()
     private var tempBarang = MutableLiveData<Barang>()
+    private var barangTransaksi = MutableLiveData<ArrayList<Barang>>()
 
     override fun getBarangs(): Single<List<Barang>> {
 //        Get Live Data
@@ -103,6 +104,46 @@ class RemoteBarangLogicImpl : RemoteBrangLogic {
         barangUpdates[barang.uuid] = barang
 
         dbBarang.updateChildren(barangUpdates)
+    }
+
+    override fun getBarangTransaksi(): MutableLiveData<ArrayList<Barang>> {
+        return barangTransaksi
+    }
+
+    override fun fetchBarangTransaksi(listBarang: ArrayList<Barang>) {
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var result = ArrayList<Barang>()
+                for(barang in listBarang){
+                    var isUsed = false
+                    var existedBarang = Barang()
+                    var resultBarang = Barang()
+                    dataSnapshot.children.forEach {
+                        existedBarang = it.getValue<Barang>(Barang::class.java)!!
+                        if(barang.uuid == existedBarang.uuid){
+                            isUsed = true
+                            resultBarang = existedBarang
+                        }
+                    }
+                    if(isUsed){
+                        result.add(resultBarang)
+                    } else {
+                        result.add(barang)
+                    }
+                }
+
+                setBarangTransaksi(result)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
+    }
+
+    override fun setBarangTransaksi(listBarang: ArrayList<Barang>) {
+        barangTransaksi.postValue(listBarang)
     }
 
     override fun getLiveBarang(): MutableLiveData<ArrayList<Barang>> {
