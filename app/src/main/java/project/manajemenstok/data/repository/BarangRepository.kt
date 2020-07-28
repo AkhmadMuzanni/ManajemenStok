@@ -91,4 +91,12 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
         return remoteBarang.getBarangById()
     }
 
+    fun fetchBarangTransaksi(listBarang: ArrayList<Barang>){
+        remoteBarang.fetchBarangTransaksi(listBarang)
+    }
+
+    fun getBarangTransaksi(): MutableLiveData<ArrayList<Barang>>{
+        return remoteBarang.getBarangTransaksi()
+    }
+
 }

@@ -17,19 +17,30 @@ import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.KonfirmasiPembelianAdapter
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.ui.main.viewmodel.PenjualanViewModel
+import project.manajemenstok.utils.Constants
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class KonfirmasiPembelianActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var pembelianViewModel: PembelianViewModel
+    private lateinit var penjualanViewModel: PenjualanViewModel
     private lateinit var dataPembelianAdapter: KonfirmasiPembelianAdapter
     private lateinit var rvDataPembelian: RecyclerView
     private lateinit var bundlePembelian: Bundle
+    private var parentActivity = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_konfirmasi_pembelian)
+
+        parentActivity = intent.getIntExtra("parentActivity", Constants.JenisTransaksiValue.PEMBELIAN)
+        if(parentActivity == Constants.JenisTransaksiValue.PEMBELIAN){
+            txt_header_konfirmasi.text = "Konfirmasi Pembelian"
+        } else {
+            txt_header_konfirmasi.text = "Konfirmasi Penjualan"
+        }
 
         setupViewModel()
         setupUI()
@@ -68,10 +79,18 @@ class KonfirmasiPembelianActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupViewModel() {
         val is_remote = true
-        pembelianViewModel = ViewModelProviders.of(
-            this,
-            ViewModelFactory(applicationContext,is_remote)
-        ).get(PembelianViewModel::class.java)
+        if(parentActivity == Constants.JenisTransaksiValue.PEMBELIAN){
+            pembelianViewModel = ViewModelProviders.of(
+                this,
+                ViewModelFactory(applicationContext,is_remote)
+            ).get(PembelianViewModel::class.java)
+        } else {
+            penjualanViewModel = ViewModelProviders.of(
+                this,
+                ViewModelFactory(applicationContext,is_remote)
+            ).get(PenjualanViewModel::class.java)
+        }
+
     }
 
     private fun renderDataPembelian(barangs: List<Barang>) {
@@ -89,12 +108,22 @@ class KonfirmasiPembelianActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             R.id.btn_simpan_transaksi->{
-                val isSuccess = pembelianViewModel.simpanPembelian(bundlePembelian, this)
-                if(isSuccess){
-                    val konfirmasiIntent = Intent()
-                    konfirmasiIntent.putExtra("bundle",bundlePembelian)
-                    setResult(Activity.RESULT_OK, konfirmasiIntent)
-                    finish()
+                if(parentActivity == Constants.JenisTransaksiValue.PEMBELIAN){
+                    val isSuccess = pembelianViewModel.simpanPembelian(bundlePembelian, this)
+                    if(isSuccess){
+                        val konfirmasiIntent = Intent()
+                        konfirmasiIntent.putExtra("bundle",bundlePembelian)
+                        setResult(Activity.RESULT_OK, konfirmasiIntent)
+                        finish()
+                    }
+                } else {
+                    val isSuccess = penjualanViewModel.simpanPenjualan(bundlePembelian, this)
+                    if(isSuccess){
+                        val konfirmasiIntent = Intent()
+                        konfirmasiIntent.putExtra("bundle",bundlePembelian)
+                        setResult(Activity.RESULT_OK, konfirmasiIntent)
+                        finish()
+                    }
                 }
             }
         }

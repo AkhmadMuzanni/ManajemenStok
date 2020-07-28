@@ -69,6 +69,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
         }
 
         viewPembelian.input_barang_pembelian.setOnClickListener(this)
+        viewPembelian.input_barang_pembelian.setOnFocusChangeListener(this)
         viewPembelian.btn_input_barang.setOnClickListener(this)
         viewPembelian.text_ongkir_pembelian.setOnFocusChangeListener(this)
 
@@ -133,7 +134,8 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
 
                 val konfirmasiPembelianIntent =  Intent(v.context, KonfirmasiPembelianActivity::class.java)
                 konfirmasiPembelianIntent.putExtra("dataPembelian", bundle)
-                startActivityForResult(konfirmasiPembelianIntent, KONFIRMASI_INTENT)
+                konfirmasiPembelianIntent.putExtra("parentActivity", Constants.JenisTransaksiValue.PEMBELIAN)
+                startActivityForResult(konfirmasiPembelianIntent, Constants.RequestCodeIntent.KONFIRMASI_TRANSAKSI)
             }
         }
     }

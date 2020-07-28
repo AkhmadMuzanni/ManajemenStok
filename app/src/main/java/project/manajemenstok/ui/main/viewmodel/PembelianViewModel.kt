@@ -237,32 +237,32 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 
         var idDetailPembelian = ""
 
-        for(detail in dataDetailPembelian){
-            val detailPembelian = DetailTransaksiFirebase()
-            if(detail.uuid == ""){
-                val idBarang = barangRepository.createBarang(detail)
-                detailPembelian.idBarang = idBarang
-            } else {
-                detailPembelian.idBarang = detail.uuid
-                barangRepository.getBarangById().observe(activity, Observer {
-                    var existedBarang = it
-                    existedBarang.jumlah += detail.jumlah
-                    existedBarang.total += detail.total
+        barangRepository.getBarangTransaksi().observe(activity, Observer {
+
+            for((index, detail) in it.withIndex()){
+                val detailPenjualan = DetailTransaksiFirebase()
+                if(detail.uuid == ""){
+                    val idBarang = barangRepository.createBarang(detail)
+                    detailPenjualan.idBarang = idBarang
+                } else {
+                    detailPenjualan.idBarang = detail.uuid
+                    var existedBarang = detail
+                    existedBarang.jumlah += dataDetailPembelian[index].jumlah
+                    existedBarang.total += dataDetailPembelian[index].total
                     existedBarang.harga = existedBarang.total / existedBarang.jumlah
 
                     barangRepository.updateBarang(existedBarang)
-                })
+                }
+                detailPenjualan.idTransaksi = idPembelian
+                detailPenjualan.harga = dataDetailPembelian[index].harga
+                detailPenjualan.jumlah = dataDetailPembelian[index].jumlah
+                detailPenjualan.total = dataDetailPembelian[index].total
 
-                barangRepository.fetchBarangById(detail.uuid)
+                idDetailPembelian = pembelianRepository.createDetailTransaksi(detailPenjualan, idDetailPembelian)
             }
-            detailPembelian.idTransaksi = idPembelian
-            detailPembelian.harga = detail.harga
-            detailPembelian.jumlah = detail.jumlah
-            detailPembelian.total = detail.total
-//
-//            pembelianRepository.createDetailPembelian(detailPembelian)
-            idDetailPembelian = pembelianRepository.createDetailTransaksi(detailPembelian, idDetailPembelian)
-        }
+        })
+
+        barangRepository.fetchBarangTransaksi(dataDetailPembelian)
 
         Toast.makeText(context, "Berhasil Menyimpan Pembelian", Toast.LENGTH_LONG).show()
         return true

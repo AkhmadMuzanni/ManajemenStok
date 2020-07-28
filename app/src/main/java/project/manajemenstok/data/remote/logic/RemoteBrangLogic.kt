@@ -19,4 +19,7 @@ interface RemoteBrangLogic {
     fun fetchBarangById(id: String)
     fun setBarangById(barang: Barang)
     fun updateBarang(barang: Barang)
+    fun getBarangTransaksi(): MutableLiveData<ArrayList<Barang>>
+    fun fetchBarangTransaksi(listBarang: ArrayList<Barang>)
+    fun setBarangTransaksi(listBarang: ArrayList<Barang>)
 }

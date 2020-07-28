@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_penjualan.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
@@ -33,6 +34,8 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_penjualan)
 
+        AndroidThreeTen.init(this)
+
         setupViewModel()
         setupUI()
 
@@ -50,7 +53,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
 
         input_barang_penjualan.setOnClickListener(this)
         iconBack.setOnClickListener(this)
-//        btn_simpan_transaksi.setOnClickListener(this)
+        btn_input_barang.setOnClickListener(this)
 
         input_barang_penjualan.onFocusChangeListener = this
 
@@ -122,6 +125,22 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
                 }
                 builder.show()
             }
+            R.id.btn_input_barang->{
+                var bundlePenjual = Bundle()
+                bundlePenjual.putString("namaPenjual", text_input_pembeli.text.toString())
+                bundlePenjual.putString("noTelp", "")
+
+                bundle.putBundle("dataPenjual", bundlePenjual)
+                bundle.putString("dataOngkir", getAngka(text_ongkir_pembelian.text.toString()).toString())
+                bundle.putString("dataTotal", getAngka(text_input_total.text.toString()).toString())
+                bundle.putString("dataSubtotal", penjualanViewModel.getSubtotal().toString())
+                bundle.putSerializable("dataBarang", penjualanViewModel.getTempBarang())
+
+                val konfirmasiPembelianIntent =  Intent(v.context, KonfirmasiPembelianActivity::class.java)
+                konfirmasiPembelianIntent.putExtra("dataPembelian", bundle)
+                konfirmasiPembelianIntent.putExtra("parentActivity", Constants.JenisTransaksiValue.PENJUALAN)
+                startActivityForResult(konfirmasiPembelianIntent, Constants.RequestCodeIntent.KONFIRMASI_TRANSAKSI)
+            }
         }
     }
 
@@ -175,6 +194,9 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
             tempBarang.total = 0
             tempBarang.uuid = data?.getBundleExtra("bundle")?.getString("uuid")!!
             penjualanViewModel.addTempBarang(tempBarang)
+        } else if(requestCode == Constants.RequestCodeIntent.KONFIRMASI_TRANSAKSI && data != null && resultCode == Activity.RESULT_OK){
+            destroyView(false)
+            finish()
         }
     }
 
