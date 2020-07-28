@@ -190,7 +190,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
             tempBarang.namaBarang = data?.getBundleExtra("bundle")?.getString("namaBarang")!!
             tempBarang.foto = resources.getString(R.string.defaultImageIcon)
             tempBarang.jumlah = 1
-            tempBarang.harga = 0
+            tempBarang.harga = data?.getBundleExtra("bundle")?.getInt("harga")!!
             tempBarang.total = 0
             tempBarang.uuid = data?.getBundleExtra("bundle")?.getString("uuid")!!
             penjualanViewModel.addTempBarang(tempBarang)

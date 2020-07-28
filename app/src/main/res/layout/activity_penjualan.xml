@@ -110,6 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Masukkan Pembeli"
+                    android:inputType="textCapSentences"
                     android:singleLine="true"
                     android:textSize="14sp"
                     android:theme="@style/EditTextTheme" />

@@ -109,6 +109,7 @@ class FragmentInputBarangTersimpan : Fragment(){
         inputBarangBundle.putInt("id", barang.id)
         inputBarangBundle.putString("namaBarang", barang.namaBarang)
         inputBarangBundle.putString("uuid", barang.uuid)
+        inputBarangBundle.putInt("harga", barang.harga)
         inputBarangIntent.putExtra("bundle",inputBarangBundle)
         activity?.setResult(Activity.RESULT_OK, inputBarangIntent)
         activity?.finish()
