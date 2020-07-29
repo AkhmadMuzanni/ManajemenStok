@@ -79,7 +79,7 @@ class PenjualanViewModel (val context : Context, private val is_remote : Boolean
     }
 
     fun getBarangUsed(): ArrayList<Barang>{
-        return barangRepository.getBarangUsed()
+        return barangRepository.getBarangPenjualanUsed()
     }
 
     fun getSubtotal(): Int{

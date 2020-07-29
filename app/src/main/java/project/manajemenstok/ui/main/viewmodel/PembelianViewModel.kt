@@ -287,7 +287,7 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
     }
 
     fun getBarangUsed(): ArrayList<Barang>{
-        return barangRepository.getBarangUsed()
+        return barangRepository.getBarangPembelianUsed()
     }
 
     fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>{

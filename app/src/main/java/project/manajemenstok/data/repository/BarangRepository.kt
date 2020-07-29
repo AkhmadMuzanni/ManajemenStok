@@ -39,10 +39,6 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
         return localBarang.getBarangById(id)
     }
 
-    fun getBarangUsed(): ArrayList<Barang>{
-        return localBarang.getBarangUsed()
-    }
-
     fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>{
         return localBarang.getUnusedBarang(barangUsed)
     }
@@ -113,6 +109,14 @@ class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val l
 
     fun deleteTempBarangPenjualan(position: Int){
         localBarang.deleteTempBarangPenjualan(position)
+    }
+
+    fun getBarangPembelianUsed(): ArrayList<Barang>{
+        return localBarang.getBarangPembelianUsed()
+    }
+
+    fun getBarangPenjualanUsed(): ArrayList<Barang>{
+        return localBarang.getBarangPenjualanUsed()
     }
 
 }

@@ -9,7 +9,6 @@ interface BarangLogic{
     fun createBarang(barang: Barang): Int
     fun updateBarang(barang: Barang)
     fun getBarangById(id: Int): Barang
-    fun getBarangUsed(): ArrayList<Barang>
     fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>
     fun insertTempBarangPembelian(dataBarangPembelian: Barang)
     fun getTempBarangPembelian(): ArrayList<Barang>
@@ -19,4 +18,6 @@ interface BarangLogic{
     fun getTempBarangPenjualan(): ArrayList<Barang>
     fun setTempBarangPenjualan(dataBarangPenjualan: ArrayList<Barang>)
     fun deleteTempBarangPenjualan(id: Int)
+    fun getBarangPembelianUsed(): ArrayList<Barang>
+    fun getBarangPenjualanUsed(): ArrayList<Barang>
 }

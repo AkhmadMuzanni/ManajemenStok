@@ -33,7 +33,6 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
         }
     }
 
-    private var tempBarang : ArrayList<Barang> = ArrayList()
     private var tempDataPembelian : ArrayList<DetailPembelian> = ArrayList()
     private var tempPenjual = ""
     private var tempOngkir = 0
@@ -220,22 +219,6 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
         return barang.parseSingle(classParser())
     }
 
-    override fun getBarangUsed(): ArrayList<Barang> {
-        barangUsed = ArrayList()
-        for (barang in tempBarang){
-//            Classify by non-zero id
-//            if(barang.id != 0){
-//                barangUsed.add(barang)
-//            }
-
-//            Classify by non-empty uuid
-            if(barang.uuid != ""){
-                barangUsed.add(barang)
-            }
-        }
-        return barangUsed
-    }
-
     override fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang> {
         val allBarang: List<Barang> = getBarang().parseList(classParser())
 
@@ -286,6 +269,38 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
 
     override fun deleteTempBarangPenjualan(id: Int) {
         tempBarangPenjualan.removeAt(id)
+    }
+
+    override fun getBarangPembelianUsed(): ArrayList<Barang> {
+        barangUsed = ArrayList()
+        for (barang in tempBarangPembelian){
+//            Classify by non-zero id
+//            if(barang.id != 0){
+//                barangUsed.add(barang)
+//            }
+
+//            Classify by non-empty uuid
+            if(barang.uuid != ""){
+                barangUsed.add(barang)
+            }
+        }
+        return barangUsed
+    }
+
+    override fun getBarangPenjualanUsed(): ArrayList<Barang> {
+        barangUsed = ArrayList()
+        for (barang in tempBarangPenjualan){
+//            Classify by non-zero id
+//            if(barang.id != 0){
+//                barangUsed.add(barang)
+//            }
+
+//            Classify by non-empty uuid
+            if(barang.uuid != ""){
+                barangUsed.add(barang)
+            }
+        }
+        return barangUsed
     }
 
     override fun getPenjual(): Cursor {
