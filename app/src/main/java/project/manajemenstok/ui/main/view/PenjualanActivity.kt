@@ -193,6 +193,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
             tempBarang.harga = data?.getBundleExtra("bundle")?.getInt("harga")!!
             tempBarang.total = 0
             tempBarang.uuid = data?.getBundleExtra("bundle")?.getString("uuid")!!
+            tempBarang.maxQuantity = data?.getBundleExtra("bundle")?.getInt("maxQuantity")!!
             penjualanViewModel.addTempBarang(tempBarang)
         } else if(requestCode == Constants.RequestCodeIntent.KONFIRMASI_TRANSAKSI && data != null && resultCode == Activity.RESULT_OK){
             destroyView(false)
