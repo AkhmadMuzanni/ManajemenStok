@@ -114,11 +114,13 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
     }
 
     fun addTempBarang(dataBarang: Barang){
-        barangRepository.addTempBarang(dataBarang)
+//        barangRepository.addTempBarang(dataBarang)
+        barangRepository.addTempBarangPembelian(dataBarang)
     }
 
     fun getTempBarang(): ArrayList<Barang>{
-        return barangRepository.getTempBarang()
+//        return barangRepository.getTempBarang()
+        return barangRepository.getTempBarangPembelian()
     }
 
     private fun fetchPenjual(){
@@ -136,7 +138,8 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
     }
 
     fun setTempBarang(dataBarang: ArrayList<Barang>){
-        barangRepository.setTempBarang(dataBarang)
+//        barangRepository.setTempBarang(dataBarang)
+        barangRepository.setTempBarangPembelian(dataBarang)
     }
 
     fun getTotalTransaksi(): Int{
@@ -269,11 +272,13 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
     }
 
     fun deleteTempBarang(position: Int){
-        barangRepository.deleteTempBarang(position)
+//        barangRepository.deleteTempBarang(position)
+        barangRepository.deleteTempBarangPembelian(position)
     }
 
     fun getSubtotal(): Int{
-        val dataPembelian = barangRepository.getTempBarang()
+//        val dataPembelian = barangRepository.getTempBarang()
+        val dataPembelian = barangRepository.getTempBarangPembelian()
         var subtotal = 0
         for(detail in dataPembelian){
             subtotal += detail.total

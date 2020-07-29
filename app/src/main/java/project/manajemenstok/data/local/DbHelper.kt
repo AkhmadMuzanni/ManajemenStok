@@ -38,6 +38,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
     private var tempPenjual = ""
     private var tempOngkir = 0
     private var barangUsed : ArrayList<Barang> = ArrayList()
+    private var tempBarangPembelian : ArrayList<Barang> = ArrayList()
+    private var tempBarangPenjualan : ArrayList<Barang> = ArrayList()
 
     override fun onCreate(db: SQLiteDatabase?) {
 
@@ -181,18 +183,6 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
     val Context.db : DbHelper
         get() = DbHelper.getInstance(applicationContext)
 
-    override fun insertTempBarang(dataBarang: Barang){
-        tempBarang.add(dataBarang)
-    }
-
-    override fun getTempBarang(): ArrayList<Barang> {
-        return tempBarang
-    }
-
-    override fun setTempBarang(dataBarang: ArrayList<Barang>) {
-        tempBarang = dataBarang
-    }
-
     override fun createBarang(barang: Barang): Int {
         val db = this.readableDatabase
         db?.insert(
@@ -230,11 +220,6 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
         return barang.parseSingle(classParser())
     }
 
-    override fun deleteTempBarang(id: Int) {
-        tempBarang.removeAt(id)
-
-    }
-
     override fun getBarangUsed(): ArrayList<Barang> {
         barangUsed = ArrayList()
         for (barang in tempBarang){
@@ -269,6 +254,38 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
         }
 
         return result
+    }
+
+    override fun insertTempBarangPembelian(dataBarangPembelian: Barang) {
+        tempBarangPembelian.add(dataBarangPembelian)
+    }
+
+    override fun getTempBarangPembelian(): ArrayList<Barang> {
+        return tempBarangPembelian
+    }
+
+    override fun setTempBarangPembelian(dataBarangPembelian: ArrayList<Barang>) {
+        tempBarangPembelian = dataBarangPembelian
+    }
+
+    override fun deleteTempBarangPembelian(id: Int) {
+        tempBarangPembelian.removeAt(id)
+    }
+
+    override fun insertTempBarangPenjualan(dataBarangPenjualan: Barang) {
+        tempBarangPenjualan.add(dataBarangPenjualan)
+    }
+
+    override fun getTempBarangPenjualan(): ArrayList<Barang> {
+        return tempBarangPenjualan
+    }
+
+    override fun setTempBarangPenjualan(dataBarangPenjualan: ArrayList<Barang>) {
+        tempBarangPenjualan = dataBarangPenjualan
+    }
+
+    override fun deleteTempBarangPenjualan(id: Int) {
+        tempBarangPenjualan.removeAt(id)
     }
 
     override fun getPenjual(): Cursor {

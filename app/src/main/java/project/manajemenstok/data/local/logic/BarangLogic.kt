@@ -6,13 +6,17 @@ import project.manajemenstok.data.model.Barang
 interface BarangLogic{
     fun getBarang(): Cursor
     fun setBarangFromRemote(dataBarang: List<Barang>)
-    fun insertTempBarang(dataBarang: Barang)
-    fun getTempBarang(): ArrayList<Barang>
-    fun setTempBarang(dataBarang: ArrayList<Barang>)
     fun createBarang(barang: Barang): Int
     fun updateBarang(barang: Barang)
     fun getBarangById(id: Int): Barang
-    fun deleteTempBarang(id: Int)
     fun getBarangUsed(): ArrayList<Barang>
     fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>
+    fun insertTempBarangPembelian(dataBarangPembelian: Barang)
+    fun getTempBarangPembelian(): ArrayList<Barang>
+    fun setTempBarangPembelian(dataBarangPembelian: ArrayList<Barang>)
+    fun deleteTempBarangPembelian(id: Int)
+    fun insertTempBarangPenjualan(dataBarangPenjualan: Barang)
+    fun getTempBarangPenjualan(): ArrayList<Barang>
+    fun setTempBarangPenjualan(dataBarangPenjualan: ArrayList<Barang>)
+    fun deleteTempBarangPenjualan(id: Int)
 }
