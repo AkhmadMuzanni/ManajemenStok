@@ -55,9 +55,10 @@ class FragmentInputBarangTersimpan : Fragment(){
     }
 
     private fun setupUI(){
+        val parentActivity = activity?.intent!!.getIntExtra("parent", 0)
         rvBarang = viewBarang.recyclerView
         rvBarang.layoutManager = LinearLayoutManager(viewBarang.context)
-        adapter = InputBarangTersimpanAdapter(arrayListOf(), this)
+        adapter = InputBarangTersimpanAdapter(arrayListOf(), this, parentActivity)
         rvBarang.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 rvBarang.context,
