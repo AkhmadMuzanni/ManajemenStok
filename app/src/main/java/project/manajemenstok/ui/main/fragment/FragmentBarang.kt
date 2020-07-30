@@ -13,12 +13,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_barang.*
-import kotlinx.android.synthetic.main.fragment_beranda.*
 
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
-import project.manajemenstok.ui.main.adapter.MainAdapter
+import project.manajemenstok.ui.main.adapter.ListBarangAdapter
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.utils.Status
 
@@ -28,7 +27,7 @@ import project.manajemenstok.utils.Status
 class FragmentBarang : Fragment() {
 
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var adapter: MainAdapter
+    private lateinit var adapter: ListBarangAdapter
     private lateinit var viewFragmentBarang: View
     private lateinit var rv: RecyclerView
 
@@ -47,7 +46,7 @@ class FragmentBarang : Fragment() {
     private fun setupUI(){
         rv = viewFragmentBarang.findViewById(R.id.rv_beranda)
         rv.layoutManager = LinearLayoutManager(viewFragmentBarang.context)
-        adapter = MainAdapter(arrayListOf())
+        adapter = ListBarangAdapter(arrayListOf())
         rv.addItemDecoration(
             DividerItemDecoration(
                 rv.context,
