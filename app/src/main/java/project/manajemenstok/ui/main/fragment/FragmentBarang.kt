@@ -6,20 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_barang.*
-
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangAdapter
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
-import project.manajemenstok.utils.Status
 
 /**
  * A simple [Fragment] subclass.
@@ -39,8 +35,16 @@ class FragmentBarang : Fragment() {
 
         setupUI()
         setupViewModel()
-        setupObserver()
+        mainViewModel.getLiveBarang().observe(this, Observer {
+            renderList(it)
+        })
+
         return viewFragmentBarang
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.fetchLiveBarang()
     }
 
     private fun setupUI(){
@@ -62,27 +66,6 @@ class FragmentBarang : Fragment() {
             this,
             ViewModelFactory(viewFragmentBarang.context,is_remote)
         ).get(MainViewModel::class.java)
-    }
-
-    private fun setupObserver() {
-        mainViewModel.getBarangs().observe(this, Observer {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    progressBar.visibility = View.GONE
-                    it.data?.let { users -> renderList(users) }
-                    rv.visibility = View.VISIBLE
-                }
-                Status.LOADING -> {
-                    progressBar.visibility = View.VISIBLE
-                    rv.visibility = View.GONE
-                }
-                Status.ERROR -> {
-                    //Handle Error
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        })
     }
 
     private fun renderList(barangs: List<Barang>) {
