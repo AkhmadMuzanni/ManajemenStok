@@ -25,18 +25,6 @@ class BarangRepository(private val remoteBarang: RemoteBarangLogic, private val 
         localBarang.setBarangFromRemote(dataBarang)
     }
 
-    fun addTempBarang(dataBarang: Barang){
-        localBarang.insertTempBarang(dataBarang)
-    }
-
-    fun getTempBarang(): ArrayList<Barang>{
-        return localBarang.getTempBarang()
-    }
-
-    fun setTempBarang(dataBarang: ArrayList<Barang>){
-        localBarang.setTempBarang(dataBarang)
-    }
-
     fun createBarang(barang: Barang): String{
 //        return localBarang.createBarang(barang)
         return remoteBarang.createBarang(barang)
@@ -49,14 +37,6 @@ class BarangRepository(private val remoteBarang: RemoteBarangLogic, private val 
 
     fun getBarangById(id: Int): Barang{
         return localBarang.getBarangById(id)
-    }
-
-    fun deleteTempBarang(position: Int){
-        localBarang.deleteTempBarang(position)
-    }
-
-    fun getBarangUsed(): ArrayList<Barang>{
-        return localBarang.getBarangUsed()
     }
 
     fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang>{
@@ -97,6 +77,46 @@ class BarangRepository(private val remoteBarang: RemoteBarangLogic, private val 
 
     fun getBarangTransaksi(): MutableLiveData<ArrayList<Barang>>{
         return remoteBarang.getBarangTransaksi()
+    }
+
+    fun addTempBarangPembelian(dataBarangPembelian: Barang){
+        localBarang.insertTempBarangPembelian(dataBarangPembelian)
+    }
+
+    fun getTempBarangPembelian(): ArrayList<Barang>{
+        return localBarang.getTempBarangPembelian()
+    }
+
+    fun setTempBarangPembelian(dataBarangPembelian: ArrayList<Barang>){
+        localBarang.setTempBarangPembelian(dataBarangPembelian)
+    }
+
+    fun deleteTempBarangPembelian(position: Int){
+        localBarang.deleteTempBarangPembelian(position)
+    }
+
+    fun addTempBarangPenjualan(dataBarangPenjualan: Barang){
+        localBarang.insertTempBarangPenjualan(dataBarangPenjualan)
+    }
+
+    fun getTempBarangPenjualan(): ArrayList<Barang>{
+        return localBarang.getTempBarangPenjualan()
+    }
+
+    fun setTempBarangPenjualan(dataBarangPenjualan: ArrayList<Barang>){
+        localBarang.setTempBarangPenjualan(dataBarangPenjualan)
+    }
+
+    fun deleteTempBarangPenjualan(position: Int){
+        localBarang.deleteTempBarangPenjualan(position)
+    }
+
+    fun getBarangPembelianUsed(): ArrayList<Barang>{
+        return localBarang.getBarangPembelianUsed()
+    }
+
+    fun getBarangPenjualanUsed(): ArrayList<Barang>{
+        return localBarang.getBarangPenjualanUsed()
     }
 
 }

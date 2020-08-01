@@ -55,9 +55,10 @@ class FragmentInputBarangTersimpan : Fragment(){
     }
 
     private fun setupUI(){
+        val parentActivity = activity?.intent!!.getIntExtra("parent", 0)
         rvBarang = viewBarang.recyclerView
         rvBarang.layoutManager = LinearLayoutManager(viewBarang.context)
-        adapter = InputBarangTersimpanAdapter(arrayListOf(), this)
+        adapter = InputBarangTersimpanAdapter(arrayListOf(), this, parentActivity)
         rvBarang.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 rvBarang.context,
@@ -110,6 +111,7 @@ class FragmentInputBarangTersimpan : Fragment(){
         inputBarangBundle.putString("namaBarang", barang.namaBarang)
         inputBarangBundle.putString("uuid", barang.uuid)
         inputBarangBundle.putInt("harga", barang.harga)
+        inputBarangBundle.putInt("maxQuantity", barang.jumlah)
         inputBarangIntent.putExtra("bundle",inputBarangBundle)
         activity?.setResult(Activity.RESULT_OK, inputBarangIntent)
         activity?.finish()

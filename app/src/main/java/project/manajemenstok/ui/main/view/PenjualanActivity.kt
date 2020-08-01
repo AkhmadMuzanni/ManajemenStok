@@ -39,13 +39,13 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
         setupViewModel()
         setupUI()
 
-        if(MainActivity.getTempData().getSerializable("dataPenjual") != null){
-            text_input_pembeli.setText(MainActivity.getTempData().getString("dataPenjual"))
-            text_ongkir_pembelian.setText(MainActivity.getTempData().getString("dataOngkir"))
-            text_input_total.setText(MainActivity.getTempData().getString("dataTotal"))
+        if(MainActivity.tempPenjualan.getSerializable("dataPenjual") != null){
+            text_input_pembeli.setText(MainActivity.tempPenjualan.getString("dataPenjual"))
+            text_ongkir_pembelian.setText(MainActivity.tempPenjualan.getString("dataOngkir"))
+            text_input_total.setText(MainActivity.tempPenjualan.getString("dataTotal"))
 
-            if(MainActivity.getTempData().getString("dataOngkir") != ""){
-                penjualanViewModel.setTempOngkir(getAngka(MainActivity.getTempData().getString("dataOngkir")))
+            if(MainActivity.tempPenjualan.getString("dataOngkir") != ""){
+                penjualanViewModel.setTempOngkir(getAngka(MainActivity.tempPenjualan.getString("dataOngkir")))
             }
         }
 
@@ -63,8 +63,8 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
     override fun onResume() {
         super.onResume()
         var tempBarang = penjualanViewModel.getTempBarang()
-        if(MainActivity.getTempData().getSerializable("dataBarang") != null){
-            tempBarang = MainActivity.getTempData().getSerializable("dataBarang") as ArrayList<Barang>
+        if(MainActivity.tempPenjualan.getSerializable("dataBarang") != null){
+            tempBarang = MainActivity.tempPenjualan.getSerializable("dataBarang") as ArrayList<Barang>
             penjualanViewModel.setTempBarang(tempBarang)
         }
         renderDataPenjualan(tempBarang)
@@ -193,6 +193,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
             tempBarang.harga = data?.getBundleExtra("bundle")?.getInt("harga")!!
             tempBarang.total = 0
             tempBarang.uuid = data?.getBundleExtra("bundle")?.getString("uuid")!!
+            tempBarang.maxQuantity = data?.getBundleExtra("bundle")?.getInt("maxQuantity")!!
             penjualanViewModel.addTempBarang(tempBarang)
         } else if(requestCode == Constants.RequestCodeIntent.KONFIRMASI_TRANSAKSI && data != null && resultCode == Activity.RESULT_OK){
             destroyView(false)
@@ -222,6 +223,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
             bundle.putString("dataTotal", text_input_total.text.toString())
             bundle.putSerializable("dataBarang", penjualanViewModel.getTempBarang())
         }
-        MainActivity.setTempData(bundle)
+//        MainActivity.setTempData(bundle)
+        MainActivity.tempPenjualan = bundle
     }
 }

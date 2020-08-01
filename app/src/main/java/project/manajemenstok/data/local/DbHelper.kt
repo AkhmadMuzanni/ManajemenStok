@@ -33,11 +33,12 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
         }
     }
 
-    private var tempBarang : ArrayList<Barang> = ArrayList()
     private var tempDataPembelian : ArrayList<DetailPembelian> = ArrayList()
     private var tempPenjual = ""
     private var tempOngkir = 0
     private var barangUsed : ArrayList<Barang> = ArrayList()
+    private var tempBarangPembelian : ArrayList<Barang> = ArrayList()
+    private var tempBarangPenjualan : ArrayList<Barang> = ArrayList()
 
     override fun onCreate(db: SQLiteDatabase?) {
 
@@ -50,7 +51,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
             "FOTO" to TEXT,
             "JUMLAH" to INTEGER,
             "TOTAL" to INTEGER,
-            "UUID" to TEXT
+            "UUID" to TEXT,
+            "MAX_QUANTITY" to INTEGER
         )
 
         db?.createTable("TABLE_PENJUAL", true,
@@ -170,7 +172,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
                 BarangSkema.FOTO to barang.foto,
                 BarangSkema.JUMLAH to barang.jumlah,
                 BarangSkema.TOTAL to barang.total,
-                BarangSkema.UUID to barang.uuid
+                BarangSkema.UUID to barang.uuid,
+                BarangSkema.MAX_QUANTITY to barang.maxQuantity
             )
         }
     }
@@ -178,18 +181,6 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
 
     val Context.db : DbHelper
         get() = DbHelper.getInstance(applicationContext)
-
-    override fun insertTempBarang(dataBarang: Barang){
-        tempBarang.add(dataBarang)
-    }
-
-    override fun getTempBarang(): ArrayList<Barang> {
-        return tempBarang
-    }
-
-    override fun setTempBarang(dataBarang: ArrayList<Barang>) {
-        tempBarang = dataBarang
-    }
 
     override fun createBarang(barang: Barang): Int {
         val db = this.readableDatabase
@@ -200,7 +191,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
             BarangSkema.FOTO to barang.foto,
             BarangSkema.JUMLAH to barang.jumlah,
             BarangSkema.TOTAL to barang.total,
-            BarangSkema.UUID to barang.uuid
+            BarangSkema.UUID to barang.uuid,
+            BarangSkema.MAX_QUANTITY to barang.maxQuantity
         )
 
         val lastItem = db.rawQuery("SELECT * FROM TABLE_BARANG",null)
@@ -227,27 +219,6 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
         return barang.parseSingle(classParser())
     }
 
-    override fun deleteTempBarang(id: Int) {
-        tempBarang.removeAt(id)
-
-    }
-
-    override fun getBarangUsed(): ArrayList<Barang> {
-        barangUsed = ArrayList()
-        for (barang in tempBarang){
-//            Classify by non-zero id
-//            if(barang.id != 0){
-//                barangUsed.add(barang)
-//            }
-
-//            Classify by non-empty uuid
-            if(barang.uuid != ""){
-                barangUsed.add(barang)
-            }
-        }
-        return barangUsed
-    }
-
     override fun getUnusedBarang(barangUsed: ArrayList<Barang>): ArrayList<Barang> {
         val allBarang: List<Barang> = getBarang().parseList(classParser())
 
@@ -266,6 +237,70 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
         }
 
         return result
+    }
+
+    override fun insertTempBarangPembelian(dataBarangPembelian: Barang) {
+        tempBarangPembelian.add(dataBarangPembelian)
+    }
+
+    override fun getTempBarangPembelian(): ArrayList<Barang> {
+        return tempBarangPembelian
+    }
+
+    override fun setTempBarangPembelian(dataBarangPembelian: ArrayList<Barang>) {
+        tempBarangPembelian = dataBarangPembelian
+    }
+
+    override fun deleteTempBarangPembelian(id: Int) {
+        tempBarangPembelian.removeAt(id)
+    }
+
+    override fun insertTempBarangPenjualan(dataBarangPenjualan: Barang) {
+        tempBarangPenjualan.add(dataBarangPenjualan)
+    }
+
+    override fun getTempBarangPenjualan(): ArrayList<Barang> {
+        return tempBarangPenjualan
+    }
+
+    override fun setTempBarangPenjualan(dataBarangPenjualan: ArrayList<Barang>) {
+        tempBarangPenjualan = dataBarangPenjualan
+    }
+
+    override fun deleteTempBarangPenjualan(id: Int) {
+        tempBarangPenjualan.removeAt(id)
+    }
+
+    override fun getBarangPembelianUsed(): ArrayList<Barang> {
+        barangUsed = ArrayList()
+        for (barang in tempBarangPembelian){
+//            Classify by non-zero id
+//            if(barang.id != 0){
+//                barangUsed.add(barang)
+//            }
+
+//            Classify by non-empty uuid
+            if(barang.uuid != ""){
+                barangUsed.add(barang)
+            }
+        }
+        return barangUsed
+    }
+
+    override fun getBarangPenjualanUsed(): ArrayList<Barang> {
+        barangUsed = ArrayList()
+        for (barang in tempBarangPenjualan){
+//            Classify by non-zero id
+//            if(barang.id != 0){
+//                barangUsed.add(barang)
+//            }
+
+//            Classify by non-empty uuid
+            if(barang.uuid != ""){
+                barangUsed.add(barang)
+            }
+        }
+        return barangUsed
     }
 
     override fun getPenjual(): Cursor {

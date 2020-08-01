@@ -62,8 +62,10 @@ class DataPenjualanAdapter (
             val jml = dataAdapter.getAngka(itemView.text_jumlah.text.toString())
             when (v.id){
                 R.id.btn_tambah->{
-                    itemView.text_jumlah.setText(dataAdapter.getFormat(jml+1))
-                    objBarang.jumlah = jml+1
+                    if(jml < objBarang.maxQuantity){
+                        itemView.text_jumlah.setText(dataAdapter.getFormat(jml+1))
+                        objBarang.jumlah = jml+1
+                    }
                 }
                 R.id.btn_kurang->{
                     if(jml > 1){
@@ -88,6 +90,9 @@ class DataPenjualanAdapter (
                     if(itemView.text_jumlah.text.toString() == "" && !hasFocus){
                         itemView.text_jumlah.setText("1")
                         objBarang.jumlah = 1
+                    } else if(dataAdapter.getAngka(itemView.text_jumlah.text.toString()) > objBarang.maxQuantity && !hasFocus){
+                        itemView.text_jumlah.setText(dataAdapter.getFormat(objBarang.maxQuantity))
+                        objBarang.jumlah = objBarang.maxQuantity
                     }
                 }
             }

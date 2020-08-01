@@ -20,14 +20,8 @@ import project.manajemenstok.ui.main.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(){
     companion object {
-        var tempPenjual = Bundle()
-        fun setTempData(data: Bundle){
-            tempPenjual = data
-        }
-
-        fun getTempData(): Bundle{
-            return tempPenjual
-        }
+        var tempPembelian = Bundle()
+        var tempPenjualan = Bundle()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

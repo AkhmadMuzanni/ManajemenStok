@@ -299,6 +299,7 @@
             android:id="@+id/btn_simpan_transaksi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/menu_corner"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"

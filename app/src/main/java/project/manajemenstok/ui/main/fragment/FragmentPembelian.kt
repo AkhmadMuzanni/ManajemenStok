@@ -58,13 +58,13 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
         setupViewModel()
         setupUI()
 
-        if(MainActivity.getTempData().getSerializable("dataPenjual") != null){
-            viewPembelian.text_input_penjual.setText(MainActivity.getTempData().getString("dataPenjual"))
-            viewPembelian.text_ongkir_pembelian.setText(MainActivity.getTempData().getString("dataOngkir"))
-            viewPembelian.text_input_total.setText(MainActivity.getTempData().getString("dataTotal"))
+        if(MainActivity.tempPembelian.getSerializable("dataPenjual") != null){
+            viewPembelian.text_input_penjual.setText(MainActivity.tempPembelian.getString("dataPenjual"))
+            viewPembelian.text_ongkir_pembelian.setText(MainActivity.tempPembelian.getString("dataOngkir"))
+            viewPembelian.text_input_total.setText(MainActivity.tempPembelian.getString("dataTotal"))
 
-            if(MainActivity.getTempData().getString("dataOngkir") != ""){
-                pembelianViewModel.setTempOngkir(getAngka(MainActivity.getTempData().getString("dataOngkir")))
+            if(MainActivity.tempPembelian.getString("dataOngkir") != ""){
+                pembelianViewModel.setTempOngkir(getAngka(MainActivity.tempPembelian.getString("dataOngkir")))
             }
         }
 
@@ -82,8 +82,8 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
     override fun onResume() {
         super.onResume()
         var tempBarang = pembelianViewModel.getTempBarang()
-        if(MainActivity.getTempData().getSerializable("dataBarang") != null){
-            tempBarang = MainActivity.getTempData().getSerializable("dataBarang") as ArrayList<Barang>
+        if(MainActivity.tempPembelian.getSerializable("dataBarang") != null){
+            tempBarang = MainActivity.tempPembelian.getSerializable("dataBarang") as ArrayList<Barang>
             pembelianViewModel.setTempBarang(tempBarang)
         }
         renderDataPembelian(tempBarang)
@@ -168,7 +168,8 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             bundle.putString("dataTotal", viewPembelian.text_input_total.text.toString())
             bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
         }
-        MainActivity.setTempData(bundle)
+//        MainActivity.setTempData(bundle)
+        MainActivity.tempPembelian = bundle
     }
 
     private fun onTextChangeListener(){
@@ -193,7 +194,9 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
                 }
             }
             R.id.input_barang_pembelian->{
-                goToInput(v)
+                if(hasFocus){
+                    goToInput(v)
+                }
             }
         }
     }
