@@ -50,7 +50,7 @@ class FragmentBarang : Fragment() {
     private fun setupUI(){
         rv = viewFragmentBarang.findViewById(R.id.rv_beranda)
         rv.layoutManager = LinearLayoutManager(viewFragmentBarang.context)
-        adapter = ListBarangAdapter(arrayListOf())
+        adapter = ListBarangAdapter(arrayListOf(), activity!!)
         rv.addItemDecoration(
             DividerItemDecoration(
                 rv.context,

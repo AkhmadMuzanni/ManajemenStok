@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".ui.main.view.DetailBarangActivity" />
         <activity android:name=".ui.main.view.PenjualanActivity" />
         <activity android:name=".ui.main.view.DetailRiwayatActivity" />
         <activity android:name=".ui.main.view.PembelianActivity" />
