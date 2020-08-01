@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="90dp">
+    android:layout_height="105dp"
+    android:background="@color/globalBackgroud">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/menu_corner"
+        android:layout_height="100dp"
+        android:background="@drawable/componen_corner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -18,109 +19,52 @@
         app:layout_constraintVertical_bias="1.0">
 
         <TextView
-            android:id="@+id/tv_nama_barang"
-            android:layout_width="200dp"
+            android:id="@+id/tv_nama_suplier"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="10dp"
-            android:text="Nama Barang"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:typeface="serif"
+            android:layout_marginStart="16dp"
+            android:text="Nama Suplier"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_jenis_transaksi" />
 
         <TextView
             android:id="@+id/tv_jenis_transaksi"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:text="Pembelian atau penjualan"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_nama_barang" />
-
-        <TextView
-            android:id="@+id/tv_datetime"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="10dp"
-            android:text="14 Juli 2020 22:00:00"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_jenis_transaksi"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/tv_mount"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="17dp"
-            android:gravity="right"
-            android:text="Rp. 88.000"
-            android:textColor="@color/white"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Pembelian"
+            android:textSize="15sp"
             android:textStyle="bold"
-            android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_datetime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Ongkir : Rp. "
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toStartOf="@+id/tv_count"
-            app:layout_constraintTop_toBottomOf="@+id/tv_mount" />
+            android:layout_marginStart="17dp"
+            android:text="14 Juli 2020 22:00:00"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nama_suplier" />
 
         <TextView
-            android:id="@+id/tv_count"
+            android:id="@+id/tv_mount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="17dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:gravity="right"
-            android:text="100"
-            android:textColor="@color/white"
+            android:text="Rp. 88.000"
+            android:textSize="17sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_mount" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageViewFoto"-->
-    <!--        android:layout_width="60dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:padding="4dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--    <androidx.appcompat.widget.AppCompatTextView-->
-    <!--        android:id="@+id/textViewNamaBarang"-->
-    <!--        style="@style/TextAppearance.AppCompat.Large"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:layout_marginTop="4dp"-->
-    <!--        android:textSize="18sp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/imageViewFoto"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        tools:text="MindOrks" />-->
-
-    <!--    <androidx.appcompat.widget.AppCompatTextView-->
-    <!--        android:id="@+id/textViewHargaBeli"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="@+id/textViewNamaBarang"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/textViewNamaBarang"-->
-    <!--        tools:text="MindOrks" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

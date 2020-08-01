@@ -9,16 +9,27 @@ import kotlinx.android.synthetic.main.item_detail_riwayat_layout.view.*
 import kotlinx.android.synthetic.main.item_layout.view.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.DetailTransaksiFirebase
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DetailRiwayatAdapter(
-    private val barangs: ArrayList<Barang>
+    private val detailTransaksis: ArrayList<DetailTransaksiFirebase>
 ): RecyclerView.Adapter<DetailRiwayatAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(barang: Barang){
-            itemView.tv_item_riwayat_count.text = barang.jumlah.toString()+"x"
-            itemView.tv_item_riwayat_name.text = barang.namaBarang.capitalize()
-            itemView.tv_item_riwayat_price.text = "Rp. " + barang.harga.toString()
+        fun bind(detailTransaksi: DetailTransaksiFirebase){
+            itemView.tv_item_riwayat_count.text = detailTransaksi.jumlah.toString()+"x"
+            itemView.tv_item_riwayat_name.text = detailTransaksi.idBarang.capitalize()
+            itemView.tv_item_riwayat_price.text = "RP. "+ getFormat(detailTransaksi.harga)
+            itemView.tv_item_riwayat_total_price.text = "Rp. " + getFormat(detailTransaksi.total)
+        }
+
+        fun getFormat(int: Int): String{
+            val idLocale = Locale("id", "ID")
+            val nf = NumberFormat.getNumberInstance(idLocale)
+            return nf.format(int)
         }
     }
 
@@ -30,20 +41,13 @@ class DetailRiwayatAdapter(
             )
         )
 
-    override fun getItemCount(): Int = barangs.size
+    override fun getItemCount(): Int = detailTransaksis.size
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
-        holder.bind(barangs[position])
+        holder.bind(detailTransaksis[position])
 
-    fun addData(list: List<Barang>) {
-        barangs.addAll(list)
+    fun addData(list: List<DetailTransaksiFirebase>) {
+        detailTransaksis.addAll(list)
     }
 
-    fun getTotalHarga(barangs: List<Barang>): Int{
-        var temp: Int = 0
-        for (barang in barangs){
-            temp += barang.harga
-        }
-        return temp
-    }
 }

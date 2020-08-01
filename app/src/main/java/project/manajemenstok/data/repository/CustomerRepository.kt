@@ -6,13 +6,13 @@ import org.jetbrains.anko.db.parseList
 import project.manajemenstok.data.local.logic.PenjualLogic
 import project.manajemenstok.data.model.KlienFirebase
 import project.manajemenstok.data.model.Penjual
-import project.manajemenstok.data.remote.logic.RemotePenjualLogic
+import project.manajemenstok.data.remote.logic.RemoteCustomerLogic
 
 
-class PenjualRepository(private val remotePenjual: RemotePenjualLogic, private val localPenjual: PenjualLogic) {
+class CustomerRepository(private val remoteCustomer: RemoteCustomerLogic, private val localPenjual: PenjualLogic) {
 
     fun getPenjual(): Single<List<Penjual>>{
-        return remotePenjual.getPenjual()
+        return remoteCustomer.getPenjual()
     }
 
     fun getPenjualLocal(): Single<List<Penjual>> {
@@ -37,7 +37,7 @@ class PenjualRepository(private val remotePenjual: RemotePenjualLogic, private v
     }
 
     fun createKlien(klien: KlienFirebase): String{
-        return remotePenjual.setKlien(klien)
+        return remoteCustomer.setKlien(klien)
     }
 
 }

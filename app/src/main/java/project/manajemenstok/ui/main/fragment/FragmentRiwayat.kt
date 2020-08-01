@@ -19,11 +19,13 @@ import kotlinx.android.synthetic.main.fragment_riwayat.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Pembelian
+import project.manajemenstok.data.model.TransaksiFirebase
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
 import project.manajemenstok.ui.main.view.DetailRiwayatActivity
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
 import project.manajemenstok.utils.Status
 
 /**
@@ -31,11 +33,10 @@ import project.manajemenstok.utils.Status
  */
 class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
 
-    private lateinit var pembelianViewModel: PembelianViewModel
+    private lateinit var riwayatViewModel: RiwayatViewModel
     private lateinit var adapter: RiwayatAdapter
     private lateinit var viewFragmentRiwayat: View
     private lateinit var rv: RecyclerView
-//    private lateinit var temp: List<Barang>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +46,7 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
         setupUI()
         setupViewModel()
         setupObserver()
+        riwayatViewModel.fetchTransaksiRepository()
         return viewFragmentRiwayat
     }
 
@@ -63,18 +65,18 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
 
     private fun setupViewModel() {
         val is_remote = true
-        pembelianViewModel = ViewModelProviders.of(
+        riwayatViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewFragmentRiwayat.context,is_remote)
-        ).get(PembelianViewModel::class.java)
+        ).get(RiwayatViewModel::class.java)
     }
 
     private fun setupObserver() {
-        pembelianViewModel.getPembelian().observe(this, Observer {
+        riwayatViewModel.getTransaksi().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarRiwayat.visibility = View.GONE
-                    it.data?.let { pembelians -> renderList(pembelians) }
+                    it.data?.let { transaksi -> renderList(transaksi) }
                     rv.visibility = View.VISIBLE
                 }
                 Status.LOADING -> {
@@ -90,15 +92,17 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
         })
     }
 
-    private fun renderList(pembelians: List<Pembelian>) {
-        adapter.addData(pembelians)
+    private fun renderList(transaksiList: List<TransaksiFirebase>) {
+        adapter.addData(transaksiList)
         adapter.notifyDataSetChanged()
     }
 
-    override fun onItemClick(item: Pembelian, position: Int) {
+    override fun onItemClick(item: TransaksiFirebase, position: Int) {
         val historyTransaction = Intent(viewFragmentRiwayat.context, DetailRiwayatActivity::class.java)
         val historyTransactionBundle = Bundle()
-        historyTransactionBundle.putSerializable("HISTORYTRANSACTION", item)
+        historyTransactionBundle.putString("idTransaksi", item.uuid)
+        historyTransactionBundle.putInt("totalTransaksi", item.totalTransaksi)
+        historyTransactionBundle.putInt("totalOngkir", item.ongkir)
         historyTransaction.putExtra("historyTransaction", historyTransactionBundle)
         startActivity(historyTransaction)
     }

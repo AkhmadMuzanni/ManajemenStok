@@ -15,11 +15,11 @@ import org.threeten.bp.LocalDateTime
 import project.manajemenstok.data.local.DbHelper
 import project.manajemenstok.data.model.*
 import project.manajemenstok.data.remote.impl.RemoteBarangLogicImpl
-import project.manajemenstok.data.remote.impl.RemotePembelianLogicImpl
-import project.manajemenstok.data.remote.impl.RemotePenjualLogicImpl
+import project.manajemenstok.data.remote.impl.RemoteTransaksiLogicImpl
+import project.manajemenstok.data.remote.impl.RemoteCustomerLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
-import project.manajemenstok.data.repository.PembelianRepository
-import project.manajemenstok.data.repository.PenjualRepository
+import project.manajemenstok.data.repository.TransaksiRepository
+import project.manajemenstok.data.repository.CustomerRepository
 import project.manajemenstok.ui.main.view.KonfirmasiPembelianActivity
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Resource
@@ -36,13 +36,13 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
 
     private val compositeDisposable = CompositeDisposable()
 
-    private val penjualRepository = PenjualRepository(
-        RemotePenjualLogicImpl(),
+    private val penjualRepository = CustomerRepository(
+        RemoteCustomerLogicImpl(),
         DbHelper(context)
     )
 
-    private val pembelianRepository = PembelianRepository(
-        RemotePembelianLogicImpl(),
+    private val pembelianRepository = TransaksiRepository(
+        RemoteTransaksiLogicImpl(),
         DbHelper(context)
     )
 

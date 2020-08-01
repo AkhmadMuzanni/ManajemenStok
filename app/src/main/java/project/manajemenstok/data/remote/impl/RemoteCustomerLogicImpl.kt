@@ -6,10 +6,10 @@ import com.google.firebase.ktx.Firebase
 import io.reactivex.Single
 import project.manajemenstok.data.model.KlienFirebase
 import project.manajemenstok.data.model.Penjual
-import project.manajemenstok.data.remote.logic.RemotePenjualLogic
+import project.manajemenstok.data.remote.logic.RemoteCustomerLogic
 
-class RemotePenjualLogicImpl :
-    RemotePenjualLogic {
+class RemoteCustomerLogicImpl :
+    RemoteCustomerLogic {
     override fun getPenjual(): Single<List<Penjual>> {
         TODO("Not yet implemented")
     }

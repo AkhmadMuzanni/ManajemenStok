@@ -1,5 +1,6 @@
 package project.manajemenstok.data.repository
 
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.Single
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
@@ -8,10 +9,11 @@ import project.manajemenstok.data.model.DetailPembelian
 import project.manajemenstok.data.model.DetailTransaksiFirebase
 import project.manajemenstok.data.model.Pembelian
 import project.manajemenstok.data.model.TransaksiFirebase
-import project.manajemenstok.data.remote.logic.RemotePembelianLogic
+import project.manajemenstok.data.remote.logic.RemoteTransaksiLogic
+import project.manajemenstok.utils.Resource
 
 
-class PembelianRepository(private val remotePembelian: RemotePembelianLogic, private val localPembelian: PembelianLogic) {
+class TransaksiRepository(private val remoteTransaksi: RemoteTransaksiLogic, private val localPembelian: PembelianLogic) {
 
     fun setTempOngkir(ongkir: Int){
 
@@ -36,11 +38,28 @@ class PembelianRepository(private val remotePembelian: RemotePembelianLogic, pri
     }
 
     fun createTransaksi(transaksi: TransaksiFirebase): String{
-        return remotePembelian.createTransaksi(transaksi)
+        return remoteTransaksi.createTransaksi(transaksi)
     }
 
     fun createDetailTransaksi(detailTransaksiFirebase: DetailTransaksiFirebase, idDetailTransaksi: String): String{
-        return remotePembelian.createDetailTransaksi(detailTransaksiFirebase, idDetailTransaksi)
+        return remoteTransaksi.createDetailTransaksi(detailTransaksiFirebase, idDetailTransaksi)
     }
+
+    fun fetchDataTransaksi(){
+        remoteTransaksi.fetchTransaksi()
+    }
+
+    fun getDataTransaksi(): MutableLiveData<Resource<ArrayList<TransaksiFirebase>>>{
+        return remoteTransaksi.getTransaksi()
+    }
+
+    fun fetchDataDetailTransaksi(param: String){
+        remoteTransaksi.fetchDetailTransaksi(param)
+    }
+
+    fun getDataDetailTransaksi(): MutableLiveData<Resource<ArrayList<DetailTransaksiFirebase>>>{
+        return remoteTransaksi.getDetailTransaksi()
+    }
+
 
 }

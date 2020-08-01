@@ -6,26 +6,37 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_riwayat_layout.view.*
 import project.manajemenstok.R
-import project.manajemenstok.data.model.Pembelian
+import project.manajemenstok.data.model.TransaksiFirebase
+import project.manajemenstok.utils.Constants
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class RiwayatAdapter (
-    private val pembelians: ArrayList<Pembelian>,
+    private val transaksis: ArrayList<TransaksiFirebase>,
     private val clickListener: OnRiwayatItemClickListener
 ): RecyclerView.Adapter<RiwayatAdapter.DataViewHolder>(){
 
     class DataViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(pembelian: Pembelian, action: OnRiwayatItemClickListener){
-            itemView.tv_nama_barang.text = "xxx-yyy-yyy-"+pembelian.id.toString()
-            itemView.tv_jenis_transaksi.text = "supplier-"+pembelian.idPenjual.toString()
-            itemView.tv_mount.text = "Rp. "+ getFormat(pembelian.totalPembelian)
-            itemView.tv_count.text = getFormat(pembelian.ongkir)
-            itemView.tv_datetime.text = pembelian.tglPembelian.toString()
+        fun bind(transaksi: TransaksiFirebase, action: OnRiwayatItemClickListener){
+            itemView.tv_jenis_transaksi.text = getTypeTransaksi(transaksi.jenisTransaksi)
+            itemView.tv_nama_suplier.text = transaksi.idKlien.toString()
+            itemView.tv_mount.text = "Rp. "+ getFormat(transaksi.totalTransaksi)
+            itemView.tv_datetime.text = transaksi.tglTransaksi.toString()
             itemView.setOnClickListener {
-                action.onItemClick(pembelian, adapterPosition)
+                action.onItemClick(transaksi, adapterPosition)
             }
+        }
+
+        fun getTypeTransaksi(param: Int): String{
+            var temp = ""
+            if(param == Constants.JenisTransaksiValue.PEMBELIAN){
+                temp = "Pembelian"
+            }else if(param == Constants.JenisTransaksiValue.PENJUALAN){
+                temp = "Penjualan"
+            }
+
+            return temp
         }
 
         fun getFormat(int: Int): String{
@@ -43,17 +54,17 @@ class RiwayatAdapter (
             )
         )
 
-    override fun getItemCount(): Int = pembelians.size
+    override fun getItemCount(): Int = transaksis.size
 
     override fun onBindViewHolder(holder: RiwayatAdapter.DataViewHolder, position: Int) =
-        holder.bind(pembelians[position], clickListener)
+        holder.bind(transaksis[position], clickListener)
 
-    fun addData(list: List<Pembelian>) {
-        pembelians.addAll(list)
+    fun addData(list: List<TransaksiFirebase>) {
+        transaksis.addAll(list)
     }
 
 }
 
 interface OnRiwayatItemClickListener{
-    fun onItemClick(item: Pembelian, position: Int)
+    fun onItemClick(item: TransaksiFirebase, position: Int)
 }

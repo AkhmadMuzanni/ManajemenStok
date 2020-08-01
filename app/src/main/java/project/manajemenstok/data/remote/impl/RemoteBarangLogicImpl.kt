@@ -7,9 +7,9 @@ import com.google.firebase.ktx.Firebase
 import com.rx2androidnetworking.Rx2AndroidNetworking
 import io.reactivex.Single
 import project.manajemenstok.data.model.Barang
-import project.manajemenstok.data.remote.logic.RemoteBrangLogic
+import project.manajemenstok.data.remote.logic.RemoteBarangLogic
 
-class RemoteBarangLogicImpl : RemoteBrangLogic {
+class RemoteBarangLogicImpl : RemoteBarangLogic {
     val database = Firebase.database
     private var liveBarang = MutableLiveData<ArrayList<Barang>>()
     private var unusedBarang = MutableLiveData<ArrayList<Barang>>()

@@ -7,10 +7,10 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import project.manajemenstok.data.local.logic.BarangLogic
 import project.manajemenstok.data.model.Barang
-import project.manajemenstok.data.remote.logic.RemoteBrangLogic
+import project.manajemenstok.data.remote.logic.RemoteBarangLogic
 
 
-class BarangRepository(private val remoteBarang: RemoteBrangLogic, private val localBarang: BarangLogic) {
+class BarangRepository(private val remoteBarang: RemoteBarangLogic, private val localBarang: BarangLogic) {
 
     fun getBarangs(): Single<List<Barang>>{
         return remoteBarang.getBarangs()

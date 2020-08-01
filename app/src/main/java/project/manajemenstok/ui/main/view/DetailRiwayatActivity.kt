@@ -13,20 +13,21 @@ import kotlinx.android.synthetic.main.activity_detail_riwayat.*
 import kotlinx.android.synthetic.main.fragment_riwayat.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.DetailTransaksiFirebase
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.DetailRiwayatAdapter
 import project.manajemenstok.ui.main.adapter.MainAdapter
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
+import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
 import project.manajemenstok.utils.Status
+import java.text.NumberFormat
+import java.util.*
 
 class DetailRiwayatActivity : AppCompatActivity() {
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var riwayatViewModel: RiwayatViewModel
     private lateinit var adapter: DetailRiwayatAdapter
-    private var temp: Int = 0
-//    private lateinit var viewFragmentRiwayat: View
-//    private lateinit var rv: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +35,21 @@ class DetailRiwayatActivity : AppCompatActivity() {
         setupUI()
         setupViewModel()
         setupObserver()
-        tv_detail_riwayat_total_price.text =  "Rp. "+temp
+        val idTransaksi = intent.getBundleExtra("historyTransaction").get("idTransaksi").toString()
+        val totalOngkir = intent.getBundleExtra("historyTransaction").get("totalOngkir").toString()
+        val totalTransaksi = intent.getBundleExtra("historyTransaction").get("totalTransaksi").toString()
 
+        riwayatViewModel.fetchDetailTransaksi(idTransaksi)
+        tv_detail_riwayat_total_ongkir.text = "Rp. "+ getFormat(totalOngkir.toInt())
+        tv_detail_riwayat_total_price.text =  "Rp. "+ getFormat(totalTransaksi.toInt())
+
+
+    }
+
+    fun getFormat(int: Int): String{
+        val idLocale = Locale("id", "ID")
+        val nf = NumberFormat.getNumberInstance(idLocale)
+        return nf.format(int)
     }
 
     private fun setupUI(){
@@ -52,23 +66,20 @@ class DetailRiwayatActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         val is_remote = true
-        mainViewModel = ViewModelProviders.of(
+        riwayatViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(this,is_remote)
-        ).get(MainViewModel::class.java)
+        ).get(RiwayatViewModel::class.java)
     }
 
     private fun setupObserver() {
-        mainViewModel.getBarangs().observe(this, Observer {
+        riwayatViewModel.getDetailTrasaksi().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarDetailRiwayat.visibility = View.GONE
                     it.data?.let {
                             users -> renderList(users)
                     }
-                    it.data?.let { it1 -> getTotal(it1) }
-                    rv_detail_riwayat.visibility = View.VISIBLE
-
                 }
                 Status.LOADING -> {
                     progressBarDetailRiwayat.visibility = View.VISIBLE
@@ -83,20 +94,8 @@ class DetailRiwayatActivity : AppCompatActivity() {
         })
     }
 
-    private fun renderList(barangs: List<Barang>) {
-        adapter.addData(barangs)
+    private fun renderList(item: List<DetailTransaksiFirebase>) {
+        adapter.addData(item)
         adapter.notifyDataSetChanged()
-    }
-
-    private fun getTotal(barangs: List<Barang>){
-//        mainViewModel.getBarangs().observe(this, Observer {
-//            users->barangs
-//        })
-        var aa: Int = 0
-        for (barang in barangs){
-            aa += barang.harga
-        }
-//        return temp
-         temp = 100
     }
 }
