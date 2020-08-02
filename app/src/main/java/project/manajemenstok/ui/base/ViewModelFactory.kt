@@ -3,10 +3,7 @@ package project.manajemenstok.ui.base
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import project.manajemenstok.ui.main.viewmodel.MainViewModel
-import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
-import project.manajemenstok.ui.main.viewmodel.PenjualanViewModel
-import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
+import project.manajemenstok.ui.main.viewmodel.*
 import java.lang.IllegalArgumentException
 
 //class ViewModelFactory(private val apiHelper: RemoteBrangLogic, private val appDb: BarangLogic) : ViewModelProvider.Factory {
@@ -20,6 +17,8 @@ class ViewModelFactory(val context : Context, private val is_remote : Boolean) :
             return PenjualanViewModel(context, is_remote) as T
         } else if(modelClass.isAssignableFrom(RiwayatViewModel::class.java)){
             return RiwayatViewModel(context, is_remote) as T
+        } else if(modelClass.isAssignableFrom(BarangViewModel::class.java)){
+            return BarangViewModel(context, is_remote) as T
         }
         throw IllegalArgumentException("Unknown Class Name")
     }

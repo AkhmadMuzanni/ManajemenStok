@@ -15,12 +15,12 @@ import kotlinx.android.synthetic.main.activity_penjualan.icon_back
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
-import project.manajemenstok.ui.main.viewmodel.PenjualanViewModel
-import java.text.NumberFormat
-import java.util.*
+import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.utils.Helper
 
 class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
-    private lateinit var penjualanViewModel: PenjualanViewModel
+    private lateinit var barangViewModel: BarangViewModel
+    private lateinit var objBarang: Barang
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,13 +30,13 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
 
         setupViewModel()
 
-        val dataBarang: Barang = intent.getSerializableExtra("dataBarang") as Barang
+        objBarang = intent.getSerializableExtra("dataBarang") as Barang
 
-        input_barang.setText(dataBarang.namaBarang)
+        input_barang.setText(objBarang.namaBarang)
         input_kategori.setText("Celana Anak")
-        input_jumlah.setText(getFormat(dataBarang.jumlah))
-        input_harga.setText(getFormat(dataBarang.harga))
-        Glide.with(image_view_barang.context).load(dataBarang.foto).into(image_view_barang)
+        input_jumlah.setText(Helper.getFormat(objBarang.jumlah))
+        input_harga.setText(Helper.getFormat(objBarang.harga))
+        Glide.with(image_view_barang.context).load(objBarang.foto).into(image_view_barang)
 
         icon_back.setOnClickListener(this)
         btn_edit.setOnClickListener(this)
@@ -50,10 +50,10 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupViewModel() {
         val is_remote = true
-        penjualanViewModel = ViewModelProviders.of(
+        barangViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext, is_remote)
-        ).get(PenjualanViewModel::class.java)
+        ).get(BarangViewModel::class.java)
     }
 
     override fun onClick(v: View) {
@@ -72,27 +72,19 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
                 keyboard?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             }
             R.id.btn_simpan->{
+                updateValue()
+                setEnable(false)
+
                 v.visibility = View.GONE
                 btn_edit.visibility = View.VISIBLE
-                setEnable(false)
+
+                barangViewModel.saveBarang(objBarang)
                 Toast.makeText(v.context, "Perubahan berhasil disimpan", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    fun getAngka(string: String): Int {
-        val idLocale = Locale("id", "ID")
-        val nf = NumberFormat.getNumberInstance(idLocale)
-        return nf.parse(string).toInt()
-    }
-
-    fun getFormat(int: Int): String {
-        val idLocale = Locale("id", "ID")
-        val nf = NumberFormat.getNumberInstance(idLocale)
-        return nf.format(int)
-    }
-
-    fun setEnable(isEnable: Boolean){
+    private fun setEnable(isEnable: Boolean){
         input_barang.isFocusable = isEnable
         input_barang.isFocusableInTouchMode = isEnable
 
@@ -104,5 +96,11 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
 
         input_harga.isFocusable = isEnable
         input_harga.isFocusableInTouchMode = isEnable
+    }
+
+    private fun updateValue(){
+        objBarang.namaBarang = input_barang.text.toString()
+        objBarang.jumlah = Helper.getAngka(input_jumlah.text.toString())
+        objBarang.harga = Helper.getAngka(input_harga.text.toString())
     }
 }
