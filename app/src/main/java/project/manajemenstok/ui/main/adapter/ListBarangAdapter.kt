@@ -25,7 +25,9 @@ class ListBarangAdapter (
 ): RecyclerView.Adapter<ListBarangAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View, val dataAdapter: ListBarangAdapter, val activity: FragmentActivity) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        var objBarang = Barang()
         fun bind(barang: Barang){
+            objBarang = barang
             itemView.text_nama_barang.text = barang.namaBarang.capitalize()
             itemView.text_kategori.text = "Celana Anak"
             itemView.text_jumlah.text = dataAdapter.getFormat(barang.jumlah)
@@ -40,6 +42,7 @@ class ListBarangAdapter (
                 R.id.container->{
                     val bundle = Bundle()
                     val detailBarangIntent =  Intent(v.context, DetailBarangActivity::class.java)
+                    detailBarangIntent.putExtra("dataBarang", objBarang)
 //                    startActivityForResult(activity, detailBarangIntent, Constants.RequestCodeIntent.DETAIL_BARANG, bundle)
                     startActivity(activity, detailBarangIntent, bundle)
                 }

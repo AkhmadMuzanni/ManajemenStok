@@ -67,6 +67,7 @@
             android:id="@+id/nama_barang_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/kategori_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -79,6 +80,7 @@
                 android:text="Nama Barang"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,13 +91,14 @@
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_label_barang"
-                >
+                app:layout_constraintTop_toBottomOf="@id/text_label_barang">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_input_pembeli"
+                    android:id="@+id/input_barang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:hint="Masukkan Nama Barang"
                     android:inputType="textCapSentences"
                     android:singleLine="true"
@@ -108,6 +111,7 @@
             android:id="@+id/kategori_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nama_barang_container">
@@ -120,6 +124,7 @@
                 android:text="Kategori"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -137,6 +142,8 @@
                     android:id="@+id/input_kategori"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:hint="Masukkan Nama Kategori"
                     android:textSize="14sp"
                     android:theme="@style/EditTextTheme" />
@@ -148,6 +155,7 @@
             android:id="@+id/jumlah_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/kategori_container">
@@ -160,6 +168,7 @@
                 android:text="Jumlah"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -177,7 +186,10 @@
                     android:id="@+id/input_jumlah"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:hint="Masukkan Jumlah Barang"
+                    android:inputType="number"
                     android:textSize="14sp"
                     android:theme="@style/EditTextTheme" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -187,10 +199,10 @@
             android:id="@+id/harga_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/jumlah_container"
-            tools:layout_editor_absoluteY="505dp">
+            app:layout_constraintTop_toBottomOf="@id/jumlah_container">
 
             <TextView
                 android:id="@+id/text_label_harga"
@@ -200,6 +212,7 @@
                 android:text="Harga"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -208,6 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingLeft="3dp"
                 android:text="Rp. "
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -224,13 +238,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_rp_harga"
-                app:layout_constraintTop_toBottomOf="@id/text_label_harga"
-                >
+                app:layout_constraintTop_toBottomOf="@id/text_label_harga">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/text_harga"
+                    android:id="@+id/input_harga"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:hint="Masukkan Harga"
                     android:inputType="number"
                     android:selectAllOnFocus="true"
@@ -241,8 +256,21 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
+            android:id="@+id/btn_simpan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_white_corner"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="SIMPAN"
+            android:textColor="@color/greenMars"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
             android:id="@+id/btn_edit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/menu_corner"
             android:paddingLeft="16dp"
