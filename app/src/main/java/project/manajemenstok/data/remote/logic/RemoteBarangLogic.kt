@@ -2,6 +2,7 @@ package project.manajemenstok.data.remote.logic
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.storage.StorageReference
 import io.reactivex.Single
 import project.manajemenstok.data.model.Barang
 
@@ -22,4 +23,9 @@ interface RemoteBarangLogic {
     fun getBarangTransaksi(): MutableLiveData<ArrayList<Barang>>
     fun fetchBarangTransaksi(listBarang: ArrayList<Barang>)
     fun setBarangTransaksi(listBarang: ArrayList<Barang>)
+    fun getStorageReference(query: String): StorageReference
+    fun getImageUrl(): MutableLiveData<String>
+    fun fetchImageUrl(path: String)
+    fun setImageUrl(url: String)
+
 }

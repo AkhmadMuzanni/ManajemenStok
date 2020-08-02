@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -36,7 +37,12 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
         input_kategori.setText("Celana Anak")
         input_jumlah.setText(Helper.getFormat(objBarang.jumlah))
         input_harga.setText(Helper.getFormat(objBarang.harga))
-        Glide.with(image_view_barang.context).load(objBarang.foto).into(image_view_barang)
+
+        barangViewModel.getImageUrl().observe(this, Observer {
+            Glide.with(image_view_barang.context).load(it.toString()).into(image_view_barang)
+        })
+
+        barangViewModel.fetchImageUrl("bevyStock/default.png")
 
         icon_back.setOnClickListener(this)
         btn_edit.setOnClickListener(this)

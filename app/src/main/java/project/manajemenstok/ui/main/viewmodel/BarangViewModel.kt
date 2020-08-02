@@ -26,4 +26,12 @@ class BarangViewModel (val context : Context, private val is_remote : Boolean) :
     fun saveBarang(barang: Barang){
         barangRepository.updateBarang(barang)
     }
+
+    fun getImageUrl(): MutableLiveData<String> {
+        return barangRepository.getImageUrl()
+    }
+
+    fun fetchImageUrl(path: String){
+        barangRepository.fetchImageUrl(path)
+    }
 }

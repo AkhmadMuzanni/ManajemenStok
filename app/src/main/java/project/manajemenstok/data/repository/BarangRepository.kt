@@ -119,4 +119,12 @@ class BarangRepository(private val remoteBarang: RemoteBarangLogic, private val 
         return localBarang.getBarangPenjualanUsed()
     }
 
+    fun fetchImageUrl(path: String){
+        remoteBarang.fetchImageUrl(path)
+    }
+
+    fun getImageUrl(): MutableLiveData<String>{
+        return remoteBarang.getImageUrl()
+    }
+
 }
