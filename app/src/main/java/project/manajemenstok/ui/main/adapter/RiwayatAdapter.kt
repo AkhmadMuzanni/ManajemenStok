@@ -5,7 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_riwayat_layout.view.*
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import project.manajemenstok.R
+import project.manajemenstok.data.model.TransaksiData
 import project.manajemenstok.data.model.TransaksiFirebase
 import project.manajemenstok.utils.Constants
 import java.text.NumberFormat
@@ -13,16 +16,16 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class RiwayatAdapter (
-    private val transaksis: ArrayList<TransaksiFirebase>,
+    private val transaksis: ArrayList<TransaksiData>,
     private val clickListener: OnRiwayatItemClickListener
 ): RecyclerView.Adapter<RiwayatAdapter.DataViewHolder>(){
 
     class DataViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(transaksi: TransaksiFirebase, action: OnRiwayatItemClickListener){
+        fun bind(transaksi: TransaksiData, action: OnRiwayatItemClickListener){
             itemView.tv_jenis_transaksi.text = getTypeTransaksi(transaksi.jenisTransaksi)
-            itemView.tv_nama_suplier.text = transaksi.idKlien.toString()
+            itemView.tv_nama_suplier.text = transaksi.namaKlien.toString()
             itemView.tv_mount.text = "Rp. "+ getFormat(transaksi.totalTransaksi)
-            itemView.tv_datetime.text = transaksi.tglTransaksi.toString()
+            itemView.tv_datetime.text = dateFormat(transaksi.tglTransaksi.toString())
             itemView.setOnClickListener {
                 action.onItemClick(transaksi, adapterPosition)
             }
@@ -44,6 +47,12 @@ class RiwayatAdapter (
             val nf = NumberFormat.getNumberInstance(idLocale)
             return nf.format(int)
         }
+
+        fun dateFormat(param: String): String{
+            val format = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+            val date : LocalDate = LocalDate.parse(param,format)
+            return date.toString()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
@@ -59,12 +68,17 @@ class RiwayatAdapter (
     override fun onBindViewHolder(holder: RiwayatAdapter.DataViewHolder, position: Int) =
         holder.bind(transaksis[position], clickListener)
 
-    fun addData(list: List<TransaksiFirebase>) {
+    fun addData(list: List<TransaksiData>) {
+        transaksis.addAll(list)
+    }
+
+    fun setData(list: List<TransaksiData>) {
+        transaksis.clear()
         transaksis.addAll(list)
     }
 
 }
 
 interface OnRiwayatItemClickListener{
-    fun onItemClick(item: TransaksiFirebase, position: Int)
+    fun onItemClick(item: TransaksiData, position: Int)
 }

@@ -133,18 +133,22 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="100dp"-->
-<!--                    android:layout_marginTop="5dp">-->
-<!--                    -->
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/componen_corner">
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Edit Profile"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/lyt_change_profile"
@@ -154,6 +158,8 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/bottom_border"
+                        android:clickable="true"
+                        android:focusable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView7"
@@ -189,16 +195,6 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Edit Profile"
-                        android:textSize="15sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/lyt_change_paket"
@@ -206,10 +202,10 @@
                         android:layout_height="60dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
+                        android:clickable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lyt_change_profile"
-                        tools:ignore="InvalidId">
+                        app:layout_constraintTop_toBottomOf="@+id/lyt_change_profile">
 
 
                         <ImageView
@@ -260,6 +256,7 @@
                     android:background="@drawable/componen_corner">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/lyt_change_password"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="16dp"
@@ -319,6 +316,7 @@
                     android:background="@drawable/componen_corner">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/lyt_help"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="16dp"
@@ -327,7 +325,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
+                        app:layout_constraintTop_toBottomOf="@+id/lyt_privacy">
 
 
                         <ImageView
@@ -360,7 +358,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/constraintLayout9"
+                        android:id="@+id/lyt_terms_condition"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="16dp"
@@ -370,7 +368,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
+                        app:layout_constraintTop_toBottomOf="@+id/lyt_keuntungan">
 
 
                         <ImageView
@@ -403,13 +401,14 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/constraintLayout7"
+                        android:id="@+id/lyt_keuntungan"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/bottom_border"
+                        tools:ignore="InvalidId"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -457,7 +456,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/constraintLayout11"
+                        android:id="@+id/lyt_privacy"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="16dp"
@@ -467,7 +466,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/constraintLayout9">
+                        app:layout_constraintTop_toBottomOf="@+id/lyt_terms_condition">
 
 
                         <ImageView

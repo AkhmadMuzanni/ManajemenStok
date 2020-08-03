@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".ui.main.view.KeuntunganAplikasiActivity" />
         <activity android:name=".ui.main.view.DetailBarangActivity" />
         <activity android:name=".ui.main.view.PenjualanActivity" />
         <activity android:name=".ui.main.view.DetailRiwayatActivity" />
