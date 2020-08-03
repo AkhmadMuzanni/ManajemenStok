@@ -1,6 +1,10 @@
 package project.manajemenstok.utils
 
 class Constants {
+    companion object {
+        val defaultImageObject = "https://firebasestorage.googleapis.com/v0/b/manajemenstok-4d541.appspot.com/o/bevyStock%2Fdefault.png?alt=media&token=a1b1e484-cbc0-41c8-822a-29641ca6ef31"
+    }
+
     class JenisTransaksiValue{
         companion object {
             val PEMBELIAN = 0
@@ -22,6 +26,13 @@ class Constants {
             val KONFIRMASI_TRANSAKSI = 2
             val DETAIL_BARANG = 3
             val GET_IMAGE = 4
+        }
+    }
+
+    class DeleteStatus{
+        companion object {
+            val ACTIVE = 0
+            val DELETED = 1
         }
     }
 }

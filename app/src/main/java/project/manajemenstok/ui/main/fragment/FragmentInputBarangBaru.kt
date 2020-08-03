@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_input_barang_baru.*
 import kotlinx.android.synthetic.main.fragment_input_barang_baru.view.*
 import project.manajemenstok.R
-import project.manajemenstok.ui.main.view.InputBarangActivity
-import project.manajemenstok.ui.main.view.PembelianActivity
+import project.manajemenstok.utils.Constants
 
 
 class FragmentInputBarangBaru : Fragment(), View.OnClickListener{
@@ -35,6 +33,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener{
                 inputBarangBundle.putInt("id", 0)
                 inputBarangBundle.putString("namaBarang", this.input_barang_pembelian.text.toString())
                 inputBarangBundle.putString("uuid", "")
+                inputBarangBundle.putString("foto", Constants.defaultImageObject)
                 inputBarangIntent.putExtra("bundle",inputBarangBundle)
                 activity?.setResult(RESULT_OK, inputBarangIntent)
                 activity?.finish()
