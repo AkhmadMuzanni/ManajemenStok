@@ -1,5 +1,6 @@
 package project.manajemenstok.data.repository
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DatabaseReference
 import io.reactivex.Single
@@ -119,11 +120,11 @@ class BarangRepository(private val remoteBarang: RemoteBarangLogic, private val 
         return localBarang.getBarangPenjualanUsed()
     }
 
-    fun fetchImageUrl(path: String){
-        remoteBarang.fetchImageUrl(path)
+    fun uploadImage(imageUri: Uri, path: String){
+        remoteBarang.uploadImage(imageUri, path)
     }
 
-    fun getImageUrl(): MutableLiveData<String>{
+    fun getUploadResult(): MutableLiveData<String>{
         return remoteBarang.getImageUrl()
     }
 

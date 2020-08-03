@@ -15,8 +15,9 @@ import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.imageViewFoto
 import project.manajemenstok.R
 import project.manajemenstok.ui.main.view.DetailBarangActivity
-import java.text.NumberFormat
-import java.util.*
+import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.utils.Helper
+
 import kotlin.collections.ArrayList
 
 class ListBarangAdapter (
@@ -30,9 +31,9 @@ class ListBarangAdapter (
             objBarang = barang
             itemView.text_nama_barang.text = barang.namaBarang.capitalize()
             itemView.text_kategori.text = "Celana Anak"
-            itemView.text_jumlah.text = dataAdapter.getFormat(barang.jumlah)
-            itemView.text_harga.text = dataAdapter.getFormat(barang.harga)
-            Glide.with(itemView.imageViewFoto.context).load(barang.foto).into(itemView.imageViewFoto)
+            itemView.text_jumlah.text = Helper.getFormat(barang.jumlah)
+            itemView.text_harga.text = Helper.getFormat(barang.harga)
+            Glide.with(itemView.imageViewFoto.context).load(objBarang.foto).into(itemView.imageViewFoto)
 
             itemView.setOnClickListener(this)
         }
@@ -70,12 +71,6 @@ class ListBarangAdapter (
     fun setData(list: List<Barang>) {
         barangs.clear()
         barangs.addAll(list)
-    }
-
-    fun getFormat(int: Int): String{
-        val idLocale = Locale("id", "ID")
-        val nf = NumberFormat.getNumberInstance(idLocale)
-        return nf.format(int)
     }
 
 }

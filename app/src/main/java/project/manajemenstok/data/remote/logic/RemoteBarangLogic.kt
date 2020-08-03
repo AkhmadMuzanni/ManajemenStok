@@ -1,5 +1,6 @@
 package project.manajemenstok.data.remote.logic
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
@@ -27,5 +28,5 @@ interface RemoteBarangLogic {
     fun getImageUrl(): MutableLiveData<String>
     fun fetchImageUrl(path: String)
     fun setImageUrl(url: String)
-
+    fun uploadImage(imageUri: Uri, path: String)
 }

@@ -1,6 +1,7 @@
 package project.manajemenstok.ui.main.viewmodel
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import project.manajemenstok.data.local.DbHelper
@@ -27,11 +28,11 @@ class BarangViewModel (val context : Context, private val is_remote : Boolean) :
         barangRepository.updateBarang(barang)
     }
 
-    fun getImageUrl(): MutableLiveData<String> {
-        return barangRepository.getImageUrl()
+    fun getUploadResult(): MutableLiveData<String> {
+        return barangRepository.getUploadResult()
     }
 
-    fun fetchImageUrl(path: String){
-        barangRepository.fetchImageUrl(path)
+    fun uploadImage(imageUri: Uri, path: String){
+        barangRepository.uploadImage(imageUri, path)
     }
 }

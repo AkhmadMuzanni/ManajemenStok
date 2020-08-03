@@ -20,7 +20,8 @@ class Constants {
         companion object {
             val INPUT_BARANG = 1
             val KONFIRMASI_TRANSAKSI = 2
-            val DETAIL_BARANG = 2
+            val DETAIL_BARANG = 3
+            val GET_IMAGE = 4
         }
     }
 }

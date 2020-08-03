@@ -1,5 +1,6 @@
 package project.manajemenstok.data.remote.impl
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
@@ -168,6 +169,18 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
 
     override fun setImageUrl(url: String) {
         imageUrl.postValue(url)
+    }
+
+    override fun uploadImage(imageUri: Uri, path: String) {
+        val storageRef = Firebase.storage.reference.child(path)
+
+        val uploadTask = storageRef.putFile(imageUri)
+
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+        }.addOnSuccessListener {
+            fetchImageUrl(storageRef.path)
+        }
     }
 
     override fun getLiveBarang(): MutableLiveData<ArrayList<Barang>> {

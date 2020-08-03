@@ -1,6 +1,8 @@
 package project.manajemenstok.ui.main.view
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -17,6 +19,7 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Helper
 
 class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
@@ -37,21 +40,38 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
         input_kategori.setText("Celana Anak")
         input_jumlah.setText(Helper.getFormat(objBarang.jumlah))
         input_harga.setText(Helper.getFormat(objBarang.harga))
-
-        barangViewModel.getImageUrl().observe(this, Observer {
-            Glide.with(image_view_barang.context).load(it.toString()).into(image_view_barang)
-        })
-
-        barangViewModel.fetchImageUrl("bevyStock/default.png")
+        Glide.with(image_view_barang.context).load(objBarang.foto).into(image_view_barang)
 
         icon_back.setOnClickListener(this)
         btn_edit.setOnClickListener(this)
         btn_simpan.setOnClickListener(this)
+        image_view_barang.setOnClickListener(this)
 
     }
 
     override fun onBackPressed() {
         findViewById<ImageView>(R.id.icon_back).performClick()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode){
+            Constants.RequestCodeIntent.GET_IMAGE -> {
+                if(resultCode == Activity.RESULT_OK){
+                    val imageUri = data?.data
+
+                    barangViewModel.getUploadResult().observe(this, Observer {
+                        objBarang.foto = it
+                        barangViewModel.saveBarang(objBarang)
+                        Glide.with(image_view_barang.context).load(it).into(image_view_barang)
+                        Toast.makeText(this, "Foto Barang Berhasil Diubah", Toast.LENGTH_LONG).show()
+                    })
+
+                    barangViewModel.uploadImage(imageUri!!, "bevyStock/" + objBarang.uuid + ".png")
+                }
+            }
+        }
     }
 
     private fun setupViewModel() {
@@ -86,6 +106,13 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
 
                 barangViewModel.saveBarang(objBarang)
                 Toast.makeText(v.context, "Perubahan berhasil disimpan", Toast.LENGTH_LONG).show()
+            }
+            R.id.image_view_barang->{
+//                Toast.makeText(v.context, "Gambar Diganti", Toast.LENGTH_LONG).show()
+                val imageIntent = Intent()
+                imageIntent.setType("image/*")
+                imageIntent.setAction(Intent.ACTION_GET_CONTENT)
+                startActivityForResult(imageIntent, Constants.RequestCodeIntent.GET_IMAGE)
             }
         }
     }

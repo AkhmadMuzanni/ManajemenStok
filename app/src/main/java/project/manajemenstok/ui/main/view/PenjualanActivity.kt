@@ -188,7 +188,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
             val tempBarang = Barang()
             tempBarang.id = data?.getBundleExtra("bundle")?.getInt("id")!!
             tempBarang.namaBarang = data?.getBundleExtra("bundle")?.getString("namaBarang")!!
-            tempBarang.foto = resources.getString(R.string.defaultImageIcon)
+            tempBarang.foto = data?.getBundleExtra("bundle")?.getString("foto")!!
             tempBarang.jumlah = 1
             tempBarang.harga = data?.getBundleExtra("bundle")?.getInt("harga")!!
             tempBarang.total = 0

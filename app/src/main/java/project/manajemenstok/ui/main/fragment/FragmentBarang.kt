@@ -33,8 +33,9 @@ class FragmentBarang : Fragment() {
     ): View? {
         viewFragmentBarang = inflater.inflate(R.layout.fragment_barang, container, false)
 
-        setupUI()
         setupViewModel()
+        setupUI()
+
         barangViewModel.getLiveBarang().observe(this, Observer {
             renderList(it)
         })
