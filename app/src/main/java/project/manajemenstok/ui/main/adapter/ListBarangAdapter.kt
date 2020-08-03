@@ -97,6 +97,7 @@ class ListBarangAdapter (
             barang.isDeleted = Constants.DeleteStatus.DELETED
             barangViewModel.saveBarang(barang)
             Toast.makeText(fragment.context, "Barang berhasil dihapus", Toast.LENGTH_LONG).show()
+            fragment.onResume()
         }
 
         builder.setNegativeButton("BATAL") { _, _ ->

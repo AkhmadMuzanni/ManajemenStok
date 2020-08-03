@@ -11,6 +11,7 @@ import com.rx2androidnetworking.Rx2AndroidNetworking
 import io.reactivex.Single
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.remote.logic.RemoteBarangLogic
+import project.manajemenstok.utils.Constants
 
 class RemoteBarangLogicImpl : RemoteBarangLogic {
     val database = Firebase.database
@@ -49,15 +50,17 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
                 var result = ArrayList<Barang>()
                 dataSnapshot.children.forEach {
                     val barang = it.getValue<Barang>(Barang::class.java)!!
-                    var isUsed = false
-                    for(used in barangUsed){
-                        if(barang.uuid == used.uuid){
-                            isUsed = true
-                            break
+                    if(barang.isDeleted == Constants.DeleteStatus.ACTIVE){
+                        var isUsed = false
+                        for(used in barangUsed){
+                            if(barang.uuid == used.uuid){
+                                isUsed = true
+                                break
+                            }
                         }
-                    }
-                    if(!isUsed){
-                        result.add(barang)
+                        if(!isUsed){
+                            result.add(barang)
+                        }
                     }
                 }
                 setUnusedBarang(result)
@@ -125,7 +128,7 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
                     var resultBarang = Barang()
                     dataSnapshot.children.forEach {
                         existedBarang = it.getValue<Barang>(Barang::class.java)!!
-                        if(barang.uuid == existedBarang.uuid){
+                        if(barang.uuid == existedBarang.uuid && existedBarang.isDeleted == Constants.DeleteStatus.ACTIVE){
                             isUsed = true
                             resultBarang = existedBarang
                         }
@@ -216,7 +219,10 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var listBarang = ArrayList<Barang>()
                 dataSnapshot.children.forEach {
-                    listBarang.add(it.getValue<Barang>(Barang::class.java)!!)
+                    val tempBarang = it.getValue<Barang>(Barang::class.java)!!
+                    if(tempBarang.isDeleted == Constants.DeleteStatus.ACTIVE){
+                        listBarang.add(tempBarang)
+                    }
                 }
                 setLiveBarang(listBarang)
             }
