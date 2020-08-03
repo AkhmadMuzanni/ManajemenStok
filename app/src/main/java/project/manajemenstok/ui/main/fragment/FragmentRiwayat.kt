@@ -13,18 +13,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_barang.*
 import kotlinx.android.synthetic.main.fragment_riwayat.*
 
 import project.manajemenstok.R
-import project.manajemenstok.data.model.Barang
-import project.manajemenstok.data.model.Pembelian
+import project.manajemenstok.data.model.TransaksiData
 import project.manajemenstok.data.model.TransaksiFirebase
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
 import project.manajemenstok.ui.main.view.DetailRiwayatActivity
-import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
 import project.manajemenstok.utils.Status
 
@@ -76,7 +73,9 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarRiwayat.visibility = View.GONE
-                    it.data?.let { transaksi -> renderList(transaksi) }
+                    it.data?.let {
+                            transaksi -> renderList(transaksi)
+                    }
                     rv.visibility = View.VISIBLE
                 }
                 Status.LOADING -> {
@@ -92,12 +91,12 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
         })
     }
 
-    private fun renderList(transaksiList: List<TransaksiFirebase>) {
-        adapter.addData(transaksiList)
+    private fun renderList(transaksiList: List<TransaksiData>) {
+        adapter.setData(transaksiList)
         adapter.notifyDataSetChanged()
     }
 
-    override fun onItemClick(item: TransaksiFirebase, position: Int) {
+    override fun onItemClick(item: TransaksiData, position: Int) {
         val historyTransaction = Intent(viewFragmentRiwayat.context, DetailRiwayatActivity::class.java)
         val historyTransactionBundle = Bundle()
         historyTransactionBundle.putString("idTransaksi", item.uuid)

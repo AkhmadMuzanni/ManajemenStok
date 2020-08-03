@@ -7,22 +7,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_detail_riwayat_layout.view.*
 import kotlinx.android.synthetic.main.item_layout.view.*
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.DetailTransaksiData
 import project.manajemenstok.data.model.DetailTransaksiFirebase
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class DetailRiwayatAdapter(
-    private val detailTransaksis: ArrayList<DetailTransaksiFirebase>
+    private val detailTransaksis: ArrayList<DetailTransaksiData>
 ): RecyclerView.Adapter<DetailRiwayatAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(detailTransaksi: DetailTransaksiFirebase){
+        fun bind(detailTransaksi: DetailTransaksiData){
             itemView.tv_item_riwayat_count.text = detailTransaksi.jumlah.toString()+"x"
-            itemView.tv_item_riwayat_name.text = detailTransaksi.idBarang.capitalize()
-            itemView.tv_item_riwayat_price.text = "RP. "+ getFormat(detailTransaksi.harga)
+            itemView.tv_item_riwayat_name.text = detailTransaksi.namaBarang.capitalize()
+            itemView.tv_item_riwayat_price.text = "Rp. "+ getFormat(detailTransaksi.harga)
             itemView.tv_item_riwayat_total_price.text = "Rp. " + getFormat(detailTransaksi.total)
         }
 
@@ -46,7 +49,8 @@ class DetailRiwayatAdapter(
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
         holder.bind(detailTransaksis[position])
 
-    fun addData(list: List<DetailTransaksiFirebase>) {
+    fun addData(list: List<DetailTransaksiData>) {
+        detailTransaksis.clear()
         detailTransaksis.addAll(list)
     }
 

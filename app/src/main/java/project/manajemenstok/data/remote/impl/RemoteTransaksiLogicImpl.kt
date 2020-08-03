@@ -7,15 +7,14 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import project.manajemenstok.data.model.DetailTransaksiFirebase
-import project.manajemenstok.data.model.TransaksiFirebase
+import project.manajemenstok.data.model.*
 import project.manajemenstok.data.remote.logic.RemoteTransaksiLogic
 import project.manajemenstok.utils.Resource
 
 class RemoteTransaksiLogicImpl :
     RemoteTransaksiLogic {
-    private var liveDataTransaksi = MutableLiveData<Resource<ArrayList<TransaksiFirebase>>>()
-    private var liveDataDetailTransaksi = MutableLiveData<Resource<ArrayList<DetailTransaksiFirebase>>>()
+    private var liveDataTransaksi = MutableLiveData<Resource<ArrayList<TransaksiData>>>()
+    private var liveDataDetailTransaksi = MutableLiveData<Resource<ArrayList<DetailTransaksiData>>>()
 
     override fun getDbReference(query: String): DatabaseReference {
         val database = Firebase.database
@@ -43,7 +42,7 @@ class RemoteTransaksiLogicImpl :
         return key
     }
 
-    override fun getTransaksi(): MutableLiveData<Resource<ArrayList<TransaksiFirebase>>> {
+    override fun getTransaksi(): MutableLiveData<Resource<ArrayList<TransaksiData>>> {
         return liveDataTransaksi
     }
 
@@ -52,28 +51,49 @@ class RemoteTransaksiLogicImpl :
             ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                var listAllTransaksi = ArrayList<TransaksiFirebase>()
+                var listAllTransaksi = ArrayList<TransaksiData>()
                 snapshot.children.forEach{
                     it.children.forEach {
-                        listAllTransaksi.add(it.getValue<TransaksiFirebase>(TransaksiFirebase::class.java)!!)
+
+                        var transaksi = it.getValue<TransaksiFirebase>(TransaksiFirebase::class.java)!!
+                        getDbReference("klien").child(transaksi.idKlien).addListenerForSingleValueEvent(object :
+                            ValueEventListener{
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val klien = snapshot.getValue<KlienFirebase>(KlienFirebase::class.java)!!
+                                val tempTransaksiData = TransaksiData()
+                                tempTransaksiData.uuid = transaksi.uuid
+                                tempTransaksiData.namaKlien = klien.nama
+                                tempTransaksiData.tglTransaksi = transaksi.tglTransaksi
+                                tempTransaksiData.ongkir = transaksi.ongkir
+                                tempTransaksiData.totalTransaksi = transaksi.totalTransaksi
+                                tempTransaksiData.metode = transaksi.metode
+                                tempTransaksiData.jenisTransaksi = transaksi.jenisTransaksi
+                                listAllTransaksi.add(tempTransaksiData)
+                                setTransaksi(listAllTransaksi)
+
+                            }
+
+                        })
                     }
                 }
-
-                setTransaksi(listAllTransaksi)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
-
         })
+
     }
 
-    override fun setTransaksi(listTransaksi: ArrayList<TransaksiFirebase>) {
+    override fun setTransaksi(listTransaksi: ArrayList<TransaksiData>) {
         liveDataTransaksi.postValue(Resource.success(listTransaksi))
     }
 
-    override fun getDetailTransaksi(): MutableLiveData<Resource<ArrayList<DetailTransaksiFirebase>>> {
+    override fun getDetailTransaksi(): MutableLiveData<Resource<ArrayList<DetailTransaksiData>>> {
         return liveDataDetailTransaksi
     }
 
@@ -85,23 +105,43 @@ class RemoteTransaksiLogicImpl :
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                var listDetailTransaksi = ArrayList<DetailTransaksiFirebase>()
+                var listDetailTransaksi = ArrayList<DetailTransaksiData>()
                 snapshot.children.forEach {
                     it.children.forEach{
                         if (param.equals(it.key)){
                             it.children.forEach{
-                                listDetailTransaksi.add(it.getValue<DetailTransaksiFirebase>(DetailTransaksiFirebase::class.java)!!)
+                                var detailTransaksi = it.getValue<DetailTransaksiFirebase>(DetailTransaksiFirebase::class.java)!!
+                                getDbReference("barang").child(detailTransaksi.idBarang).addListenerForSingleValueEvent(object :
+                                    ValueEventListener{
+                                    override fun onCancelled(error: DatabaseError) {
+                                        TODO("Not yet implemented")
+                                    }
+
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        val barang = snapshot.getValue<Barang>(Barang::class.java)!!
+                                        val tempDetailTransaksi = DetailTransaksiData()
+                                        tempDetailTransaksi.uuid = detailTransaksi.uuid
+                                        tempDetailTransaksi.idTransaksi = detailTransaksi.idTransaksi
+                                        tempDetailTransaksi.namaBarang = barang.namaBarang
+                                        tempDetailTransaksi.harga = detailTransaksi.harga
+                                        tempDetailTransaksi.jumlah = detailTransaksi.jumlah
+                                        tempDetailTransaksi.total = detailTransaksi.total
+                                        listDetailTransaksi.add(tempDetailTransaksi)
+                                        setDetailTransaksi(listDetailTransaksi)
+                                    }
+
+                                })
+
                             }
                         }
                     }
                 }
-                setDetailTransaksi(listDetailTransaksi)
             }
 
         })
     }
 
-    override fun setDetailTransaksi(listDetailTransaksi: ArrayList<DetailTransaksiFirebase>) {
+    override fun setDetailTransaksi(listDetailTransaksi: ArrayList<DetailTransaksiData>) {
         liveDataDetailTransaksi.postValue(Resource.success(listDetailTransaksi))
     }
 

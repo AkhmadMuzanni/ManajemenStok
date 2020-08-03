@@ -26,7 +26,7 @@ class RiwayatViewModel (val context : Context, private val is_remote : Boolean) 
         DbHelper(context)
     )
 
-    fun getTransaksi(): MutableLiveData<Resource<ArrayList<TransaksiFirebase>>> {
+    fun getTransaksi(): MutableLiveData<Resource<ArrayList<TransaksiData>>> {
         return transaksiRepository.getDataTransaksi()
     }
 
@@ -34,7 +34,7 @@ class RiwayatViewModel (val context : Context, private val is_remote : Boolean) 
         transaksiRepository.fetchDataTransaksi()
     }
 
-    fun getDetailTrasaksi():  MutableLiveData<Resource<ArrayList<DetailTransaksiFirebase>>>{
+    fun getDetailTrasaksi():  MutableLiveData<Resource<ArrayList<DetailTransaksiData>>>{
         return transaksiRepository.getDataDetailTransaksi()
     }
 

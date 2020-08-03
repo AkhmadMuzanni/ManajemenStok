@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_detail_riwayat.*
 import kotlinx.android.synthetic.main.fragment_riwayat.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.DetailTransaksiData
 import project.manajemenstok.data.model.DetailTransaksiFirebase
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.DetailRiwayatAdapter
@@ -94,7 +95,7 @@ class DetailRiwayatActivity : AppCompatActivity() {
         })
     }
 
-    private fun renderList(item: List<DetailTransaksiFirebase>) {
+    private fun renderList(item: List<DetailTransaksiData>) {
         adapter.addData(item)
         adapter.notifyDataSetChanged()
     }

@@ -5,10 +5,7 @@ import io.reactivex.Single
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import project.manajemenstok.data.local.logic.PembelianLogic
-import project.manajemenstok.data.model.DetailPembelian
-import project.manajemenstok.data.model.DetailTransaksiFirebase
-import project.manajemenstok.data.model.Pembelian
-import project.manajemenstok.data.model.TransaksiFirebase
+import project.manajemenstok.data.model.*
 import project.manajemenstok.data.remote.logic.RemoteTransaksiLogic
 import project.manajemenstok.utils.Resource
 
@@ -49,7 +46,7 @@ class TransaksiRepository(private val remoteTransaksi: RemoteTransaksiLogic, pri
         remoteTransaksi.fetchTransaksi()
     }
 
-    fun getDataTransaksi(): MutableLiveData<Resource<ArrayList<TransaksiFirebase>>>{
+    fun getDataTransaksi(): MutableLiveData<Resource<ArrayList<TransaksiData>>>{
         return remoteTransaksi.getTransaksi()
     }
 
@@ -57,7 +54,7 @@ class TransaksiRepository(private val remoteTransaksi: RemoteTransaksiLogic, pri
         remoteTransaksi.fetchDetailTransaksi(param)
     }
 
-    fun getDataDetailTransaksi(): MutableLiveData<Resource<ArrayList<DetailTransaksiFirebase>>>{
+    fun getDataDetailTransaksi(): MutableLiveData<Resource<ArrayList<DetailTransaksiData>>>{
         return remoteTransaksi.getDetailTransaksi()
     }
 
