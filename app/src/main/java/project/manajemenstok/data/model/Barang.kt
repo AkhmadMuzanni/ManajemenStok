@@ -19,6 +19,8 @@ data class Barang (
     @SerializedName("uuid")
     var uuid: String="",
     @SerializedName("maxQuantity")
-    var maxQuantity: Int=0
+    var maxQuantity: Int=0,
+    @SerializedName("isDeleted")
+    var isDeleted: Int=0
 
 ): Serializable
