@@ -146,7 +146,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             val tempBarang = Barang()
             tempBarang.id = data?.getBundleExtra("bundle")?.getInt("id")!!
             tempBarang.namaBarang = data?.getBundleExtra("bundle")?.getString("namaBarang")!!
-            tempBarang.foto = resources.getString(R.string.defaultImageIcon)
+            tempBarang.foto = data?.getBundleExtra("bundle")?.getString("foto")!!
             tempBarang.jumlah = 1
             tempBarang.harga = 0
             tempBarang.total = 0

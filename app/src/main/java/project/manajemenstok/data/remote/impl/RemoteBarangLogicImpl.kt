@@ -1,9 +1,12 @@
 package project.manajemenstok.data.remote.impl
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.rx2androidnetworking.Rx2AndroidNetworking
 import io.reactivex.Single
 import project.manajemenstok.data.model.Barang
@@ -15,6 +18,7 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
     private var unusedBarang = MutableLiveData<ArrayList<Barang>>()
     private var tempBarang = MutableLiveData<Barang>()
     private var barangTransaksi = MutableLiveData<ArrayList<Barang>>()
+    private var imageUrl = MutableLiveData<String>()
 
     override fun getBarangs(): Single<List<Barang>> {
 //        Get Live Data
@@ -144,6 +148,39 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
 
     override fun setBarangTransaksi(listBarang: ArrayList<Barang>) {
         barangTransaksi.postValue(listBarang)
+    }
+
+    override fun getStorageReference(query: String): StorageReference {
+        return Firebase.storage.reference.child(query)
+    }
+
+    override fun getImageUrl(): MutableLiveData<String> {
+        return imageUrl
+    }
+
+    override fun fetchImageUrl(path: String) {
+        val imageReference = getStorageReference(path)
+        imageReference.downloadUrl.addOnSuccessListener {
+            setImageUrl(it.toString())
+        }.addOnFailureListener {
+            // Handle any errors
+        }
+    }
+
+    override fun setImageUrl(url: String) {
+        imageUrl.postValue(url)
+    }
+
+    override fun uploadImage(imageUri: Uri, path: String) {
+        val storageRef = Firebase.storage.reference.child(path)
+
+        val uploadTask = storageRef.putFile(imageUri)
+
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+        }.addOnSuccessListener {
+            fetchImageUrl(storageRef.path)
+        }
     }
 
     override fun getLiveBarang(): MutableLiveData<ArrayList<Barang>> {

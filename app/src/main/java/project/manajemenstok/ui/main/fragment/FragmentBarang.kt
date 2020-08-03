@@ -15,14 +15,14 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangAdapter
-import project.manajemenstok.ui.main.viewmodel.MainViewModel
+import project.manajemenstok.ui.main.viewmodel.BarangViewModel
 
 /**
  * A simple [Fragment] subclass.
  */
 class FragmentBarang : Fragment() {
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var barangViewModel: BarangViewModel
     private lateinit var adapter: ListBarangAdapter
     private lateinit var viewFragmentBarang: View
     private lateinit var rv: RecyclerView
@@ -33,9 +33,10 @@ class FragmentBarang : Fragment() {
     ): View? {
         viewFragmentBarang = inflater.inflate(R.layout.fragment_barang, container, false)
 
-        setupUI()
         setupViewModel()
-        mainViewModel.getLiveBarang().observe(this, Observer {
+        setupUI()
+
+        barangViewModel.getLiveBarang().observe(this, Observer {
             renderList(it)
         })
 
@@ -44,13 +45,13 @@ class FragmentBarang : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mainViewModel.fetchLiveBarang()
+        barangViewModel.fetchLiveBarang()
     }
 
     private fun setupUI(){
         rv = viewFragmentBarang.findViewById(R.id.rv_beranda)
         rv.layoutManager = LinearLayoutManager(viewFragmentBarang.context)
-        adapter = ListBarangAdapter(arrayListOf())
+        adapter = ListBarangAdapter(arrayListOf(), activity!!)
         rv.addItemDecoration(
             DividerItemDecoration(
                 rv.context,
@@ -62,14 +63,14 @@ class FragmentBarang : Fragment() {
 
     private fun setupViewModel() {
         val is_remote = true
-        mainViewModel = ViewModelProviders.of(
+        barangViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewFragmentBarang.context,is_remote)
-        ).get(MainViewModel::class.java)
+        ).get(BarangViewModel::class.java)
     }
 
     private fun renderList(barangs: List<Barang>) {
-        adapter.addData(barangs)
+        adapter.setData(barangs)
         adapter.notifyDataSetChanged()
     }
 
