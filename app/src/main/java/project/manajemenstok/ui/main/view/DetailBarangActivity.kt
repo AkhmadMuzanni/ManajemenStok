@@ -46,6 +46,7 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
         btn_edit.setOnClickListener(this)
         btn_simpan.setOnClickListener(this)
         image_view_barang.setOnClickListener(this)
+        btn_riwayat_harga.setOnClickListener(this)
 
     }
 
@@ -86,6 +87,9 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
         when (v.id){
             R.id.icon_back->{
                 finish()
+            }
+            R.id.btn_riwayat_harga->{
+                Toast.makeText(v.context, "Coming Soon", Toast.LENGTH_LONG).show()
             }
             R.id.btn_edit->{
                 v.visibility = View.GONE

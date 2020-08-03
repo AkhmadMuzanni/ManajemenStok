@@ -236,7 +236,7 @@
                 android:layout_height="wrap_content"
                 app:hintEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_riwayat_harga"
                 app:layout_constraintStart_toEndOf="@id/text_rp_harga"
                 app:layout_constraintTop_toBottomOf="@id/text_label_harga">
 
@@ -251,8 +251,26 @@
                     android:selectAllOnFocus="true"
                     android:text="0"
                     android:textSize="14sp"
-                    android:theme="@style/EditTextTheme" />
+                    android:theme="@style/EditTextTheme"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/btn_riwayat_harga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/menu_corner"
+                android:padding="5dp"
+                android:text="RIWAYAT"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/input_harga_layout" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
