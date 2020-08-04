@@ -50,7 +50,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
             "TOTAL" to INTEGER,
             "UUID" to TEXT,
             "MAX_QUANTITY" to INTEGER,
-            "IS_DELETED" to INTEGER
+            "IS_DELETED" to INTEGER,
+            "KATEGORI" to TEXT
         )
 
         db?.createTable("TABLE_PENJUAL", true,
@@ -172,7 +173,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
                 BarangSkema.TOTAL to barang.total,
                 BarangSkema.UUID to barang.uuid,
                 BarangSkema.MAX_QUANTITY to barang.maxQuantity,
-                BarangSkema.IS_DELETED to barang.isDeleted
+                BarangSkema.IS_DELETED to barang.isDeleted,
+                BarangSkema.KATEGORI to barang.kategori
             )
         }
     }
@@ -192,7 +194,8 @@ class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", 
             BarangSkema.TOTAL to barang.total,
             BarangSkema.UUID to barang.uuid,
             BarangSkema.MAX_QUANTITY to barang.maxQuantity,
-            BarangSkema.IS_DELETED to barang.isDeleted
+            BarangSkema.IS_DELETED to barang.isDeleted,
+            BarangSkema.KATEGORI to barang.kategori
         )
 
         val lastItem = db.rawQuery("SELECT * FROM TABLE_BARANG",null)

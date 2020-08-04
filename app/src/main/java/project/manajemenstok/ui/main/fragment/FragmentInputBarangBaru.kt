@@ -34,6 +34,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener{
                 inputBarangBundle.putString("namaBarang", this.input_barang_pembelian.text.toString())
                 inputBarangBundle.putString("uuid", "")
                 inputBarangBundle.putString("foto", Constants.defaultImageObject)
+                inputBarangBundle.putString("kategori", "nonKategori")
                 inputBarangIntent.putExtra("bundle",inputBarangBundle)
                 activity?.setResult(RESULT_OK, inputBarangIntent)
                 activity?.finish()
