@@ -47,14 +47,13 @@ class RemoteTransaksiLogicImpl :
     }
 
     override fun fetchTransaksi() {
-        getDbReference("transaksi").addListenerForSingleValueEvent(object :
+        getDbReference("transaksi").orderByPriority().addListenerForSingleValueEvent(object :
             ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 var listAllTransaksi = ArrayList<TransaksiData>()
                 snapshot.children.forEach{
                     it.children.forEach {
-
                         var transaksi = it.getValue<TransaksiFirebase>(TransaksiFirebase::class.java)!!
                         getDbReference("klien").child(transaksi.idKlien).addListenerForSingleValueEvent(object :
                             ValueEventListener{
@@ -76,7 +75,6 @@ class RemoteTransaksiLogicImpl :
                                 setTransaksi(listAllTransaksi)
 
                             }
-
                         })
                     }
                 }

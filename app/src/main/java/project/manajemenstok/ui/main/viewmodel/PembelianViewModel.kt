@@ -12,6 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import project.manajemenstok.data.local.DbHelper
 import project.manajemenstok.data.model.*
 import project.manajemenstok.data.remote.impl.RemoteBarangLogicImpl
@@ -225,10 +226,11 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         dataPenjual.noTelp = bundle.getBundle("dataPenjual")!!.getString("noTelp")!!
 
         val idPenjual = penjualRepository.createKlien(dataPenjual)
-
+        val dateNow = LocalDateTime.now()
         var dataPembelian = TransaksiFirebase()
         dataPembelian.idKlien = idPenjual
-        dataPembelian.tglTransaksi = LocalDateTime.now().toString()
+//        dataPembelian.tglTransaksi = LocalDateTime.now().toString()
+        dataPembelian.tglTransaksi = dateNow.format(DateTimeFormatter.ofPattern("dd MMM yyy hh:mm:ss"))
         dataPembelian.ongkir = Integer.parseInt(bundle.getString("dataOngkir")!!)
         dataPembelian.totalTransaksi = Integer.parseInt(bundle.getString("dataTotal")!!)
         dataPembelian.metode = Constants.MetodePembayaran.CASH

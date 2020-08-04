@@ -92,7 +92,7 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
     }
 
     private fun renderList(transaksiList: List<TransaksiData>) {
-        adapter.setData(transaksiList)
+        adapter.setData(transaksiList.reversed())
         adapter.notifyDataSetChanged()
     }
 

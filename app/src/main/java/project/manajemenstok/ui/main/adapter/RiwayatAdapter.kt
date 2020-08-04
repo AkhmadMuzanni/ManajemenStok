@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_riwayat_layout.view.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 import project.manajemenstok.R
 import project.manajemenstok.data.model.TransaksiData
 import project.manajemenstok.data.model.TransaksiFirebase
@@ -25,7 +26,7 @@ class RiwayatAdapter (
             itemView.tv_jenis_transaksi.text = getTypeTransaksi(transaksi.jenisTransaksi)
             itemView.tv_nama_suplier.text = transaksi.namaKlien.toString()
             itemView.tv_mount.text = "Rp. "+ getFormat(transaksi.totalTransaksi)
-            itemView.tv_datetime.text = dateFormat(transaksi.tglTransaksi.toString())
+            itemView.tv_datetime.text = transaksi.tglTransaksi.toString()
             itemView.setOnClickListener {
                 action.onItemClick(transaksi, adapterPosition)
             }
@@ -46,12 +47,6 @@ class RiwayatAdapter (
             val idLocale = Locale("id", "ID")
             val nf = NumberFormat.getNumberInstance(idLocale)
             return nf.format(int)
-        }
-
-        fun dateFormat(param: String): String{
-            val format = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-            val date : LocalDate = LocalDate.parse(param,format)
-            return date.toString()
         }
     }
 
