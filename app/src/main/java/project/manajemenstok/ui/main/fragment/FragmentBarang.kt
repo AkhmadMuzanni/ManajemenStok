@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -18,6 +19,7 @@ import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangAdapter
 import project.manajemenstok.ui.main.adapter.ListKategoriAdapter
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.utils.Status
 
 /**
  * A simple [Fragment] subclass.
@@ -44,21 +46,30 @@ class FragmentBarang : Fragment() {
             renderList(it)
         })
 
+        barangViewModel.getKategori().observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let {
+                            kategori -> renderListKategori(kategori)
+                    }
+                }
+                Status.LOADING -> {
+
+                }
+                Status.ERROR -> {
+                    //Handle Error
+                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+
         return viewFragmentBarang
     }
 
     override fun onResume() {
         super.onResume()
         barangViewModel.fetchLiveBarang()
-
-        var listKategori = ArrayList<Kategori>()
-        listKategori.add(Kategori("kategori1", "Baju Anak", 3))
-        listKategori.add(Kategori("kategori2", "Celana Anak", 23))
-        listKategori.add(Kategori("kategori3", "Sweater", 143))
-        listKategori.add(Kategori("kategori4", "Turban", 3231))
-        listKategori.add(Kategori("kategori4", "Turban", 3231))
-        listKategori.add(Kategori("kategori4", "Turban", 3231))
-        renderListKategori(listKategori)
+        barangViewModel.fetchKategori()
     }
 
     private fun setupUI(){

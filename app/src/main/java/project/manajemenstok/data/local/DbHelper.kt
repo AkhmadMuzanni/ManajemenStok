@@ -11,10 +11,7 @@ import project.manajemenstok.data.local.skema.BarangSkema
 import project.manajemenstok.data.local.skema.DetailPembelianSkema
 import project.manajemenstok.data.local.skema.PembelianSkema
 import project.manajemenstok.data.local.skema.PenjualSkema
-import project.manajemenstok.data.model.Barang
-import project.manajemenstok.data.model.DetailPembelian
-import project.manajemenstok.data.model.Pembelian
-import project.manajemenstok.data.model.Penjual
+import project.manajemenstok.data.model.*
 
 class DbHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "ManajemenStok.db", null, 1),
     BarangLogic, PenjualLogic,

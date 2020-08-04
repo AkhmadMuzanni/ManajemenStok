@@ -8,6 +8,8 @@ data class Kategori (
     var uuid: String="",
     @SerializedName("nama")
     var nama: String="",
+    @SerializedName("foto")
+    var foto: String="",
     @SerializedName("jumlah")
     var jumlah: Int=0
 ): Serializable
