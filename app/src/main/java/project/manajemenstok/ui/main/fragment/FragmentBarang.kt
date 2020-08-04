@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangAdapter
+import project.manajemenstok.ui.main.adapter.ListKategoriAdapter
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
 
 /**
@@ -26,6 +28,8 @@ class FragmentBarang : Fragment() {
     private lateinit var adapter: ListBarangAdapter
     private lateinit var viewFragmentBarang: View
     private lateinit var rv: RecyclerView
+    private lateinit var rvKategori: RecyclerView
+    private lateinit var kategoriAdapter: ListKategoriAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +50,15 @@ class FragmentBarang : Fragment() {
     override fun onResume() {
         super.onResume()
         barangViewModel.fetchLiveBarang()
+
+        var listKategori = ArrayList<Kategori>()
+        listKategori.add(Kategori("kategori1", "Baju Anak", 3))
+        listKategori.add(Kategori("kategori2", "Celana Anak", 23))
+        listKategori.add(Kategori("kategori3", "Sweater", 143))
+        listKategori.add(Kategori("kategori4", "Turban", 3231))
+        listKategori.add(Kategori("kategori4", "Turban", 3231))
+        listKategori.add(Kategori("kategori4", "Turban", 3231))
+        renderListKategori(listKategori)
     }
 
     private fun setupUI(){
@@ -59,6 +72,11 @@ class FragmentBarang : Fragment() {
             )
         )
         rv.adapter = adapter
+
+        rvKategori = viewFragmentBarang.findViewById(R.id.rv_kategori)
+        rvKategori.layoutManager = LinearLayoutManager(viewFragmentBarang.context, LinearLayoutManager.HORIZONTAL, false)
+        kategoriAdapter = ListKategoriAdapter(arrayListOf(), this, barangViewModel)
+        rvKategori.adapter = kategoriAdapter
     }
 
     private fun setupViewModel() {
@@ -72,6 +90,11 @@ class FragmentBarang : Fragment() {
     private fun renderList(barangs: List<Barang>) {
         adapter.setData(barangs)
         adapter.notifyDataSetChanged()
+    }
+
+    private fun renderListKategori(kategori: List<Kategori>) {
+        kategoriAdapter.setData(kategori)
+        kategoriAdapter.notifyDataSetChanged()
     }
 
 
