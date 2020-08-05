@@ -18,6 +18,7 @@ import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangAdapter
 import project.manajemenstok.ui.main.adapter.ListKategoriAdapter
+import project.manajemenstok.ui.main.view.MainActivity
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
 import project.manajemenstok.utils.Status
 
@@ -102,7 +103,7 @@ class FragmentBarang : Fragment() {
     }
 
     private fun renderList(barangs: List<Barang>) {
-        adapter.setData(barangs)
+        adapter.setData(barangs, MainActivity.tempKategori)
         adapter.notifyDataSetChanged()
     }
 

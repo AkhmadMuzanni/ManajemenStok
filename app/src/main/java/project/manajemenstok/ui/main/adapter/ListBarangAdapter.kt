@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.item_barang_layout.view.text_jumlah
 import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.imageViewFoto
 import project.manajemenstok.R
+import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.main.fragment.FragmentBarang
 import project.manajemenstok.ui.main.view.DetailBarangActivity
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
@@ -29,12 +30,20 @@ class ListBarangAdapter (
     private var barangViewModel: BarangViewModel
 ): RecyclerView.Adapter<ListBarangAdapter.DataViewHolder>() {
 
+    private var kategori = ArrayList<Kategori>()
+
     class DataViewHolder(itemView: View, val dataAdapter: ListBarangAdapter, val fragment: FragmentBarang) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var objBarang = Barang()
-        fun bind(barang: Barang){
+        fun bind(barang: Barang, dataKategori: ArrayList<Kategori>){
             objBarang = barang
             itemView.text_nama_barang.text = barang.namaBarang.capitalize()
-            itemView.text_kategori.text = barang.kategori
+
+            for (kategori in dataKategori){
+                if(kategori.uuid == barang.kategori){
+                    itemView.text_kategori.text = kategori.nama
+                }
+            }
+
             itemView.text_jumlah.text = Helper.getFormat(barang.jumlah)
             itemView.text_harga.text = Helper.getFormat(barang.harga)
             Glide.with(itemView.imageViewFoto.context).load(objBarang.foto).into(itemView.imageViewFoto)
@@ -78,13 +87,14 @@ class ListBarangAdapter (
     override fun getItemCount(): Int = barangs.size
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
-        holder.bind(barangs[position])
+        holder.bind(barangs[position], kategori)
 
     fun addData(list: List<Barang>) {
         barangs.addAll(list)
     }
 
-    fun setData(list: List<Barang>) {
+    fun setData(list: List<Barang>, dataKategori: ArrayList<Kategori>) {
+        kategori = dataKategori
         barangs.clear()
         barangs.addAll(list)
     }

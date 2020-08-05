@@ -24,7 +24,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener{
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        val viewInputBarangBaru = inflater!!.inflate(R.layout.fragment_input_barang_baru, container, false)
+        val viewInputBarangBaru = inflater.inflate(R.layout.fragment_input_barang_baru, container, false)
         viewInputBarangBaru.btn_simpan.setOnClickListener(this)
         return viewInputBarangBaru
     }
@@ -34,7 +34,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener{
 
         val listKategori = MainActivity.tempKategori
 
-        var arrayAdapter = ArrayAdapter<Kategori>(context, R.layout.support_simple_spinner_dropdown_item, listKategori)
+        var arrayAdapter = ArrayAdapter<Kategori>(context!!, R.layout.support_simple_spinner_dropdown_item, listKategori)
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         kategori_spinner.adapter = arrayAdapter
 
