@@ -13,8 +13,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_beranda.*
 import kotlinx.android.synthetic.main.fragment_beranda.view.*
 
@@ -22,6 +20,7 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.MainAdapter
+import project.manajemenstok.ui.main.view.MainActivity
 import project.manajemenstok.ui.main.view.PembelianActivity
 import project.manajemenstok.ui.main.view.PenjualanActivity
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
@@ -53,12 +52,31 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
             renderList(it)
             progressBarBeranda.visibility = View.GONE
         })
+
+        mainViewModel.getKategori().observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { kategori ->
+                        MainActivity.tempKategori.clear()
+                        MainActivity.tempKategori.addAll(kategori)
+                    }
+                }
+                Status.LOADING -> {
+
+                }
+                Status.ERROR -> {
+                    //Handle Error
+                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
         return viewFragmentBeranda
     }
 
     override fun onResume() {
         super.onResume()
         mainViewModel.fetchLiveBarang()
+        mainViewModel.fetchKategori()
     }
 
     private fun setupUI(){

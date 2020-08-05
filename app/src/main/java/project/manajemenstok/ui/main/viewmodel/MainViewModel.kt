@@ -11,8 +11,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import project.manajemenstok.data.local.DbHelper
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.data.remote.impl.RemoteBarangLogicImpl
+import project.manajemenstok.data.remote.impl.RemoteKategoriLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
+import project.manajemenstok.data.repository.KategoriRepository
 import project.manajemenstok.utils.Resource
 
 class MainViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
@@ -21,6 +24,11 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
         RemoteBarangLogicImpl(),
         DbHelper(context)
     )
+
+    private val kategoriRepository = KategoriRepository(
+        RemoteKategoriLogicImpl()
+    )
+
     private val barangs = MutableLiveData<Resource<List<Barang>>>()
     private val compositeDisposable = CompositeDisposable()
 
@@ -103,5 +111,13 @@ class MainViewModel (val context : Context, private val is_remote : Boolean) : V
 
     fun setBarangLocal(listBarang: List<Barang>){
         barangRepository.setBarangFromRemote(listBarang)
+    }
+
+    fun fetchKategori(){
+        kategoriRepository.fetchKategori()
+    }
+
+    fun getKategori(): MutableLiveData<Resource<ArrayList<Kategori>>> {
+        return kategoriRepository.getKategori()
     }
 }

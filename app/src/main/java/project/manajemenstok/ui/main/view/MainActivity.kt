@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.jetbrains.anko.toast
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.main.adapter.MainAdapter
 import project.manajemenstok.ui.main.fragment.*
 import project.manajemenstok.ui.main.viewmodel.MainViewModel
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(){
     companion object {
         var tempPembelian = Bundle()
         var tempPenjualan = Bundle()
+        var tempKategori = ArrayList<Kategori>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
