@@ -34,7 +34,7 @@ class ListBarangAdapter (
         fun bind(barang: Barang){
             objBarang = barang
             itemView.text_nama_barang.text = barang.namaBarang.capitalize()
-            itemView.text_kategori.text = "Celana Anak"
+            itemView.text_kategori.text = barang.kategori
             itemView.text_jumlah.text = Helper.getFormat(barang.jumlah)
             itemView.text_harga.text = Helper.getFormat(barang.harga)
             Glide.with(itemView.imageViewFoto.context).load(objBarang.foto).into(itemView.imageViewFoto)
@@ -59,6 +59,7 @@ class ListBarangAdapter (
                     val bundle = Bundle()
                     val detailBarangIntent =  Intent(v.context, DetailBarangActivity::class.java)
                     detailBarangIntent.putExtra("dataBarang", objBarang)
+                    detailBarangIntent.putExtra("dataKategori", fragment.getListKategori())
 //                    startActivityForResult(activity, detailBarangIntent, Constants.RequestCodeIntent.DETAIL_BARANG, bundle)
                     startActivity(fragment.context!!, detailBarangIntent, bundle)
                 }

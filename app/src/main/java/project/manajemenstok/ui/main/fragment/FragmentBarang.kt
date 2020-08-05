@@ -32,6 +32,7 @@ class FragmentBarang : Fragment() {
     private lateinit var rv: RecyclerView
     private lateinit var rvKategori: RecyclerView
     private lateinit var kategoriAdapter: ListKategoriAdapter
+    private var listKategori = ArrayList<Kategori>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,8 +50,10 @@ class FragmentBarang : Fragment() {
         barangViewModel.getKategori().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    it.data?.let {
-                            kategori -> renderListKategori(kategori)
+                    it.data?.let { kategori ->
+                        renderListKategori(kategori)
+                        listKategori.clear()
+                        listKategori.addAll(kategori)
                     }
                 }
                 Status.LOADING -> {
@@ -106,6 +109,10 @@ class FragmentBarang : Fragment() {
     private fun renderListKategori(kategori: List<Kategori>) {
         kategoriAdapter.setData(kategori)
         kategoriAdapter.notifyDataSetChanged()
+    }
+
+    fun getListKategori(): ArrayList<Kategori>{
+        return listKategori
     }
 
 

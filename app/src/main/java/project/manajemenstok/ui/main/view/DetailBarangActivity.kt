@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -17,14 +18,16 @@ import kotlinx.android.synthetic.main.activity_detail_barang.*
 import kotlinx.android.synthetic.main.activity_penjualan.icon_back
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Helper
 
-class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
+class DetailBarangActivity : AppCompatActivity(), View.OnClickListener{
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var objBarang: Barang
+    private var listKategori = ArrayList<Kategori>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +38,19 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
         setupViewModel()
 
         objBarang = intent.getSerializableExtra("dataBarang") as Barang
+        listKategori.addAll(intent.getSerializableExtra("dataKategori") as ArrayList<Kategori>)
+
+        var arrayAdapter = ArrayAdapter<Kategori>(this, R.layout.support_simple_spinner_dropdown_item, listKategori)
+        arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        kategori_spinner.adapter = arrayAdapter
+
+        for (kategori in listKategori){
+            if(kategori.uuid == objBarang.kategori){
+                kategori_spinner.setSelection(arrayAdapter.getPosition(kategori))
+            }
+        }
 
         input_barang.setText(objBarang.namaBarang)
-        input_kategori.setText("Celana Anak")
         input_jumlah.setText(Helper.getFormat(objBarang.jumlah))
         input_harga.setText(Helper.getFormat(objBarang.harga))
         Glide.with(image_view_barang.context).load(objBarang.foto).into(image_view_barang)
@@ -47,6 +60,8 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
         btn_simpan.setOnClickListener(this)
         image_view_barang.setOnClickListener(this)
         btn_riwayat_harga.setOnClickListener(this)
+
+        kategori_spinner.isEnabled = false
 
     }
 
@@ -108,7 +123,10 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
                 v.visibility = View.GONE
                 btn_edit.visibility = View.VISIBLE
 
+                val objKategori = kategori_spinner.selectedItem as Kategori
+                objBarang.kategori = objKategori.uuid
                 barangViewModel.saveBarang(objBarang)
+
                 Toast.makeText(v.context, "Perubahan berhasil disimpan", Toast.LENGTH_LONG).show()
             }
             R.id.image_view_barang->{
@@ -125,8 +143,7 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener {
         input_barang.isFocusable = isEnable
         input_barang.isFocusableInTouchMode = isEnable
 
-        input_kategori.isFocusable = isEnable
-        input_kategori.isFocusableInTouchMode = isEnable
+        kategori_spinner.isEnabled = isEnable
 
         input_jumlah.isFocusable = isEnable
         input_jumlah.isFocusableInTouchMode = isEnable
