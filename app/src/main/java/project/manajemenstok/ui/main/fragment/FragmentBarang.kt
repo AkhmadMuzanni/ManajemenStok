@@ -58,6 +58,7 @@ class FragmentBarang : Fragment(), View.OnClickListener {
                         renderListKategori(kategori)
                         listKategori.clear()
                         listKategori.addAll(kategori)
+                        barangViewModel.fetchLiveBarang()
                     }
                 }
                 Status.LOADING -> {
@@ -75,9 +76,8 @@ class FragmentBarang : Fragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        barangViewModel.fetchLiveBarang()
-        barangViewModel.fetchKategori()
         barangViewModel.syncKategori()
+        barangViewModel.fetchKategori()
 
         btn_see_all_kategori.setOnClickListener(this)
     }
@@ -109,7 +109,7 @@ class FragmentBarang : Fragment(), View.OnClickListener {
     }
 
     private fun renderList(barangs: List<Barang>) {
-        adapter.setData(barangs, MainActivity.tempKategori)
+        adapter.setData(barangs, listKategori)
         adapter.notifyDataSetChanged()
     }
 

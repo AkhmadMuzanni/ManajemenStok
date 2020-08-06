@@ -1,6 +1,7 @@
 package project.manajemenstok.ui.main.view
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -56,6 +57,7 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
         btn_edit.setOnClickListener(this)
         btn_simpan.setOnClickListener(this)
         image_view_kategori.setOnClickListener(this)
+        icon_delete.setOnClickListener(this)
 
     }
 
@@ -157,6 +159,24 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
                 imageIntent.setType("image/*")
                 imageIntent.setAction(Intent.ACTION_GET_CONTENT)
                 startActivityForResult(imageIntent, Constants.RequestCodeIntent.GET_IMAGE)
+            }
+            R.id.icon_delete->{
+                var builder = AlertDialog.Builder(this, R.style.CustomDialogTheme)
+                builder.setTitle("Konfirmasi")
+                builder.setMessage("Anda Yakin ingin menghapus " + objKategori.nama + " ?")
+
+                builder.setPositiveButton("HAPUS") { _, _ ->
+                    objKategori.isDeleted = Constants.DeleteStatus.DELETED
+                    kategoriViewModel.saveKategori(objKategori)
+//                    kategoriViewModel.syncKategori()
+                    Toast.makeText(this, "Kategori berhasil dihapus", Toast.LENGTH_LONG).show()
+                    finish()
+                }
+
+                builder.setNegativeButton("BATAL") { _, _ ->
+                }
+
+                builder.show()
             }
         }
     }

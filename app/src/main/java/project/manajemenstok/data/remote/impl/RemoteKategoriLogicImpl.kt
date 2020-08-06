@@ -10,6 +10,7 @@ import com.google.firebase.storage.ktx.storage
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.data.remote.logic.RemoteKategoriLogic
+import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Resource
 
 class RemoteKategoriLogicImpl :
@@ -61,7 +62,9 @@ class RemoteKategoriLogicImpl :
                 var result = ArrayList<Kategori>()
                 snapshot.children.forEach{
                     val tempKategori = it.getValue<Kategori>(Kategori::class.java)!!
-                    result.add(tempKategori)
+                    if(tempKategori.isDeleted == Constants.DeleteStatus.ACTIVE){
+                        result.add(tempKategori)
+                    }
                 }
                 setKategori(result)
             }
@@ -153,17 +156,32 @@ class RemoteKategoriLogicImpl :
                 snapshot.children.forEach{
                     val tempKategori = it.getValue<Kategori>(Kategori::class.java)!!
                     tempKategori.jumlah = 0
-                    listKategori.add(tempKategori)
-                }
-
-                for(barang in listBarang){
-                    for(kategori in listKategori){
-                        if(barang.kategori == kategori.uuid){
-                            kategori.jumlah += 1
-                            break
-                        }
+                    if(tempKategori.isDeleted == Constants.DeleteStatus.ACTIVE){
+                        listKategori.add(tempKategori)
                     }
                 }
+
+                var idxNonKategori = 0
+                var countDeleted = 0
+                for(barang in listBarang){
+                    var isDeleted = true
+                    for((idx, kategori) in listKategori.withIndex()){
+                        if(barang.kategori == kategori.uuid){
+                            kategori.jumlah += 1
+                            isDeleted = false
+                        }
+                        if(kategori.uuid == "nonKategori"){
+                            idxNonKategori = idx
+                        }
+                    }
+                    if(isDeleted){
+                        barang.kategori = "nonKategori"
+                        updateBarang(barang)
+                        countDeleted += 1
+                    }
+                }
+
+                listKategori[idxNonKategori].jumlah += countDeleted
 
                 for(kategori in listKategori){
                     updateKategori(kategori)
@@ -171,6 +189,14 @@ class RemoteKategoriLogicImpl :
                 setKategori(listKategori)
             }
         })
+    }
+
+    override fun updateBarang(barang: Barang) {
+        val dbBarang = getDbReference("barang")
+        val barangUpdates: MutableMap<String, Any> = HashMap()
+        barangUpdates[barang.uuid] = barang
+
+        dbBarang.updateChildren(barangUpdates)
     }
 
 

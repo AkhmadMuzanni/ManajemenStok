@@ -21,4 +21,5 @@ interface RemoteKategoriLogic {
     fun createKategori(kategori: Kategori): String
     fun syncKategori()
     fun countKategoriOnBarang(listBarang: ArrayList<Barang>)
+    fun updateBarang(barang: Barang)
 }

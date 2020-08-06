@@ -38,4 +38,8 @@ class KategoriViewModel (val context : Context, private val is_remote : Boolean)
     fun createKategori(kategori: Kategori): String{
         return kategoriRepository.createKategori(kategori)
     }
+
+    fun syncKategori(){
+        kategoriRepository.syncKategori()
+    }
 }

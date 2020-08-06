@@ -53,7 +53,7 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, V
 
     override fun onResume() {
         super.onResume()
-        kategoriViewModel.fetchKategori()
+        kategoriViewModel.syncKategori()
     }
 
     private fun setupUI(){
