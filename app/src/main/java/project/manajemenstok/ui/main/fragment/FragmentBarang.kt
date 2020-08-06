@@ -77,6 +77,7 @@ class FragmentBarang : Fragment(), View.OnClickListener {
         super.onResume()
         barangViewModel.fetchLiveBarang()
         barangViewModel.fetchKategori()
+        barangViewModel.syncKategori()
 
         btn_see_all_kategori.setOnClickListener(this)
     }

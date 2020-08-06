@@ -32,4 +32,8 @@ class KategoriRepository(private val remoteKategori: RemoteKategoriLogic) {
         return remoteKategori.createKategori(kategori)
     }
 
+    fun syncKategori(){
+        remoteKategori.syncKategori()
+    }
+
 }

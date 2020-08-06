@@ -2,14 +2,12 @@ package project.manajemenstok.data.remote.impl
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.data.remote.logic.RemoteKategoriLogic
 import project.manajemenstok.utils.Resource
@@ -30,6 +28,29 @@ class RemoteKategoriLogicImpl :
     }
 
     override fun fetchKategori() {
+        getDbReference("kategori").addChildEventListener(object : ChildEventListener {
+            var listKategori = ArrayList<Kategori>()
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                setLiveBarang(listBarang)
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+//                setLiveBarang(listBarang)
+            }
+        })
+
         getDbReference("kategori").addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -100,5 +121,57 @@ class RemoteKategoriLogicImpl :
         dbKategori.child(key).setValue(kategori)
         return key
     }
+
+    override fun syncKategori() {
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var result = ArrayList<Barang>()
+                snapshot.children.forEach{
+                    val tempBarang = it.getValue<Barang>(Barang::class.java)!!
+                    result.add(tempBarang)
+                }
+
+                countKategoriOnBarang(result)
+            }
+        })
+    }
+
+    override fun countKategoriOnBarang(listBarang: ArrayList<Barang>) {
+        getDbReference("kategori").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var listKategori = ArrayList<Kategori>()
+                snapshot.children.forEach{
+                    val tempKategori = it.getValue<Kategori>(Kategori::class.java)!!
+                    tempKategori.jumlah = 0
+                    listKategori.add(tempKategori)
+                }
+
+                for(barang in listBarang){
+                    for(kategori in listKategori){
+                        if(barang.kategori == kategori.uuid){
+                            kategori.jumlah += 1
+                            break
+                        }
+                    }
+                }
+
+                for(kategori in listKategori){
+                    updateKategori(kategori)
+                }
+                setKategori(listKategori)
+            }
+        })
+    }
+
 
 }
