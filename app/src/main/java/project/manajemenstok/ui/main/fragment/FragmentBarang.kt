@@ -1,6 +1,7 @@
 package project.manajemenstok.ui.main.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,12 +13,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_barang.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangAdapter
 import project.manajemenstok.ui.main.adapter.ListKategoriAdapter
+import project.manajemenstok.ui.main.view.KategoriActivity
 import project.manajemenstok.ui.main.view.MainActivity
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
 import project.manajemenstok.utils.Status
@@ -25,7 +28,7 @@ import project.manajemenstok.utils.Status
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBarang : Fragment() {
+class FragmentBarang : Fragment(), View.OnClickListener {
 
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var adapter: ListBarangAdapter
@@ -74,6 +77,8 @@ class FragmentBarang : Fragment() {
         super.onResume()
         barangViewModel.fetchLiveBarang()
         barangViewModel.fetchKategori()
+
+        btn_see_all_kategori.setOnClickListener(this)
     }
 
     private fun setupUI(){
@@ -114,6 +119,15 @@ class FragmentBarang : Fragment() {
 
     fun getListKategori(): ArrayList<Kategori>{
         return listKategori
+    }
+
+    override fun onClick(v: View) {
+        when(v.id){
+            R.id.btn_see_all_kategori->{
+                val kategoriIntent = Intent(this.context, KategoriActivity::class.java)
+                startActivity(kategoriIntent)
+            }
+        }
     }
 
 
