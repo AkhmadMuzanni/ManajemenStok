@@ -18,16 +18,8 @@
 
     <string name="defaultImageIcon">https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_1280.png</string>
 
-    <string-array name="planets_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
+    <string name="bucketStorage">bevyStock/</string>
+    <string name="extensionImage">.png</string>
 
 
 </resources>

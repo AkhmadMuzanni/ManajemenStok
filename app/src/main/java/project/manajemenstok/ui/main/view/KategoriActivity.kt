@@ -46,7 +46,10 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                 }
             }
         })
+    }
 
+    override fun onResume() {
+        super.onResume()
         kategoriViewModel.fetchKategori()
     }
 

@@ -29,7 +29,7 @@ class KategoriGridAdapter(
 
         view.text_kategori.setText(listKategori[position].nama)
         view.text_jml_kategori.setText(listKategori[position].jumlah.toString())
-        Glide.with(view.image_kategori.context).load(context.resources.getString(R.string.defaultImageIcon)).into(view.image_kategori)
+        Glide.with(view.image_kategori.context).load(listKategori[position].foto).into(view.image_kategori)
 
         return view
     }

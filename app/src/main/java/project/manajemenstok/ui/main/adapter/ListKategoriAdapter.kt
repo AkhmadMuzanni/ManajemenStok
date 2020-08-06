@@ -26,7 +26,7 @@ class ListKategoriAdapter (
 
             itemView.text_kategori.setText(kategori.nama)
             itemView.text_jml_kategori.setText(kategori.jumlah.toString())
-            Glide.with(itemView.image_kategori.context).load(fragment.resources.getString(R.string.defaultImageIcon)).into(itemView.image_kategori)
+            Glide.with(itemView.image_kategori.context).load(kategori.foto).into(itemView.image_kategori)
 
         }
 

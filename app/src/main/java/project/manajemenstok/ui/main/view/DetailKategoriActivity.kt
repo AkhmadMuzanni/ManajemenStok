@@ -58,14 +58,14 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
                 if(resultCode == Activity.RESULT_OK){
                     val imageUri = data?.data
 
-//                    kategoriViewModel.getUploadResult().observe(this, Observer {
-//                        objBarang.foto = it
-//                        barangViewModel.saveBarang(objBarang)
-//                        Glide.with(image_view_kategori.context).load(it).into(image_view_kategori)
-//                        Toast.makeText(this, "Foto Barang Berhasil Diubah", Toast.LENGTH_LONG).show()
-//                    })
+                    kategoriViewModel.getUploadResult().observe(this, Observer {
+                        objKategori.foto = it
+                        kategoriViewModel.saveKategori(objKategori)
+                        Glide.with(image_view_kategori.context).load(it).into(image_view_kategori)
+                        Toast.makeText(this, "Foto Kategori Berhasil Diubah", Toast.LENGTH_LONG).show()
+                    })
 //
-//                    barangViewModel.uploadImage(imageUri!!, "bevyStock/" + objBarang.uuid + ".png")
+                    kategoriViewModel.uploadImage(imageUri!!, resources.getString(R.string.bucketStorage) + objKategori.uuid + resources.getString(R.string.extensionImage))
                 }
             }
         }
@@ -85,6 +85,7 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
                 finish()
             }
             R.id.btn_edit->{
+                Toast.makeText(applicationContext, objKategori.nama, Toast.LENGTH_LONG).show()
                 v.visibility = View.GONE
                 btn_simpan.visibility = View.VISIBLE
 
@@ -101,7 +102,7 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
                 v.visibility = View.GONE
                 btn_edit.visibility = View.VISIBLE
 
-//                kategoriViewModel.saveBarang(objBarang)
+                kategoriViewModel.saveKategori(objKategori)
 
                 Toast.makeText(v.context, "Perubahan berhasil disimpan", Toast.LENGTH_LONG).show()
             }
@@ -121,6 +122,7 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
     }
 
     private fun updateValue(){
+//        Toast.makeText(applicationContext, "Nama", Toast.LENGTH_LONG).show()
         objKategori.nama = input_kategori.text.toString()
     }
 }

@@ -1,6 +1,7 @@
 package project.manajemenstok.ui.main.viewmodel
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import project.manajemenstok.data.model.*
@@ -20,5 +21,17 @@ class KategoriViewModel (val context : Context, private val is_remote : Boolean)
 
     fun getKategori(): MutableLiveData<Resource<ArrayList<Kategori>>> {
         return kategoriRepository.getKategori()
+    }
+
+    fun saveKategori(kategori: Kategori){
+        kategoriRepository.updateKategori(kategori)
+    }
+
+    fun getUploadResult(): MutableLiveData<String> {
+        return kategoriRepository.getUploadResult()
+    }
+
+    fun uploadImage(imageUri: Uri, path: String){
+        kategoriRepository.uploadImage(imageUri, path)
     }
 }
