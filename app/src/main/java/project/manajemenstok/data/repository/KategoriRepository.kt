@@ -28,4 +28,8 @@ class KategoriRepository(private val remoteKategori: RemoteKategoriLogic) {
         return remoteKategori.getImageUrl()
     }
 
+    fun createKategori(kategori: Kategori): String{
+        return remoteKategori.createKategori(kategori)
+    }
+
 }

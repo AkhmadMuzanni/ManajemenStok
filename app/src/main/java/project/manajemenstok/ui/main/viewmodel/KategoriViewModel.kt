@@ -34,4 +34,8 @@ class KategoriViewModel (val context : Context, private val is_remote : Boolean)
     fun uploadImage(imageUri: Uri, path: String){
         kategoriRepository.uploadImage(imageUri, path)
     }
+
+    fun createKategori(kategori: Kategori): String{
+        return kategoriRepository.createKategori(kategori)
+    }
 }

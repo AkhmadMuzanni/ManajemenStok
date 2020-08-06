@@ -93,4 +93,12 @@ class RemoteKategoriLogicImpl :
         return Firebase.storage.reference.child(query)
     }
 
+    override fun createKategori(kategori: Kategori): String {
+        val dbKategori = getDbReference("kategori")
+        val key = dbKategori.push().key!!
+        kategori.uuid = key
+        dbKategori.child(key).setValue(kategori)
+        return key
+    }
+
 }

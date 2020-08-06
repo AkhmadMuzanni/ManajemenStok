@@ -18,4 +18,5 @@ interface RemoteKategoriLogic {
     fun setImageUrl(url: String)
     fun uploadImage(imageUri: Uri, path: String)
     fun getStorageReference(query: String): StorageReference
+    fun createKategori(kategori: Kategori): String
 }

@@ -35,4 +35,11 @@ class Constants {
             val DELETED = 1
         }
     }
+
+    class IntentMode{
+        companion object {
+            val ADD = 0
+            val EDIT = 1
+        }
+    }
 }

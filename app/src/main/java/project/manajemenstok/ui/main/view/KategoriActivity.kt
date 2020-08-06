@@ -14,10 +14,11 @@ import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.KategoriGridAdapter
 import project.manajemenstok.ui.main.viewmodel.KategoriViewModel
+import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Status
 import kotlin.collections.ArrayList
 
-class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
+class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.OnClickListener {
 
     private lateinit var kategoriViewModel: KategoriViewModel
     private lateinit var gridAdapter: KategoriGridAdapter
@@ -46,6 +47,8 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                 }
             }
         })
+
+        btn_tambah_kategori.setOnClickListener(this)
     }
 
     override fun onResume() {
@@ -75,6 +78,17 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val detailKategoriIntent =  Intent(parent?.context, DetailKategoriActivity::class.java)
         detailKategoriIntent.putExtra("dataKategori", listKategori[position])
+        detailKategoriIntent.putExtra("intentMode", Constants.IntentMode.EDIT)
         startActivity(detailKategoriIntent)
+    }
+
+    override fun onClick(v: View) {
+        when(v.id){
+            R.id.btn_tambah_kategori->{
+                val detailKategoriIntent =  Intent(applicationContext, DetailKategoriActivity::class.java)
+                detailKategoriIntent.putExtra("intentMode", Constants.IntentMode.ADD)
+                startActivity(detailKategoriIntent)
+            }
+        }
     }
 }
