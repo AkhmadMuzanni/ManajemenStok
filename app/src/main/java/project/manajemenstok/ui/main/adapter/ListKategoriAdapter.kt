@@ -16,7 +16,9 @@ import kotlin.collections.ArrayList
 class ListKategoriAdapter (
     private var kategori: ArrayList<Kategori>,
     private var fragment: FragmentBarang,
-    private var barangViewModel: BarangViewModel
+    private var barangViewModel: BarangViewModel,
+    private val MAX_LENGTH: Int = 5
+
 ): RecyclerView.Adapter<ListKategoriAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View, val dataAdapter: ListKategoriAdapter, val fragment: FragmentBarang) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -45,7 +47,14 @@ class ListKategoriAdapter (
             ), this, fragment
         )
 
-    override fun getItemCount(): Int = kategori.size
+//    override fun getItemCount(): Int = kategori.size
+    override fun getItemCount(): Int {
+        if(kategori.size < MAX_LENGTH){
+            return kategori.size
+        } else {
+            return MAX_LENGTH
+        }
+    }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
         holder.bind(kategori[position])
