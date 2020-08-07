@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ManajemenStok</string>
+    <string name="app_name">BevyStock</string>
     <string name="menu_beranda">Beranda</string>
     <string name="menu_barang">Barang</string>
     <string name="menu_riwayat">Riwayat</string>
