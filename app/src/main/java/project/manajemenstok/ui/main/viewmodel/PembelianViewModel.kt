@@ -18,9 +18,11 @@ import project.manajemenstok.data.model.*
 import project.manajemenstok.data.remote.impl.RemoteBarangLogicImpl
 import project.manajemenstok.data.remote.impl.RemoteTransaksiLogicImpl
 import project.manajemenstok.data.remote.impl.RemoteCustomerLogicImpl
+import project.manajemenstok.data.remote.impl.RemoteKategoriLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
 import project.manajemenstok.data.repository.TransaksiRepository
 import project.manajemenstok.data.repository.CustomerRepository
+import project.manajemenstok.data.repository.KategoriRepository
 import project.manajemenstok.ui.main.view.KonfirmasiPembelianActivity
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Resource
@@ -45,6 +47,10 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
     private val pembelianRepository = TransaksiRepository(
         RemoteTransaksiLogicImpl(),
         DbHelper(context)
+    )
+
+    private val kategoriRepository = KategoriRepository(
+        RemoteKategoriLogicImpl()
     )
 
     init {
@@ -331,4 +337,11 @@ class PembelianViewModel (val context : Context, private val is_remote : Boolean
         barangRepository.fetchUnusedBarang(barangUsed)
     }
 
+    fun fetchKategori(){
+        kategoriRepository.fetchKategori()
+    }
+
+    fun getKategori(): MutableLiveData<Resource<ArrayList<Kategori>>> {
+        return kategoriRepository.getKategori()
+    }
 }

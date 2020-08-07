@@ -80,7 +80,7 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, V
         detailKategoriIntent.putExtra("dataKategori", listKategori[position])
         detailKategoriIntent.putExtra("intentMode", Constants.IntentMode.EDIT)
         detailKategoriIntent.putExtra("listKategori", listKategori)
-        startActivity(detailKategoriIntent)
+        startActivityForResult(detailKategoriIntent, Constants.RequestCodeIntent.DETAIL_KATEGORI)
     }
 
     override fun onClick(v: View) {
@@ -88,7 +88,7 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, V
             R.id.btn_tambah_kategori->{
                 val detailKategoriIntent =  Intent(applicationContext, DetailKategoriActivity::class.java)
                 detailKategoriIntent.putExtra("intentMode", Constants.IntentMode.ADD)
-                startActivity(detailKategoriIntent)
+                startActivityForResult(detailKategoriIntent, Constants.RequestCodeIntent.DETAIL_KATEGORI)
             }
         }
     }

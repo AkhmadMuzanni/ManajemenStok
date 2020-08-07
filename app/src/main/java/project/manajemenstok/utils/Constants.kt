@@ -26,6 +26,7 @@ class Constants {
             val KONFIRMASI_TRANSAKSI = 2
             val DETAIL_BARANG = 3
             val GET_IMAGE = 4
+            val DETAIL_KATEGORI = 5
         }
     }
 

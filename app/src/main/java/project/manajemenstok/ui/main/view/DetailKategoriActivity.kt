@@ -75,6 +75,8 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
             }
         })
 
+        Glide.with(image_view_kategori.context).load(resources.getString(R.string.defaultImageIcon)).into(image_view_kategori)
+
         icon_back.setOnClickListener(this)
         btn_edit.setOnClickListener(this)
         btn_simpan.setOnClickListener(this)
@@ -94,11 +96,10 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
             Glide.with(image_view_kategori.context).load(objKategori.foto).into(image_view_kategori)
             kategoriViewModel.fetchBarangKategori(objKategori.uuid)
         } else {
-            Glide.with(image_view_kategori.context).load(resources.getString(R.string.defaultImageIcon)).into(image_view_kategori)
-
             btn_edit.visibility = View.GONE
             rv_barang_kategori.visibility = View.GONE
             separator.visibility = View.GONE
+            text_empty_state.visibility = View.GONE
             setEnable(true)
         }
     }
@@ -162,6 +163,8 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
     override fun onClick(v: View) {
         when (v.id){
             R.id.icon_back->{
+                val resultKategoriIntent = Intent()
+                setResult(Activity.RESULT_CANCELED, resultKategoriIntent)
                 finish()
             }
             R.id.btn_edit->{
@@ -193,12 +196,16 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
 
                     val uuidSaved = kategoriViewModel.createKategori(objKategori)
 
+                    val resultKategoriIntent = Intent()
+                    resultKategoriIntent.putExtra("uuidNewKategori", uuidSaved)
+
                     if(isImageChange){
                         kategoriViewModel.getUploadResult().observe(this, Observer {
                             objKategori.foto = it
                             kategoriViewModel.saveKategori(objKategori)
                             progressBar_kategori.visibility = View.GONE
                             Toast.makeText(v.context, "Kategori berhasil disimpan", Toast.LENGTH_LONG).show()
+                            setResult(Activity.RESULT_OK, resultKategoriIntent)
                             finish()
                         })
 
@@ -208,6 +215,7 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
 
                     } else {
                         Toast.makeText(v.context, "Kategori berhasil disimpan", Toast.LENGTH_LONG).show()
+                        setResult(Activity.RESULT_OK, resultKategoriIntent)
                         finish()
                     }
                 }
