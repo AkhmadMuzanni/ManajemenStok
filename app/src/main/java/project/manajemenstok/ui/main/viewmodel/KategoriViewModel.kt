@@ -42,4 +42,12 @@ class KategoriViewModel (val context : Context, private val is_remote : Boolean)
     fun syncKategori(){
         kategoriRepository.syncKategori()
     }
+
+    fun fetchBarangKategori(uuidKategori: String){
+        kategoriRepository.fetchBarangKategori(uuidKategori)
+    }
+
+    fun getBarangKategori(): MutableLiveData<Resource<ArrayList<Barang>>> {
+        return kategoriRepository.getBarangKategori()
+    }
 }

@@ -79,6 +79,7 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, V
         val detailKategoriIntent =  Intent(parent?.context, DetailKategoriActivity::class.java)
         detailKategoriIntent.putExtra("dataKategori", listKategori[position])
         detailKategoriIntent.putExtra("intentMode", Constants.IntentMode.EDIT)
+        detailKategoriIntent.putExtra("listKategori", listKategori)
         startActivity(detailKategoriIntent)
     }
 

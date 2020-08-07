@@ -22,4 +22,7 @@ interface RemoteKategoriLogic {
     fun syncKategori()
     fun countKategoriOnBarang(listBarang: ArrayList<Barang>)
     fun updateBarang(barang: Barang)
+    fun getBarangKategori(): MutableLiveData<Resource<ArrayList<Barang>>>
+    fun fetchBarangKategori(uuidKategori: String)
+    fun setBarangKategori(listBarang: ArrayList<Barang>)
 }

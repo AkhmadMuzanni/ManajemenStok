@@ -36,4 +36,12 @@ class KategoriRepository(private val remoteKategori: RemoteKategoriLogic) {
         remoteKategori.syncKategori()
     }
 
+    fun fetchBarangKategori(uuidKategori: String){
+        remoteKategori.fetchBarangKategori(uuidKategori)
+    }
+
+    fun getBarangKategori(): MutableLiveData<Resource<ArrayList<Barang>>> {
+        return remoteKategori.getBarangKategori()
+    }
+
 }

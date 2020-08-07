@@ -13,23 +13,31 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_detail_kategori.*
 import kotlinx.android.synthetic.main.activity_penjualan.icon_back
 import project.manajemenstok.R
+import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
+import project.manajemenstok.ui.main.adapter.ListBarangKategoriAdapter
+import project.manajemenstok.ui.main.viewmodel.BarangViewModel
 import project.manajemenstok.ui.main.viewmodel.KategoriViewModel
 import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.Status
 
 class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
     private lateinit var kategoriViewModel: KategoriViewModel
+    private lateinit var barangViewModel: BarangViewModel
     private lateinit var objKategori: Kategori
     private var listKategori = ArrayList<Kategori>()
     private var intentMode = 0
     private lateinit var tempImageUri: Uri
     private var isImageChange = false
+    private lateinit var adapter: ListBarangKategoriAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,20 +46,34 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
         AndroidThreeTen.init(this)
 
         setupViewModel()
+        setupUI()
 
         intentMode = intent.getIntExtra("intentMode", 0)
 
-        if(intentMode == Constants.IntentMode.EDIT){
-            objKategori = intent.getSerializableExtra("dataKategori") as Kategori
+        kategoriViewModel.getBarangKategori().observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { barang ->
+                        if(barang.size == 0){
+                            rv_barang_kategori.visibility = View.GONE
+                            text_empty_state.visibility = View.VISIBLE
+                        } else {
+                            rv_barang_kategori.visibility = View.VISIBLE
+                            text_empty_state.visibility = View.GONE
 
-            input_kategori.setText(objKategori.nama)
-            Glide.with(image_view_kategori.context).load(objKategori.foto).into(image_view_kategori)
-        } else {
-            Glide.with(image_view_kategori.context).load(resources.getString(R.string.defaultImageIcon)).into(image_view_kategori)
+                            renderList(barang)
+                        }
+                    }
+                }
+                Status.LOADING -> {
 
-            btn_edit.visibility = View.GONE
-            setEnable(true)
-        }
+                }
+                Status.ERROR -> {
+                    //Handle Error
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
 
         icon_back.setOnClickListener(this)
         btn_edit.setOnClickListener(this)
@@ -59,6 +81,26 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
         image_view_kategori.setOnClickListener(this)
         icon_delete.setOnClickListener(this)
 
+    }
+
+    public override fun onResume() {
+        super.onResume()
+
+        if(intentMode == Constants.IntentMode.EDIT){
+            objKategori = intent.getSerializableExtra("dataKategori") as Kategori
+            listKategori = intent.getSerializableExtra("listKategori") as ArrayList<Kategori>
+
+            input_kategori.setText(objKategori.nama)
+            Glide.with(image_view_kategori.context).load(objKategori.foto).into(image_view_kategori)
+            kategoriViewModel.fetchBarangKategori(objKategori.uuid)
+        } else {
+            Glide.with(image_view_kategori.context).load(resources.getString(R.string.defaultImageIcon)).into(image_view_kategori)
+
+            btn_edit.visibility = View.GONE
+            rv_barang_kategori.visibility = View.GONE
+            separator.visibility = View.GONE
+            setEnable(true)
+        }
     }
 
     override fun onBackPressed() {
@@ -98,6 +140,23 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
             this,
             ViewModelFactory(applicationContext, is_remote)
         ).get(KategoriViewModel::class.java)
+
+        barangViewModel = ViewModelProviders.of(
+            this,
+            ViewModelFactory(applicationContext, is_remote)
+        ).get(BarangViewModel::class.java)
+    }
+
+    private fun setupUI(){
+        rv_barang_kategori.layoutManager = LinearLayoutManager(this)
+        adapter = ListBarangKategoriAdapter(arrayListOf(), this, barangViewModel)
+        rv_barang_kategori.addItemDecoration(
+            DividerItemDecoration(
+                rv_barang_kategori.context,
+                (rv_barang_kategori.layoutManager as LinearLayoutManager).orientation
+            )
+        )
+        rv_barang_kategori.adapter = adapter
     }
 
     override fun onClick(v: View) {
@@ -168,7 +227,7 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
                 builder.setPositiveButton("HAPUS") { _, _ ->
                     objKategori.isDeleted = Constants.DeleteStatus.DELETED
                     kategoriViewModel.saveKategori(objKategori)
-//                    kategoriViewModel.syncKategori()
+
                     Toast.makeText(this, "Kategori berhasil dihapus", Toast.LENGTH_LONG).show()
                     finish()
                 }
@@ -188,5 +247,14 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
 
     private fun updateValue(){
         objKategori.nama = input_kategori.text.toString()
+    }
+
+    fun getListKategori(): ArrayList<Kategori>{
+        return listKategori
+    }
+
+    private fun renderList(listBarang: ArrayList<Barang>) {
+        adapter.setData(listBarang, listKategori)
+        adapter.notifyDataSetChanged()
     }
 }
