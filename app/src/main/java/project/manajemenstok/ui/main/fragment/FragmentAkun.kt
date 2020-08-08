@@ -35,6 +35,7 @@ class FragmentAkun : Fragment(), View.OnClickListener {
         viewFragmentProfile.lyt_terms_condition.setOnClickListener(this)
         viewFragmentProfile.lyt_privacy.setOnClickListener(this)
         viewFragmentProfile.lyt_help.setOnClickListener(this)
+        viewFragmentProfile.btn_logout.setOnClickListener(this)
         return viewFragmentProfile
     }
 
@@ -67,6 +68,9 @@ class FragmentAkun : Fragment(), View.OnClickListener {
 
             R.id.lyt_help ->{
                 Toast.makeText(viewFragmentProfile.context, "Bantuan", Toast.LENGTH_SHORT).show()
+            }
+            R.id.btn_logout->{
+                activity?.finish()
             }
         }
     }
