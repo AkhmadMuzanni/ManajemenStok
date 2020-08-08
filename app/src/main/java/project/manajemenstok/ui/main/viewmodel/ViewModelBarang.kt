@@ -50,4 +50,8 @@ class BarangViewModel (val context : Context, private val is_remote : Boolean) :
     fun getKategori(): MutableLiveData<Resource<ArrayList<Kategori>>> {
         return kategoriRepository.getKategori()
     }
+
+    fun syncKategori(){
+        kategoriRepository.syncKategori()
+    }
 }

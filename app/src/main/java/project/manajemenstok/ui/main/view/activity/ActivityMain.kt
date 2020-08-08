@@ -3,21 +3,20 @@ package project.manajemenstok.ui.main.view.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import project.manajemenstok.R
+import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.main.view.fragment.*
 
 class MainActivity : AppCompatActivity(){
     companion object {
         var tempPembelian = Bundle()
         var tempPenjualan = Bundle()
+        var tempKategori = ArrayList<Kategori>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Firebase.database.setPersistenceEnabled(true)
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().apply {

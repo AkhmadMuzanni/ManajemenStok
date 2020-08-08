@@ -11,5 +11,11 @@ data class Kategori (
     @SerializedName("foto")
     var foto: String="",
     @SerializedName("jumlah")
-    var jumlah: Int=0
-): Serializable
+    var jumlah: Int=0,
+    @SerializedName("isDeleted")
+    var isDeleted: Int=0
+): Serializable{
+    override fun toString(): String {
+        return nama
+    }
+}

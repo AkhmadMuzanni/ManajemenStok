@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ManajemenStok</string>
+    <string name="app_name">BevyStock</string>
     <string name="menu_beranda">Beranda</string>
     <string name="menu_barang">Barang</string>
     <string name="menu_riwayat">Riwayat</string>
@@ -17,6 +17,9 @@
     <string name="labelSearchBarBarang">Cari berdasarkan Nama Barang</string>
 
     <string name="defaultImageIcon">https://cdn.pixabay.com/photo/2014/04/03/10/55/t-shirt-311732_1280.png</string>
+
+    <string name="bucketStorage">bevyStock/</string>
+    <string name="extensionImage">.png</string>
 
 
 </resources>

@@ -1,6 +1,7 @@
 package project.manajemenstok.ui.main.view.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,19 +13,22 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_barang.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangAdapter
 import project.manajemenstok.ui.main.adapter.ListKategoriAdapter
+import project.manajemenstok.ui.main.view.KategoriActivity
+import project.manajemenstok.ui.main.view.MainActivity
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
 import project.manajemenstok.utils.Status
 
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBarang : Fragment() {
+class FragmentBarang : Fragment(), View.OnClickListener {
 
     private lateinit var barangViewModel: BarangViewModel
     private lateinit var adapter: ListBarangAdapter
@@ -32,6 +36,7 @@ class FragmentBarang : Fragment() {
     private lateinit var rv: RecyclerView
     private lateinit var rvKategori: RecyclerView
     private lateinit var kategoriAdapter: ListKategoriAdapter
+    private var listKategori = ArrayList<Kategori>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,8 +54,11 @@ class FragmentBarang : Fragment() {
         barangViewModel.getKategori().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    it.data?.let {
-                            kategori -> renderListKategori(kategori)
+                    it.data?.let { kategori ->
+                        renderListKategori(kategori)
+                        listKategori.clear()
+                        listKategori.addAll(kategori)
+                        barangViewModel.fetchLiveBarang()
                     }
                 }
                 Status.LOADING -> {
@@ -68,8 +76,10 @@ class FragmentBarang : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        barangViewModel.fetchLiveBarang()
+        barangViewModel.syncKategori()
         barangViewModel.fetchKategori()
+
+        btn_see_all_kategori.setOnClickListener(this)
     }
 
     private fun setupUI(){
@@ -99,13 +109,26 @@ class FragmentBarang : Fragment() {
     }
 
     private fun renderList(barangs: List<Barang>) {
-        adapter.setData(barangs)
+        adapter.setData(barangs, listKategori)
         adapter.notifyDataSetChanged()
     }
 
     private fun renderListKategori(kategori: List<Kategori>) {
         kategoriAdapter.setData(kategori)
         kategoriAdapter.notifyDataSetChanged()
+    }
+
+    fun getListKategori(): ArrayList<Kategori>{
+        return listKategori
+    }
+
+    override fun onClick(v: View) {
+        when(v.id){
+            R.id.btn_see_all_kategori->{
+                val kategoriIntent = Intent(this.context, KategoriActivity::class.java)
+                startActivity(kategoriIntent)
+            }
+        }
     }
 
 

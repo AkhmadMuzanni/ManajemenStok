@@ -14,7 +14,7 @@ import project.manajemenstok.data.remote.impl.RemoteCustomerLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
 import project.manajemenstok.data.repository.TransaksiRepository
 import project.manajemenstok.data.repository.CustomerRepository
-import project.manajemenstok.ui.main.view.activity.KonfirmasiPembelianActivity
+import project.manajemenstok.ui.main.view.activity.ActivityKonfirmasiPembelian
 import project.manajemenstok.utils.Constants
 
 class PenjualanViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
@@ -85,7 +85,7 @@ class PenjualanViewModel (val context : Context, private val is_remote : Boolean
         return subtotal
     }
 
-    fun simpanPenjualan(bundle: Bundle, activity: KonfirmasiPembelianActivity): Boolean{
+    fun simpanPenjualan(bundle: Bundle, activityKonfirmasiPembelian: ActivityKonfirmasiPembelian): Boolean{
         var dataPembeli = KlienFirebase()
         dataPembeli.nama = bundle.getBundle("dataPenjual")!!.getString("namaPenjual")!!
         dataPembeli.noTelp = bundle.getBundle("dataPenjual")!!.getString("noTelp")!!
@@ -106,7 +106,7 @@ class PenjualanViewModel (val context : Context, private val is_remote : Boolean
 
         var idDetailPembelian = ""
 
-        barangRepository.getBarangTransaksi().observe(activity, Observer {
+        barangRepository.getBarangTransaksi().observe(activityKonfirmasiPembelian, Observer {
 
             for((index, detail) in it.withIndex()){
                 val detailPenjualan = DetailTransaksiFirebase()

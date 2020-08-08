@@ -32,6 +32,7 @@ class FragmentAkun : Fragment(), View.OnClickListener {
         viewFragmentProfile.lyt_terms_condition.setOnClickListener(this)
         viewFragmentProfile.lyt_privacy.setOnClickListener(this)
         viewFragmentProfile.lyt_help.setOnClickListener(this)
+        viewFragmentProfile.btn_logout.setOnClickListener(this)
         return viewFragmentProfile
     }
 
@@ -70,6 +71,9 @@ class FragmentAkun : Fragment(), View.OnClickListener {
             R.id.lyt_help ->{
                 val help = Intent(viewFragmentProfile.context, ActivityHelp::class.java)
                 startActivity(help)
+            }
+            R.id.btn_logout->{
+                activity?.finish()
             }
         }
     }
