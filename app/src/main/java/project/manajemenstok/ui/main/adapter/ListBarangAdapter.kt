@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.item_barang_layout.view.text_jumlah
 import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.imageViewFoto
 import project.manajemenstok.R
-import project.manajemenstok.ui.main.fragment.FragmentBarang
-import project.manajemenstok.ui.main.view.DetailBarangActivity
+import project.manajemenstok.ui.main.view.fragment.FragmentBarang
+import project.manajemenstok.ui.main.view.activity.DetailBarangActivity
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Helper

@@ -3,9 +3,8 @@ package project.manajemenstok.ui.main.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import project.manajemenstok.ui.main.fragment.FragmentInputBarangBaru
-import project.manajemenstok.ui.main.fragment.FragmentInputBarangTersimpan
-import project.manajemenstok.ui.main.fragment.FragmentPembelian
+import project.manajemenstok.ui.main.view.fragment.FragmentInputBarangBaru
+import project.manajemenstok.ui.main.view.fragment.FragmentInputBarangTersimpan
 
 class InputBarangAdapter(fm: FragmentManager, private val transaksi: Int) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {

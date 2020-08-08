@@ -1,4 +1,4 @@
-package project.manajemenstok.ui.main.fragment
+package project.manajemenstok.ui.main.view.fragment
 
 
 import android.content.Intent
@@ -13,27 +13,30 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_beranda.*
 import kotlinx.android.synthetic.main.fragment_beranda.view.*
 
 import project.manajemenstok.R
-import project.manajemenstok.data.model.Barang
+import project.manajemenstok.data.model.TransaksiData
 import project.manajemenstok.ui.base.ViewModelFactory
-import project.manajemenstok.ui.main.adapter.MainAdapter
-import project.manajemenstok.ui.main.view.PembelianActivity
-import project.manajemenstok.ui.main.view.PenjualanActivity
-import project.manajemenstok.ui.main.viewmodel.MainViewModel
+import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
+import project.manajemenstok.ui.main.adapter.RiwayatAdapter
+import project.manajemenstok.ui.main.view.activity.DetailRiwayatActivity
+import project.manajemenstok.ui.main.view.activity.PembelianActivity
+import project.manajemenstok.ui.main.view.activity.PenjualanActivity
+import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
+import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Status
+import java.text.NumberFormat
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBeranda : Fragment(), View.OnClickListener {
+class FragmentBeranda : Fragment(), View.OnClickListener, OnRiwayatItemClickListener {
 
-    private lateinit var mainViewModel: MainViewModel
-    private lateinit var adapter: MainAdapter
+    private lateinit var riwayatViewModel: RiwayatViewModel
+    private lateinit var adapter: RiwayatAdapter
     private lateinit var viewFragmentBeranda: View
     private lateinit var rv: RecyclerView
 
@@ -48,23 +51,19 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
         viewFragmentBeranda.btn_penjualan.setOnClickListener(this)
         setupUI()
         setupViewModel()
-
-        mainViewModel.getLiveBarang().observe(this, Observer {
-            renderList(it)
-            progressBarBeranda.visibility = View.GONE
-        })
+        setupObserver()
+        riwayatViewModel.fetchTransaksiRepository()
         return viewFragmentBeranda
     }
 
     override fun onResume() {
         super.onResume()
-        mainViewModel.fetchLiveBarang()
     }
 
     private fun setupUI(){
         rv = viewFragmentBeranda.findViewById(R.id.rv_riwayat_transaksi)
         rv.layoutManager = LinearLayoutManager(viewFragmentBeranda.context)
-        adapter = MainAdapter(arrayListOf())
+        adapter = RiwayatAdapter(arrayListOf(), this)
         rv.addItemDecoration(
             DividerItemDecoration(
                 rv.context,
@@ -76,14 +75,14 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
 
     private fun setupViewModel() {
         val is_remote = true
-        mainViewModel = ViewModelProviders.of(
+        riwayatViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewFragmentBeranda.context,is_remote)
-        ).get(MainViewModel::class.java)
+        ).get(RiwayatViewModel::class.java)
     }
 
     private fun setupObserver() {
-        mainViewModel.getBarangs().observe(this, Observer {
+        riwayatViewModel.getTransaksi().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarBeranda.visibility = View.GONE
@@ -103,9 +102,30 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
         })
     }
 
-    private fun renderList(barangs: List<Barang>) {
-        adapter.setData(barangs)
+    private fun renderList(transaksiList: List<TransaksiData>) {
+        adapter.setData(transaksiList.reversed())
         adapter.notifyDataSetChanged()
+        countTotalBalance(transaksiList)
+    }
+
+    private fun countTotalBalance(transaksiList: List<TransaksiData>){
+        var totalPembelian = 0
+        var totalPenjualan = 0
+        for (transaksi in transaksiList ){
+            if (Constants.JenisTransaksiValue.PEMBELIAN==transaksi.jenisTransaksi){
+                totalPembelian += transaksi.totalTransaksi
+            }else{
+                totalPenjualan += transaksi.totalTransaksi
+            }
+        }
+        viewFragmentBeranda.tv_total_pemasukan.text = "Rp. "+getFormat(totalPembelian)
+        viewFragmentBeranda.tv_total_pengeluaran.text = "Rp. "+getFormat(totalPenjualan)
+    }
+
+    fun getFormat(int: Int): String{
+        val idLocale = Locale("id", "ID")
+        val nf = NumberFormat.getNumberInstance(idLocale)
+        return nf.format(int)
     }
 
     override fun onClick(v: View) {
@@ -124,6 +144,16 @@ class FragmentBeranda : Fragment(), View.OnClickListener {
 //                Toast.makeText(context, "Berhasil menambah barang", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun onItemClick(item: TransaksiData, position: Int) {
+        val historyTransaction = Intent(viewFragmentBeranda.context, DetailRiwayatActivity::class.java)
+        val historyTransactionBundle = Bundle()
+        historyTransactionBundle.putString("idTransaksi", item.uuid)
+        historyTransactionBundle.putInt("totalTransaksi", item.totalTransaksi)
+        historyTransactionBundle.putInt("totalOngkir", item.ongkir)
+        historyTransaction.putExtra("historyTransaction", historyTransactionBundle)
+        startActivity(historyTransaction)
     }
 
 

@@ -1,4 +1,4 @@
-package project.manajemenstok.ui.main.fragment
+package project.manajemenstok.ui.main.view.fragment
 
 
 import android.content.Intent
@@ -7,13 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import kotlinx.android.synthetic.main.fragment_akun.*
 import kotlinx.android.synthetic.main.fragment_akun.view.*
 
 import project.manajemenstok.R
-import project.manajemenstok.ui.main.view.KeuntunganAplikasiActivity
+import project.manajemenstok.ui.main.view.activity.*
 
 /**
  * A simple [Fragment] subclass.
@@ -41,15 +38,18 @@ class FragmentAkun : Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when(v.id){
             R.id.lyt_change_profile -> {
-                Toast.makeText(viewFragmentProfile.context, "Ubah Profile", Toast.LENGTH_SHORT).show()
+                val editProfile = Intent(viewFragmentProfile.context, ActivityEditProfile::class.java)
+                startActivity(editProfile)
             }
 
             R.id.lyt_change_paket -> {
-                Toast.makeText(viewFragmentProfile.context, "Ubah Paket", Toast.LENGTH_SHORT).show()
+                val memberType = Intent(viewFragmentProfile.context, ActivityMemberType::class.java)
+                startActivity(memberType)
             }
 
             R.id.lyt_change_password -> {
-                Toast.makeText(viewFragmentProfile.context, "Ubah Password", Toast.LENGTH_SHORT).show()
+                val changePassword = Intent(viewFragmentProfile.context, ActivityChangePassword::class.java)
+                startActivity(changePassword)
             }
 
             R.id.lyt_keuntungan -> {
@@ -58,15 +58,18 @@ class FragmentAkun : Fragment(), View.OnClickListener {
             }
 
             R.id.lyt_terms_condition -> {
-                Toast.makeText(viewFragmentProfile.context, "Syarat Dan Ketentuan", Toast.LENGTH_SHORT).show()
+                val syaratKetentuan = Intent(viewFragmentProfile.context, ActivitySyaratKetentuan::class.java)
+                startActivity(syaratKetentuan)
             }
 
             R.id.lyt_privacy -> {
-                Toast.makeText(viewFragmentProfile.context, "Kebijakan Privasi", Toast.LENGTH_SHORT).show()
+                val privacy = Intent(viewFragmentProfile.context, ActivityPrivacy::class.java)
+                startActivity(privacy)
             }
 
             R.id.lyt_help ->{
-                Toast.makeText(viewFragmentProfile.context, "Bantuan", Toast.LENGTH_SHORT).show()
+                val help = Intent(viewFragmentProfile.context, ActivityHelp::class.java)
+                startActivity(help)
             }
         }
     }

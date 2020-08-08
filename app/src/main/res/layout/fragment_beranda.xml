@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".ui.main.fragment.FragmentBeranda">
+    android:background="@color/globalBackgroud"
+    tools:context=".ui.main.view.fragment.FragmentBeranda">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"

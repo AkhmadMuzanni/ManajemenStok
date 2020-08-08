@@ -1,4 +1,4 @@
-package project.manajemenstok.ui.main.fragment
+package project.manajemenstok.ui.main.view.fragment
 
 
 import android.os.Bundle

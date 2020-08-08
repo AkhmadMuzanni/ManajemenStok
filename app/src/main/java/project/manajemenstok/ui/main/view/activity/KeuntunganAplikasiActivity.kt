@@ -1,4 +1,4 @@
-package project.manajemenstok.ui.main.view
+package project.manajemenstok.ui.main.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

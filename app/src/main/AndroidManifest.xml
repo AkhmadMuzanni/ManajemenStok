@@ -11,15 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.view.KeuntunganAplikasiActivity" />
-        <activity android:name=".ui.main.view.DetailBarangActivity" />
-        <activity android:name=".ui.main.view.PenjualanActivity" />
-        <activity android:name=".ui.main.view.DetailRiwayatActivity" />
-        <activity android:name=".ui.main.view.PembelianActivity" />
-        <activity android:name=".ui.main.view.KonfirmasiPembelianActivity" />
-        <activity android:name=".ui.main.view.BarangActivity" />
-        <activity android:name=".ui.main.view.InputBarangActivity" />
-        <activity android:name=".ui.main.view.MainActivity">
+        <activity android:name=".ui.main.view.activity.ActivityEditProfile"></activity>
+        <activity android:name=".ui.main.view.activity.ActivityMemberType" />
+        <activity android:name=".ui.main.view.activity.ActivityChangePassword" />
+        <activity android:name=".ui.main.view.activity.ActivityHelp" />
+        <activity android:name=".ui.main.view.activity.ActivityPrivacy" />
+        <activity android:name=".ui.main.view.activity.ActivitySyaratKetentuan" />
+        <activity android:name=".ui.main.view.activity.KeuntunganAplikasiActivity" />
+        <activity android:name=".ui.main.view.activity.DetailBarangActivity" />
+        <activity android:name=".ui.main.view.activity.PenjualanActivity" />
+        <activity android:name=".ui.main.view.activity.DetailRiwayatActivity" />
+        <activity android:name=".ui.main.view.activity.PembelianActivity" />
+        <activity android:name=".ui.main.view.activity.KonfirmasiPembelianActivity" />
+        <activity android:name=".ui.main.view.activity.BarangActivity" />
+        <activity android:name=".ui.main.view.activity.InputBarangActivity" />
+        <activity android:name=".ui.main.view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

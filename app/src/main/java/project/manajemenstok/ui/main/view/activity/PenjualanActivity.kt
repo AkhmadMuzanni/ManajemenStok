@@ -1,4 +1,4 @@
-package project.manajemenstok.ui.main.view
+package project.manajemenstok.ui.main.view.activity
 
 import android.app.Activity
 import android.app.AlertDialog

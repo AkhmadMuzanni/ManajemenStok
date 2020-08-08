@@ -1,22 +1,13 @@
-package project.manajemenstok.ui.main.view
+package project.manajemenstok.ui.main.view.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.jetbrains.anko.toast
 import project.manajemenstok.R
-import project.manajemenstok.data.model.Barang
-import project.manajemenstok.ui.main.adapter.MainAdapter
-import project.manajemenstok.ui.main.fragment.*
-import project.manajemenstok.ui.main.viewmodel.MainViewModel
+import project.manajemenstok.ui.main.view.fragment.*
 
 class MainActivity : AppCompatActivity(){
     companion object {
@@ -30,7 +21,9 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_fragment, FragmentBeranda())
+            replace(R.id.fl_fragment,
+                FragmentBeranda()
+            )
             commit()
         }
 
@@ -42,7 +35,9 @@ class MainActivity : AppCompatActivity(){
                     supportFragmentManager
                         .beginTransaction()
                         .apply {
-                            replace(R.id.fl_fragment, FragmentBeranda())
+                            replace(R.id.fl_fragment,
+                                FragmentBeranda()
+                            )
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                 .commit()
                         }
@@ -52,7 +47,9 @@ class MainActivity : AppCompatActivity(){
                     supportFragmentManager
                         .beginTransaction()
                         .apply {
-                            replace(R.id.fl_fragment, FragmentBarang())
+                            replace(R.id.fl_fragment,
+                                FragmentBarang()
+                            )
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                 .commit()
                         }
@@ -62,7 +59,9 @@ class MainActivity : AppCompatActivity(){
                     supportFragmentManager
                         .beginTransaction()
                         .apply {
-                            replace(R.id.fl_fragment, FragmentRiwayat())
+                            replace(R.id.fl_fragment,
+                                FragmentRiwayat()
+                            )
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                 .commit()
                         }
@@ -72,7 +71,9 @@ class MainActivity : AppCompatActivity(){
                     supportFragmentManager
                         .beginTransaction()
                         .apply {
-                            replace(R.id.fl_fragment, FragmentKas())
+                            replace(R.id.fl_fragment,
+                                FragmentKas()
+                            )
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                 .commit()
                         }
@@ -82,7 +83,9 @@ class MainActivity : AppCompatActivity(){
                     supportFragmentManager
                         .beginTransaction()
                         .apply {
-                            replace(R.id.fl_fragment, FragmentAkun())
+                            replace(R.id.fl_fragment,
+                                FragmentAkun()
+                            )
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .commit()
                         }

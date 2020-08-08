@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_kategori_layout.view.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Kategori
-import project.manajemenstok.ui.main.fragment.FragmentBarang
+import project.manajemenstok.ui.main.view.fragment.FragmentBarang
 import project.manajemenstok.ui.main.viewmodel.BarangViewModel
 
 import kotlin.collections.ArrayList

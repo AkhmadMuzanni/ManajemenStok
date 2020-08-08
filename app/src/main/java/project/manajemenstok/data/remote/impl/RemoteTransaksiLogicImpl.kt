@@ -1,10 +1,7 @@
 package project.manajemenstok.data.remote.impl
 
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import project.manajemenstok.data.model.*
@@ -47,7 +44,30 @@ class RemoteTransaksiLogicImpl :
     }
 
     override fun fetchTransaksi() {
-        getDbReference("transaksi").orderByPriority().addListenerForSingleValueEvent(object :
+//        getDbReference("transaksi").addChildEventListener(object  :
+//        ChildEventListener{
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onChildRemoved(snapshot: DataSnapshot) {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
+        getDbReference("transaksi").addListenerForSingleValueEvent(object :
             ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -96,6 +116,29 @@ class RemoteTransaksiLogicImpl :
     }
 
     override fun fetchDetailTransaksi(param: String) {
+//        getDbReference("detailTransaksi").addChildEventListener(object :
+//        ChildEventListener{
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onChildRemoved(snapshot: DataSnapshot) {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
         getDbReference("detailTransaksi").addListenerForSingleValueEvent(object:
         ValueEventListener{
             override fun onCancelled(error: DatabaseError) {

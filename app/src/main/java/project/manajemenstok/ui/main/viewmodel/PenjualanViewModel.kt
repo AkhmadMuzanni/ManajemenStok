@@ -14,7 +14,7 @@ import project.manajemenstok.data.remote.impl.RemoteCustomerLogicImpl
 import project.manajemenstok.data.repository.BarangRepository
 import project.manajemenstok.data.repository.TransaksiRepository
 import project.manajemenstok.data.repository.CustomerRepository
-import project.manajemenstok.ui.main.view.KonfirmasiPembelianActivity
+import project.manajemenstok.ui.main.view.activity.KonfirmasiPembelianActivity
 import project.manajemenstok.utils.Constants
 
 class PenjualanViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {

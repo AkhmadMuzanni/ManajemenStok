@@ -1,18 +1,16 @@
-package project.manajemenstok.ui.main.view
+package project.manajemenstok.ui.main.view.activity
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.threetenabp.AndroidThreeTen
 import project.manajemenstok.R
 import project.manajemenstok.ui.main.adapter.PembelianAdapter
-import project.manajemenstok.ui.main.fragment.FragmentPembelian
+import project.manajemenstok.ui.main.view.fragment.FragmentPembelian
 
 class PembelianActivity : AppCompatActivity(), View.OnClickListener {
 

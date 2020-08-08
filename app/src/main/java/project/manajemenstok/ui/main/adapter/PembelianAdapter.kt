@@ -3,7 +3,7 @@ package project.manajemenstok.ui.main.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import project.manajemenstok.ui.main.fragment.FragmentPembelian
+import project.manajemenstok.ui.main.view.fragment.FragmentPembelian
 
 class PembelianAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {

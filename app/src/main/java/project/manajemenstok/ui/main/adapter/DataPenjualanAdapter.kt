@@ -13,7 +13,7 @@ import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.textViewNamaBarang
 import kotlinx.android.synthetic.main.item_pembelian_layout.view.*
 import project.manajemenstok.R
-import project.manajemenstok.ui.main.view.PenjualanActivity
+import project.manajemenstok.ui.main.view.activity.PenjualanActivity
 import project.manajemenstok.ui.main.viewmodel.PenjualanViewModel
 import project.manajemenstok.utils.NumberTextWatcher
 import java.text.NumberFormat

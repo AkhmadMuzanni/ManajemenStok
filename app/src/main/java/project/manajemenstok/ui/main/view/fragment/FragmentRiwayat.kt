@@ -1,4 +1,4 @@
-package project.manajemenstok.ui.main.fragment
+package project.manajemenstok.ui.main.view.fragment
 
 
 import android.content.Intent
@@ -17,11 +17,10 @@ import kotlinx.android.synthetic.main.fragment_riwayat.*
 
 import project.manajemenstok.R
 import project.manajemenstok.data.model.TransaksiData
-import project.manajemenstok.data.model.TransaksiFirebase
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
-import project.manajemenstok.ui.main.view.DetailRiwayatActivity
+import project.manajemenstok.ui.main.view.activity.DetailRiwayatActivity
 import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
 import project.manajemenstok.utils.Status
 

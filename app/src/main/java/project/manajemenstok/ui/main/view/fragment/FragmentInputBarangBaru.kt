@@ -1,4 +1,4 @@
-package project.manajemenstok.ui.main.fragment
+package project.manajemenstok.ui.main.view.fragment
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent

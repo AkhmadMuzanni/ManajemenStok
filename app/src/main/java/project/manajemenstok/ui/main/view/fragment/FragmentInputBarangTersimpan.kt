@@ -1,4 +1,4 @@
-package project.manajemenstok.ui.main.fragment
+package project.manajemenstok.ui.main.view.fragment
 
 import android.app.Activity
 import android.content.Intent
@@ -18,9 +18,7 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.InputBarangTersimpanAdapter
-import project.manajemenstok.ui.main.adapter.MainAdapter
-import project.manajemenstok.ui.main.view.InputBarangActivity
-import project.manajemenstok.ui.main.viewmodel.MainViewModel
+import project.manajemenstok.ui.main.view.activity.InputBarangActivity
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 import project.manajemenstok.utils.Status
 

@@ -10,12 +10,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import project.manajemenstok.data.model.Barang
-import kotlinx.android.synthetic.main.item_layout.view.*
-import kotlinx.android.synthetic.main.item_layout.view.imageViewFoto
 import kotlinx.android.synthetic.main.item_layout.view.textViewNamaBarang
 import kotlinx.android.synthetic.main.item_pembelian_layout.view.*
 import project.manajemenstok.R
-import project.manajemenstok.ui.main.fragment.FragmentPembelian
+import project.manajemenstok.ui.main.view.fragment.FragmentPembelian
 import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
 import project.manajemenstok.utils.NumberTextWatcher
 import java.text.NumberFormat

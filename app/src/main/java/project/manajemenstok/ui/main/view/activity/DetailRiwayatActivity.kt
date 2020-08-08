@@ -1,4 +1,4 @@
-package project.manajemenstok.ui.main.view
+package project.manajemenstok.ui.main.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,18 +8,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_detail_riwayat.*
-import kotlinx.android.synthetic.main.fragment_riwayat.*
 import project.manajemenstok.R
-import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.DetailTransaksiData
-import project.manajemenstok.data.model.DetailTransaksiFirebase
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.DetailRiwayatAdapter
-import project.manajemenstok.ui.main.adapter.MainAdapter
-import project.manajemenstok.ui.main.adapter.RiwayatAdapter
-import project.manajemenstok.ui.main.viewmodel.MainViewModel
 import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
 import project.manajemenstok.utils.Status
 import java.text.NumberFormat

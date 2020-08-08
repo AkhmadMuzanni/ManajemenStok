@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.*
 import project.manajemenstok.R
-import project.manajemenstok.ui.main.fragment.FragmentInputBarangTersimpan
+import project.manajemenstok.ui.main.view.fragment.FragmentInputBarangTersimpan
 import project.manajemenstok.utils.Constants
 
 class InputBarangTersimpanAdapter (
@@ -21,7 +21,8 @@ class InputBarangTersimpanAdapter (
 
     class DataViewHolder(itemView: View, val dataAdapter: InputBarangTersimpanAdapter, val parentActivity: Int) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var objBarang = Barang()
-        var fragmentInputData = FragmentInputBarangTersimpan()
+        var fragmentInputData =
+            FragmentInputBarangTersimpan()
         fun bind(barang: Barang, fragment: FragmentInputBarangTersimpan){
             objBarang = barang
             fragmentInputData = fragment
