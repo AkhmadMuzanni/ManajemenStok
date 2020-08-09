@@ -224,39 +224,11 @@ class RemoteKategoriLogicImpl :
                 var listKategori = ArrayList<Kategori>()
                 snapshot.children.forEach{
                     val tempKategori = it.getValue<Kategori>(Kategori::class.java)!!
-                    tempKategori.jumlah = 0
                     if(tempKategori.isDeleted == Constants.DeleteStatus.ACTIVE && tempKategori.nama.toLowerCase().contains(query)){
                         listKategori.add(tempKategori)
                     }
                 }
 
-                var idxNonKategori = 0
-                var countDeleted = 0
-                for(barang in listBarang){
-                    if(barang.isDeleted == Constants.DeleteStatus.ACTIVE){
-                        var isDeleted = true
-                        for((idx, kategori) in listKategori.withIndex()){
-                            if(barang.kategori == kategori.uuid){
-                                kategori.jumlah += 1
-                                isDeleted = false
-                            }
-                            if(kategori.uuid == "nonKategori"){
-                                idxNonKategori = idx
-                            }
-                        }
-                        if(isDeleted){
-                            barang.kategori = "nonKategori"
-                            updateBarang(barang)
-                            countDeleted += 1
-                        }
-                    }
-                }
-
-                listKategori[idxNonKategori].jumlah += countDeleted
-
-                for(kategori in listKategori){
-                    updateKategori(kategori)
-                }
                 setKategori(listKategori)
             }
         })
