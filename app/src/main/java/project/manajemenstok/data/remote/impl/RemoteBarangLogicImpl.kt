@@ -233,4 +233,47 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
         })
     }
 
+    override fun fetchLiveBarang(query: String) {
+        getDbReference("barang").addChildEventListener(object : ChildEventListener{
+            var listBarang = ArrayList<Barang>()
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                setLiveBarang(listBarang)
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+//                setLiveBarang(listBarang)
+            }
+        })
+
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var listBarang = ArrayList<Barang>()
+                dataSnapshot.children.forEach {
+                    val tempBarang = it.getValue<Barang>(Barang::class.java)!!
+                    if(tempBarang.isDeleted == Constants.DeleteStatus.ACTIVE && tempBarang.namaBarang.toLowerCase().contains(query)){
+                        listBarang.add(tempBarang)
+                    }
+                }
+                setLiveBarang(listBarang)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
+    }
+
 }

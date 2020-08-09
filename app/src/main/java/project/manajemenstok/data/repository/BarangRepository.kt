@@ -128,4 +128,8 @@ class BarangRepository(private val remoteBarang: RemoteBarangLogic, private val 
         return remoteBarang.getImageUrl()
     }
 
+    fun fetchLiveBarang(query: String){
+        remoteBarang.fetchLiveBarang(query)
+    }
+
 }
