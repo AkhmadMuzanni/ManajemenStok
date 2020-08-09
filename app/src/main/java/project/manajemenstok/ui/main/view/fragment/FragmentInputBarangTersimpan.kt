@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_input_barang_tersimpan.*
 import kotlinx.android.synthetic.main.fragment_input_barang_tersimpan.view.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
@@ -20,14 +22,16 @@ import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.InputBarangTersimpanAdapter
 import project.manajemenstok.ui.main.view.activity.ActivityInputBarang
 import project.manajemenstok.ui.main.viewmodel.ViewModelPembelian
+import project.manajemenstok.utils.Helper
 import project.manajemenstok.utils.Status
 
 
-class FragmentInputBarangTersimpan : Fragment(){
+class FragmentInputBarangTersimpan : Fragment(), SearchView.OnQueryTextListener{
     private lateinit var pembelianViewModel: ViewModelPembelian
     private lateinit var adapter: InputBarangTersimpanAdapter
     private lateinit var viewBarang : View
     private lateinit var rvBarang : RecyclerView
+    private lateinit var barangUsed : ArrayList<Barang>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,13 +47,20 @@ class FragmentInputBarangTersimpan : Fragment(){
             renderList(it)
         })
 
-        val barangUsed = (activity as ActivityInputBarang).getBarangUsed()
+        barangUsed = (activity as ActivityInputBarang).getBarangUsed()
 
         pembelianViewModel.fetchUnusedBarang(barangUsed)
 
         return viewBarang
 //        return inflater!!.inflate(R.layout.fragment_input_barang_tersimpan, container, false)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Helper.setFontSizeSearchView(sv_barang_tersimpan, 14f)
+        sv_barang_tersimpan.setIconifiedByDefault(false)
+        sv_barang_tersimpan.setOnQueryTextListener(this)
     }
 
     private fun setupUI(){
@@ -115,6 +126,19 @@ class FragmentInputBarangTersimpan : Fragment(){
         inputBarangIntent.putExtra("bundle",inputBarangBundle)
         activity?.setResult(Activity.RESULT_OK, inputBarangIntent)
         activity?.finish()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if(newText == ""){
+            pembelianViewModel.fetchUnusedBarang(barangUsed)
+        } else {
+            pembelianViewModel.fetchUnusedBarang(barangUsed, newText!!.toLowerCase())
+        }
+        return true
     }
 
 }

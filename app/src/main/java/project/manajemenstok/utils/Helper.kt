@@ -27,5 +27,13 @@ class Helper {
             val autoComplete = linearLayout3.getChildAt(0) as AutoCompleteTextView
             autoComplete.textSize = 14f
         }
+
+        fun getTextViewSearchView(searchView: SearchView): AutoCompleteTextView{
+            val linearLayout1 = searchView.getChildAt(0) as LinearLayout
+            val linearLayout2 = linearLayout1.getChildAt(2) as LinearLayout
+            val linearLayout3 = linearLayout2.getChildAt(1) as LinearLayout
+            val autoComplete = linearLayout3.getChildAt(0) as AutoCompleteTextView
+            return autoComplete
+        }
     }
 }

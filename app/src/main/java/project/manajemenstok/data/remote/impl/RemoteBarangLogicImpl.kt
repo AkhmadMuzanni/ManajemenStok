@@ -72,6 +72,35 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
         })
     }
 
+    override fun fetchUnusedBarang(barangUsed: ArrayList<Barang>, query: String) {
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var result = ArrayList<Barang>()
+                dataSnapshot.children.forEach {
+                    val barang = it.getValue<Barang>(Barang::class.java)!!
+                    if(barang.isDeleted == Constants.DeleteStatus.ACTIVE && barang.namaBarang.toLowerCase().contains(query)){
+                        var isUsed = false
+                        for(used in barangUsed){
+                            if(barang.uuid == used.uuid){
+                                isUsed = true
+                                break
+                            }
+                        }
+                        if(!isUsed){
+                            result.add(barang)
+                        }
+                    }
+                }
+                setUnusedBarang(result)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
+    }
+
     override fun setUnusedBarang(listBarang: ArrayList<Barang>) {
         unusedBarang.postValue(listBarang)
     }

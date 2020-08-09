@@ -30,4 +30,5 @@ interface RemoteBarangLogic {
     fun setImageUrl(url: String)
     fun uploadImage(imageUri: Uri, path: String)
     fun fetchLiveBarang(query: String)
+    fun fetchUnusedBarang(barangUsed: ArrayList<Barang>, query: String)
 }

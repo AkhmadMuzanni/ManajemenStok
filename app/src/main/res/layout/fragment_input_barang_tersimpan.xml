@@ -6,45 +6,25 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/text_item_barang"
+    <SearchView
+        android:id="@+id/sv_barang_tersimpan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="3dp"
-        android:text="@string/labelSearchBarBarang"
-        android:textColor="@color/black"
-        android:textSize="14sp"
+        android:background="@drawable/text_jumlah_shape"
+        android:queryHint="Cari Barang"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:hintEnabled="false"
-        app:layout_constraintTop_toBottomOf="@id/text_item_barang">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_barang_pembelian"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hintEditTextBarang"
-            android:singleLine="true"
-            android:textSize="14sp"
-            android:theme="@style/EditTextTheme" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/separator"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:background="#B8B8B8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:layout_constraintTop_toBottomOf="@id/sv_barang_tersimpan">
 
         <TextView
             android:id="@+id/textView"
@@ -70,11 +50,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:paddingTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
         </androidx.recyclerview.widget.RecyclerView>
 
