@@ -13,8 +13,8 @@ import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.textViewNamaBarang
 import kotlinx.android.synthetic.main.item_pembelian_layout.view.*
 import project.manajemenstok.R
-import project.manajemenstok.ui.main.view.activity.PenjualanActivity
-import project.manajemenstok.ui.main.viewmodel.PenjualanViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityPenjualan
+import project.manajemenstok.ui.main.viewmodel.ViewModelPenjualan
 import project.manajemenstok.utils.NumberTextWatcher
 import java.text.NumberFormat
 import java.util.*
@@ -22,12 +22,12 @@ import kotlin.collections.ArrayList
 
 class DataPenjualanAdapter (
     private val barangs: ArrayList<Barang>,
-    private val penjualanViewModel: PenjualanViewModel,
-    private val penjualanActivity: PenjualanActivity
+    private val penjualanViewModel: ViewModelPenjualan,
+    private val penjualanActivity: ActivityPenjualan
 ): RecyclerView.Adapter<DataPenjualanAdapter.DataViewHolder>() {
 
     class DataViewHolder(
-        itemView: View, private val viewModel: PenjualanViewModel, private val activity: PenjualanActivity, private val dataAdapter: DataPenjualanAdapter
+        itemView: View, private val viewModel: ViewModelPenjualan, private val activity: ActivityPenjualan, private val dataAdapter: DataPenjualanAdapter
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnFocusChangeListener {
         var objBarang = Barang()
         var pos = 0

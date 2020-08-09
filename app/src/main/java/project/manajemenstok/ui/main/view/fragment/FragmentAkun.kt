@@ -54,7 +54,7 @@ class FragmentAkun : Fragment(), View.OnClickListener {
             }
 
             R.id.lyt_keuntungan -> {
-                val keuntungan = Intent(viewFragmentProfile.context, KeuntunganAplikasiActivity::class.java)
+                val keuntungan = Intent(viewFragmentProfile.context, ActivityKeuntunganAplikasi::class.java)
                 startActivity(keuntungan)
             }
 

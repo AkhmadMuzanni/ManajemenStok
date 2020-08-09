@@ -20,9 +20,8 @@ import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangAdapter
 import project.manajemenstok.ui.main.adapter.ListKategoriAdapter
-import project.manajemenstok.ui.main.view.KategoriActivity
-import project.manajemenstok.ui.main.view.MainActivity
-import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityKategori
+import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
 import project.manajemenstok.utils.Status
 
 /**
@@ -30,7 +29,7 @@ import project.manajemenstok.utils.Status
  */
 class FragmentBarang : Fragment(), View.OnClickListener {
 
-    private lateinit var barangViewModel: BarangViewModel
+    private lateinit var barangViewModel: ViewModelBarang
     private lateinit var adapter: ListBarangAdapter
     private lateinit var viewFragmentBarang: View
     private lateinit var rv: RecyclerView
@@ -105,7 +104,7 @@ class FragmentBarang : Fragment(), View.OnClickListener {
         barangViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewFragmentBarang.context,is_remote)
-        ).get(BarangViewModel::class.java)
+        ).get(ViewModelBarang::class.java)
     }
 
     private fun renderList(barangs: List<Barang>) {
@@ -125,7 +124,7 @@ class FragmentBarang : Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when(v.id){
             R.id.btn_see_all_kategori->{
-                val kategoriIntent = Intent(this.context, KategoriActivity::class.java)
+                val kategoriIntent = Intent(this.context, ActivityKategori::class.java)
                 startActivity(kategoriIntent)
             }
         }

@@ -9,7 +9,7 @@ import project.manajemenstok.data.remote.impl.RemoteKategoriLogicImpl
 import project.manajemenstok.data.repository.KategoriRepository
 import project.manajemenstok.utils.Resource
 
-class KategoriViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
+class ViewModelKategori (val context : Context, private val is_remote : Boolean) : ViewModel() {
 
     private val kategoriRepository = KategoriRepository(
         RemoteKategoriLogicImpl()

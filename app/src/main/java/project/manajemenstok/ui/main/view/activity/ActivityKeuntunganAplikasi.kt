@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import project.manajemenstok.R
 
-class KeuntunganAplikasiActivity : AppCompatActivity() {
+class ActivityKeuntunganAplikasi : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

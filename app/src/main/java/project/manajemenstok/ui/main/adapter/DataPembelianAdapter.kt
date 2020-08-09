@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_layout.view.textViewNamaBarang
 import kotlinx.android.synthetic.main.item_pembelian_layout.view.*
 import project.manajemenstok.R
 import project.manajemenstok.ui.main.view.fragment.FragmentPembelian
-import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelPembelian
 import project.manajemenstok.utils.NumberTextWatcher
 import java.text.NumberFormat
 import java.util.*
@@ -22,12 +22,12 @@ import kotlin.collections.ArrayList
 
 class DataPembelianAdapter (
     private val barangs: ArrayList<Barang>,
-    private val pembelianViewModel: PembelianViewModel,
+    private val pembelianViewModel: ViewModelPembelian,
     private val fragment: FragmentPembelian
 ): RecyclerView.Adapter<DataPembelianAdapter.DataViewHolder>() {
 
     class DataViewHolder(
-        itemView: View, pembelianViewModel: PembelianViewModel, fragment: FragmentPembelian, dataAdapter: DataPembelianAdapter
+        itemView: View, pembelianViewModel: ViewModelPembelian, fragment: FragmentPembelian, dataAdapter: DataPembelianAdapter
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnFocusChangeListener {
         var objBarang = Barang()
         var pos = 0

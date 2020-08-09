@@ -18,14 +18,14 @@ import kotlinx.android.synthetic.main.fragment_input_barang_baru.view.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
-import project.manajemenstok.ui.main.view.DetailKategoriActivity
-import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityDetailKategori
+import project.manajemenstok.ui.main.viewmodel.ViewModelPembelian
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Status
 
 
 class FragmentInputBarangBaru : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener{
-    private lateinit var pembelianViewModel: PembelianViewModel
+    private lateinit var pembelianViewModel: ViewModelPembelian
     private lateinit var listKategori: ArrayList<Kategori>
     private lateinit var arrayAdapter: ArrayAdapter<Kategori>
     private var uuidNewKategori = "nonKategori"
@@ -110,7 +110,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener, AdapterView.On
         val selectedKategori = parent?.selectedItem as Kategori
 
         if(selectedKategori.uuid == "newKategori"){
-            val detailKategoriIntent =  Intent(context, DetailKategoriActivity::class.java)
+            val detailKategoriIntent =  Intent(context, ActivityDetailKategori::class.java)
             detailKategoriIntent.putExtra("intentMode", Constants.IntentMode.ADD)
             startActivityForResult(detailKategoriIntent, Constants.RequestCodeIntent.DETAIL_KATEGORI)
         }
@@ -129,7 +129,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener, AdapterView.On
         pembelianViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(context!!,is_remote)
-        ).get(PembelianViewModel::class.java)
+        ).get(ViewModelPembelian::class.java)
     }
 
 }

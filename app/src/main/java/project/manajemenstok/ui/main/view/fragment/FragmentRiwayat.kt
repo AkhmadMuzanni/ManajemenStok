@@ -20,7 +20,7 @@ import project.manajemenstok.data.model.TransaksiData
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
-import project.manajemenstok.ui.main.view.activity.DetailRiwayatActivity
+import project.manajemenstok.ui.main.view.activity.ActivityDetailRiwayat
 import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
 import project.manajemenstok.utils.Status
 
@@ -96,7 +96,7 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
     }
 
     override fun onItemClick(item: TransaksiData, position: Int) {
-        val historyTransaction = Intent(viewFragmentRiwayat.context, DetailRiwayatActivity::class.java)
+        val historyTransaction = Intent(viewFragmentRiwayat.context, ActivityDetailRiwayat::class.java)
         val historyTransactionBundle = Bundle()
         historyTransactionBundle.putString("idTransaksi", item.uuid)
         historyTransactionBundle.putInt("totalTransaksi", item.totalTransaksi)

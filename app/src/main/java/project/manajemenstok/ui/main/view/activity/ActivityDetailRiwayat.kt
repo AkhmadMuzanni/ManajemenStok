@@ -18,7 +18,7 @@ import project.manajemenstok.utils.Status
 import java.text.NumberFormat
 import java.util.*
 
-class DetailRiwayatActivity : AppCompatActivity() {
+class ActivityDetailRiwayat : AppCompatActivity() {
 
     private lateinit var riwayatViewModel: RiwayatViewModel
     private lateinit var adapter: DetailRiwayatAdapter

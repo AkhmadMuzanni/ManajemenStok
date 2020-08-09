@@ -17,10 +17,10 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.DataPembelianAdapter
-import project.manajemenstok.ui.main.view.activity.InputBarangActivity
-import project.manajemenstok.ui.main.view.activity.KonfirmasiPembelianActivity
-import project.manajemenstok.ui.main.view.activity.MainActivity
-import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityInputBarang
+import project.manajemenstok.ui.main.view.activity.ActivityKonfirmasiPembelian
+import project.manajemenstok.ui.main.view.activity.ActivityMain
+import project.manajemenstok.ui.main.viewmodel.ViewModelPembelian
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.NumberTextWatcher
 import java.text.NumberFormat
@@ -32,7 +32,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
 
     private val INPUT_BARANG_INTENT = 1
     private val KONFIRMASI_INTENT = 2
-    private lateinit var pembelianViewModel: PembelianViewModel
+    private lateinit var pembelianViewModel: ViewModelPembelian
     private lateinit var viewPembelian: View
     private lateinit var dataPembelianAdapter: DataPembelianAdapter
     private lateinit var rvDataPembelian: RecyclerView
@@ -46,13 +46,13 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
         setupViewModel()
         setupUI()
 
-        if(MainActivity.tempPembelian.getSerializable("dataPenjual") != null){
-            viewPembelian.text_input_penjual.setText(MainActivity.tempPembelian.getString("dataPenjual"))
-            viewPembelian.text_ongkir_pembelian.setText(MainActivity.tempPembelian.getString("dataOngkir"))
-            viewPembelian.text_input_total.setText(MainActivity.tempPembelian.getString("dataTotal"))
+        if(ActivityMain.tempPembelian.getSerializable("dataPenjual") != null){
+            viewPembelian.text_input_penjual.setText(ActivityMain.tempPembelian.getString("dataPenjual"))
+            viewPembelian.text_ongkir_pembelian.setText(ActivityMain.tempPembelian.getString("dataOngkir"))
+            viewPembelian.text_input_total.setText(ActivityMain.tempPembelian.getString("dataTotal"))
 
-            if(MainActivity.tempPembelian.getString("dataOngkir") != ""){
-                pembelianViewModel.setTempOngkir(getAngka(MainActivity.tempPembelian.getString("dataOngkir")))
+            if(ActivityMain.tempPembelian.getString("dataOngkir") != ""){
+                pembelianViewModel.setTempOngkir(getAngka(ActivityMain.tempPembelian.getString("dataOngkir")))
             }
         }
 
@@ -70,8 +70,8 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
     override fun onResume() {
         super.onResume()
         var tempBarang = pembelianViewModel.getTempBarang()
-        if(MainActivity.tempPembelian.getSerializable("dataBarang") != null){
-            tempBarang = MainActivity.tempPembelian.getSerializable("dataBarang") as ArrayList<Barang>
+        if(ActivityMain.tempPembelian.getSerializable("dataBarang") != null){
+            tempBarang = ActivityMain.tempPembelian.getSerializable("dataBarang") as ArrayList<Barang>
             pembelianViewModel.setTempBarang(tempBarang)
         }
         renderDataPembelian(tempBarang)
@@ -95,7 +95,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
         pembelianViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewPembelian.context,is_remote)
-        ).get(PembelianViewModel::class.java)
+        ).get(ViewModelPembelian::class.java)
     }
 
     private fun renderDataPembelian(barangs: List<Barang>) {
@@ -120,7 +120,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
                 bundle.putString("dataSubtotal", pembelianViewModel.getSubtotal().toString())
                 bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
 
-                val konfirmasiPembelianIntent =  Intent(v.context, KonfirmasiPembelianActivity::class.java)
+                val konfirmasiPembelianIntent =  Intent(v.context, ActivityKonfirmasiPembelian::class.java)
                 konfirmasiPembelianIntent.putExtra("dataPembelian", bundle)
                 konfirmasiPembelianIntent.putExtra("parentActivity", Constants.JenisTransaksiValue.PEMBELIAN)
                 startActivityForResult(konfirmasiPembelianIntent, Constants.RequestCodeIntent.KONFIRMASI_TRANSAKSI)
@@ -158,7 +158,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
         }
 //        MainActivity.setTempData(bundle)
-        MainActivity.tempPembelian = bundle
+        ActivityMain.tempPembelian = bundle
     }
 
     private fun onTextChangeListener(){
@@ -205,7 +205,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
     fun goToInput(v: View){
         var bundle = Bundle()
 
-        val inputBarangIntent =  Intent(v.context, InputBarangActivity::class.java)
+        val inputBarangIntent =  Intent(v.context, ActivityInputBarang::class.java)
         if(pembelianViewModel.getBarangUsed().size != 0){
             bundle.putSerializable("dataBarangUsed", pembelianViewModel.getBarangUsed())
             bundle.putBoolean("isBarangUsed", true)

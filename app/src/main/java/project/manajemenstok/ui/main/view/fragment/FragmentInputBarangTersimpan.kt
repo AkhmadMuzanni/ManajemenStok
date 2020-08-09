@@ -18,13 +18,13 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.InputBarangTersimpanAdapter
-import project.manajemenstok.ui.main.view.activity.InputBarangActivity
-import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityInputBarang
+import project.manajemenstok.ui.main.viewmodel.ViewModelPembelian
 import project.manajemenstok.utils.Status
 
 
 class FragmentInputBarangTersimpan : Fragment(){
-    private lateinit var pembelianViewModel: PembelianViewModel
+    private lateinit var pembelianViewModel: ViewModelPembelian
     private lateinit var adapter: InputBarangTersimpanAdapter
     private lateinit var viewBarang : View
     private lateinit var rvBarang : RecyclerView
@@ -43,7 +43,7 @@ class FragmentInputBarangTersimpan : Fragment(){
             renderList(it)
         })
 
-        val barangUsed = (activity as InputBarangActivity).getBarangUsed()
+        val barangUsed = (activity as ActivityInputBarang).getBarangUsed()
 
         pembelianViewModel.fetchUnusedBarang(barangUsed)
 
@@ -71,7 +71,7 @@ class FragmentInputBarangTersimpan : Fragment(){
         pembelianViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewBarang.context,is_remote)
-        ).get(PembelianViewModel::class.java)
+        ).get(ViewModelPembelian::class.java)
     }
 
     private fun setupObserver() {

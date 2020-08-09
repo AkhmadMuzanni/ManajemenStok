@@ -16,9 +16,9 @@ import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.imageViewFoto
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Kategori
-import project.manajemenstok.ui.main.view.DetailBarangActivity
-import project.manajemenstok.ui.main.view.DetailKategoriActivity
-import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityDetailBarang
+import project.manajemenstok.ui.main.view.activity.ActivityDetailKategori
+import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Helper
 
@@ -26,13 +26,13 @@ import kotlin.collections.ArrayList
 
 class ListBarangKategoriAdapter (
     private var barangs: ArrayList<Barang>,
-    private var activity: DetailKategoriActivity,
-    private var barangViewModel: BarangViewModel
+    private var activity: ActivityDetailKategori,
+    private var barangViewModel: ViewModelBarang
 ): RecyclerView.Adapter<ListBarangKategoriAdapter.DataViewHolder>() {
 
     private var kategori = ArrayList<Kategori>()
 
-    class DataViewHolder(itemView: View, val dataAdapter: ListBarangKategoriAdapter, val activity: DetailKategoriActivity) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class DataViewHolder(itemView: View, val dataAdapter: ListBarangKategoriAdapter, val activity: ActivityDetailKategori) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var objBarang = Barang()
         fun bind(barang: Barang, dataKategori: ArrayList<Kategori>){
             objBarang = barang
@@ -66,7 +66,7 @@ class ListBarangKategoriAdapter (
                 R.id.imageViewFoto,
                 R.id.content_bottom->{
                     val bundle = Bundle()
-                    val detailBarangIntent =  Intent(v.context, DetailBarangActivity::class.java)
+                    val detailBarangIntent =  Intent(v.context, ActivityDetailBarang::class.java)
                     detailBarangIntent.putExtra("dataBarang", objBarang)
                     detailBarangIntent.putExtra("dataKategori", activity.getListKategori())
 //                    startActivityForResult(activity, detailBarangIntent, Constants.RequestCodeIntent.DETAIL_BARANG, bundle)

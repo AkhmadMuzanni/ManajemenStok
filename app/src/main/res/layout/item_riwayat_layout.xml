@@ -8,20 +8,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         android:background="@drawable/componen_corner"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_nama_suplier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:text="Nama Suplier"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,8 +29,6 @@
             android:id="@+id/tv_jenis_transaksi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:text="Pembelian"
             android:textSize="15sp"
             android:textStyle="bold"
@@ -43,7 +39,6 @@
             android:id="@+id/tv_datetime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
             android:text="14 Juli 2020 22:00:00"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -54,8 +49,6 @@
             android:id="@+id/tv_mount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:gravity="right"
             android:text="Rp. 88.000"
             android:textSize="17sp"

@@ -24,14 +24,14 @@ import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangKategoriAdapter
-import project.manajemenstok.ui.main.viewmodel.BarangViewModel
-import project.manajemenstok.ui.main.viewmodel.KategoriViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
+import project.manajemenstok.ui.main.viewmodel.ViewModelKategori
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Status
 
-class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
-    private lateinit var kategoriViewModel: KategoriViewModel
-    private lateinit var barangViewModel: BarangViewModel
+class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener{
+    private lateinit var kategoriViewModel: ViewModelKategori
+    private lateinit var barangViewModel: ViewModelBarang
     private lateinit var objKategori: Kategori
     private var listKategori = ArrayList<Kategori>()
     private var intentMode = 0
@@ -140,12 +140,12 @@ class DetailKategoriActivity : AppCompatActivity(), View.OnClickListener{
         kategoriViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext, is_remote)
-        ).get(KategoriViewModel::class.java)
+        ).get(ViewModelKategori::class.java)
 
         barangViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext, is_remote)
-        ).get(BarangViewModel::class.java)
+        ).get(ViewModelBarang::class.java)
     }
 
     private fun setupUI(){

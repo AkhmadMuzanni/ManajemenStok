@@ -9,7 +9,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
 import project.manajemenstok.R
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener{
+class ActivityLogin : AppCompatActivity(), View.OnClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener{
     override fun onClick(v: View) {
         when(v.id){
             R.id.btn_login->{
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, ActivityMain::class.java)
                 startActivity(intent)
             }
         }

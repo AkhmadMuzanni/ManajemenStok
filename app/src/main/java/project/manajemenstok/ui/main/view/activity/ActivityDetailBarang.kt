@@ -20,12 +20,12 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
-import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Helper
 
-class DetailBarangActivity : AppCompatActivity(), View.OnClickListener{
-    private lateinit var barangViewModel: BarangViewModel
+class ActivityDetailBarang : AppCompatActivity(), View.OnClickListener{
+    private lateinit var barangViewModel: ViewModelBarang
     private lateinit var objBarang: Barang
     private var listKategori = ArrayList<Kategori>()
 
@@ -95,7 +95,7 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener{
         barangViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext, is_remote)
-        ).get(BarangViewModel::class.java)
+        ).get(ViewModelBarang::class.java)
     }
 
     override fun onClick(v: View) {

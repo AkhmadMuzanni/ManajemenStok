@@ -18,15 +18,15 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.DataPenjualanAdapter
-import project.manajemenstok.ui.main.viewmodel.PenjualanViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelPenjualan
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.NumberTextWatcher
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener {
-    private lateinit var penjualanViewModel: PenjualanViewModel
+class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener {
+    private lateinit var penjualanViewModel: ViewModelPenjualan
     private lateinit var dataPenjualanAdapter: DataPenjualanAdapter
     private lateinit var rvDataPenjualan: RecyclerView
 
@@ -39,13 +39,13 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
         setupViewModel()
         setupUI()
 
-        if(MainActivity.tempPenjualan.getSerializable("dataPenjual") != null){
-            text_input_pembeli.setText(MainActivity.tempPenjualan.getString("dataPenjual"))
-            text_ongkir_pembelian.setText(MainActivity.tempPenjualan.getString("dataOngkir"))
-            text_input_total.setText(MainActivity.tempPenjualan.getString("dataTotal"))
+        if(ActivityMain.tempPenjualan.getSerializable("dataPenjual") != null){
+            text_input_pembeli.setText(ActivityMain.tempPenjualan.getString("dataPenjual"))
+            text_ongkir_pembelian.setText(ActivityMain.tempPenjualan.getString("dataOngkir"))
+            text_input_total.setText(ActivityMain.tempPenjualan.getString("dataTotal"))
 
-            if(MainActivity.tempPenjualan.getString("dataOngkir") != ""){
-                penjualanViewModel.setTempOngkir(getAngka(MainActivity.tempPenjualan.getString("dataOngkir")))
+            if(ActivityMain.tempPenjualan.getString("dataOngkir") != ""){
+                penjualanViewModel.setTempOngkir(getAngka(ActivityMain.tempPenjualan.getString("dataOngkir")))
             }
         }
 
@@ -63,8 +63,8 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
     override fun onResume() {
         super.onResume()
         var tempBarang = penjualanViewModel.getTempBarang()
-        if(MainActivity.tempPenjualan.getSerializable("dataBarang") != null){
-            tempBarang = MainActivity.tempPenjualan.getSerializable("dataBarang") as ArrayList<Barang>
+        if(ActivityMain.tempPenjualan.getSerializable("dataBarang") != null){
+            tempBarang = ActivityMain.tempPenjualan.getSerializable("dataBarang") as ArrayList<Barang>
             penjualanViewModel.setTempBarang(tempBarang)
         }
         renderDataPenjualan(tempBarang)
@@ -92,7 +92,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
         penjualanViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext,is_remote)
-        ).get(PenjualanViewModel::class.java)
+        ).get(ViewModelPenjualan::class.java)
     }
 
     private fun renderDataPenjualan(barangs: List<Barang>) {
@@ -136,7 +136,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
                 bundle.putString("dataSubtotal", penjualanViewModel.getSubtotal().toString())
                 bundle.putSerializable("dataBarang", penjualanViewModel.getTempBarang())
 
-                val konfirmasiPembelianIntent =  Intent(v.context, KonfirmasiPembelianActivity::class.java)
+                val konfirmasiPembelianIntent =  Intent(v.context, ActivityKonfirmasiPembelian::class.java)
                 konfirmasiPembelianIntent.putExtra("dataPembelian", bundle)
                 konfirmasiPembelianIntent.putExtra("parentActivity", Constants.JenisTransaksiValue.PENJUALAN)
                 startActivityForResult(konfirmasiPembelianIntent, Constants.RequestCodeIntent.KONFIRMASI_TRANSAKSI)
@@ -169,7 +169,7 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
     fun goToInput(v: View){
         var bundle = Bundle()
 
-        val inputBarangIntent =  Intent(v.context, InputBarangActivity::class.java)
+        val inputBarangIntent =  Intent(v.context, ActivityInputBarang::class.java)
         if(penjualanViewModel.getBarangUsed().size != 0){
             bundle.putSerializable("dataBarangUsed", penjualanViewModel.getBarangUsed())
             bundle.putBoolean("isBarangUsed", true)
@@ -224,6 +224,6 @@ class PenjualanActivity : AppCompatActivity(), View.OnClickListener, View.OnFocu
             bundle.putSerializable("dataBarang", penjualanViewModel.getTempBarang())
         }
 //        MainActivity.setTempData(bundle)
-        MainActivity.tempPenjualan = bundle
+        ActivityMain.tempPenjualan = bundle
     }
 }
