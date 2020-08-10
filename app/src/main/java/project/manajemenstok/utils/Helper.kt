@@ -49,8 +49,6 @@ class Helper {
         }
 
         fun getStorageReference(query: String): StorageReference {
-//            return Firebase.storage.reference.child(query)
-//            return Firebase.storage.reference.child("bevyStock").child(query)
             return Firebase.storage.reference.child(BUCKER_FOLDER).child(query)
         }
     }

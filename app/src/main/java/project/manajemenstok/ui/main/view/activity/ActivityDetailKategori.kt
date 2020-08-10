@@ -132,8 +132,8 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
                             Glide.with(image_view_kategori.context).load(it).into(image_view_kategori)
                             Toast.makeText(this, "Foto Kategori Berhasil Diubah", Toast.LENGTH_LONG).show()
                         })
-//
-                        kategoriViewModel.uploadImage(imageUri!!, resources.getString(R.string.bucketStorage) + objKategori.uuid + resources.getString(R.string.extensionImage))
+
+                        kategoriViewModel.uploadImage(imageUri!!, objKategori.uuid + resources.getString(R.string.extensionImage))
                     } else {
                         Glide.with(image_view_kategori.context).load(imageUri).into(image_view_kategori)
                         tempImageUri = imageUri!!
@@ -218,7 +218,7 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
                             finish()
                         })
 
-                        kategoriViewModel.uploadImage(tempImageUri, resources.getString(R.string.bucketStorage) + uuidSaved + resources.getString(R.string.extensionImage))
+                        kategoriViewModel.uploadImage(tempImageUri, uuidSaved + resources.getString(R.string.extensionImage))
                         progressBar_kategori.visibility = View.VISIBLE
                         btn_simpan.isEnabled = false
 

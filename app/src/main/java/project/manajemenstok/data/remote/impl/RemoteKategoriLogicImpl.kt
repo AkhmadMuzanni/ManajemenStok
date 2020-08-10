@@ -99,7 +99,6 @@ class RemoteKategoriLogicImpl :
     }
 
     override fun uploadImage(imageUri: Uri, path: String) {
-//        val storageRef = Firebase.storage.reference.child(path)
         val storageRef = getStorageReference(path)
 
         val uploadTask = storageRef.putFile(imageUri)
@@ -107,7 +106,6 @@ class RemoteKategoriLogicImpl :
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
         }.addOnSuccessListener {
-//            fetchImageUrl(storageRef.path)
             fetchImageUrl(path)
         }
     }

@@ -187,7 +187,6 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
         imageReference.downloadUrl.addOnSuccessListener {
             setImageUrl(it.toString())
         }.addOnFailureListener {
-            val b = 0
             // Handle any errors
         }
     }
@@ -197,16 +196,13 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
     }
 
     override fun uploadImage(imageUri: Uri, path: String) {
-//        val storageRef = Firebase.storage.reference.child(path)
         val storageRef = getStorageReference(path)
 
         val uploadTask = storageRef.putFile(imageUri)
 
         uploadTask.addOnFailureListener {
-            val a = 0
             // Handle unsuccessful uploads
         }.addOnSuccessListener {
-//            fetchImageUrl(storageRef.path)
             fetchImageUrl(path)
         }
     }

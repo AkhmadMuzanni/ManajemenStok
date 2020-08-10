@@ -84,7 +84,6 @@ class ActivityDetailBarang : AppCompatActivity(), View.OnClickListener{
                         Toast.makeText(this, "Foto Barang Berhasil Diubah", Toast.LENGTH_LONG).show()
                     })
 
-//                    barangViewModel.uploadImage(imageUri!!, resources.getString(R.string.bucketStorage) + objBarang.uuid + resources.getString(R.string.extensionImage))
                     barangViewModel.uploadImage(imageUri!!, objBarang.uuid + resources.getString(R.string.extensionImage))
                 }
             }
