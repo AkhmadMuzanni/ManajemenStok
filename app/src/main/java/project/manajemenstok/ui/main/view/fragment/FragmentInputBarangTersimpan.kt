@@ -44,7 +44,17 @@ class FragmentInputBarangTersimpan : Fragment(), SearchView.OnQueryTextListener{
         setupViewModel()
 
         pembelianViewModel.getUnusedBarang().observe(this, Observer {
-            renderList(it)
+            if(it.size == 0){
+                recyclerView.visibility = View.GONE
+                text_empty_state.visibility = View.VISIBLE
+                sv_barang_tersimpan.visibility = View.GONE
+            } else {
+                recyclerView.visibility = View.VISIBLE
+                text_empty_state.visibility= View.GONE
+                sv_barang_tersimpan.visibility = View.VISIBLE
+
+                renderList(it)
+            }
         })
 
         barangUsed = (activity as ActivityInputBarang).getBarangUsed()

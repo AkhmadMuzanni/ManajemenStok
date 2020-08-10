@@ -50,6 +50,13 @@ class ActivityLogin : AppCompatActivity(), View.OnClickListener{
         btn_signup.setOnClickListener(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        input_username.setText("")
+        input_password.setText("")
+    }
+
     override fun onClick(v: View) {
         when(v.id){
             R.id.btn_login->{

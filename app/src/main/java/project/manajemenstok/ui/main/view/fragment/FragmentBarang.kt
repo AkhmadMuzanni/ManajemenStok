@@ -50,7 +50,17 @@ class FragmentBarang : Fragment(), View.OnClickListener, SearchView.OnQueryTextL
         setupUI()
 
         barangViewModel.getLiveBarang().observe(this, Observer {
-            renderList(it)
+            if(it.size == 0){
+                rv_beranda.visibility = View.GONE
+                text_empty_state.visibility = View.VISIBLE
+                sv_barang.visibility = View.GONE
+            } else {
+                rv_beranda.visibility = View.VISIBLE
+                text_empty_state.visibility = View.GONE
+                sv_barang.visibility = View.VISIBLE
+
+                renderList(it)
+            }
         })
 
         barangViewModel.getKategori().observe(this, Observer {

@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <TextView
+        android:id="@+id/text_empty_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tidak Ada Barang"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <SearchView
         android:id="@+id/sv_barang_tersimpan"
         android:layout_width="match_parent"

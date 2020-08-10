@@ -72,8 +72,16 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarRiwayat.visibility = View.GONE
-                    it.data?.let {
-                            transaksi -> renderList(transaksi)
+                    it.data?.let { transaksi ->
+                        if(transaksi.size == 0){
+                            text_empty_state.visibility = View.VISIBLE
+                            rv_riwayat.visibility = View.GONE
+                        } else {
+                            text_empty_state.visibility = View.GONE
+                            rv_riwayat.visibility = View.VISIBLE
+
+                            renderList(transaksi)
+                        }
                     }
                     rv.visibility = View.VISIBLE
                 }

@@ -66,30 +66,38 @@ class RemoteTransaksiLogicImpl :
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 var listAllTransaksi = ArrayList<TransaksiData>()
-                snapshot.children.forEach{
-                    it.children.forEach {
-                        var transaksi = it.getValue<TransaksiFirebase>(TransaksiFirebase::class.java)!!
-                        getDbReference("klien").child(transaksi.idKlien).addListenerForSingleValueEvent(object :
-                            ValueEventListener{
-                            override fun onCancelled(error: DatabaseError) {
-                                TODO("Not yet implemented")
-                            }
+                if(snapshot.value == null){
+                    setTransaksi(listAllTransaksi)
+                } else {
+                    snapshot.children.forEach{
+                        if(it.value == null){
+                            setTransaksi(listAllTransaksi)
+                        } else {
+                            it.children.forEach {
+                                var transaksi = it.getValue<TransaksiFirebase>(TransaksiFirebase::class.java)!!
+                                getDbReference("klien").child(transaksi.idKlien).addListenerForSingleValueEvent(object :
+                                    ValueEventListener{
+                                    override fun onCancelled(error: DatabaseError) {
+                                        TODO("Not yet implemented")
+                                    }
 
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                val klien = snapshot.getValue<KlienFirebase>(KlienFirebase::class.java)!!
-                                val tempTransaksiData = TransaksiData()
-                                tempTransaksiData.uuid = transaksi.uuid
-                                tempTransaksiData.namaKlien = klien.nama
-                                tempTransaksiData.tglTransaksi = transaksi.tglTransaksi
-                                tempTransaksiData.ongkir = transaksi.ongkir
-                                tempTransaksiData.totalTransaksi = transaksi.totalTransaksi
-                                tempTransaksiData.metode = transaksi.metode
-                                tempTransaksiData.jenisTransaksi = transaksi.jenisTransaksi
-                                listAllTransaksi.add(tempTransaksiData)
-                                setTransaksi(listAllTransaksi)
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        val klien = snapshot.getValue<KlienFirebase>(KlienFirebase::class.java)!!
+                                        val tempTransaksiData = TransaksiData()
+                                        tempTransaksiData.uuid = transaksi.uuid
+                                        tempTransaksiData.namaKlien = klien.nama
+                                        tempTransaksiData.tglTransaksi = transaksi.tglTransaksi
+                                        tempTransaksiData.ongkir = transaksi.ongkir
+                                        tempTransaksiData.totalTransaksi = transaksi.totalTransaksi
+                                        tempTransaksiData.metode = transaksi.metode
+                                        tempTransaksiData.jenisTransaksi = transaksi.jenisTransaksi
+                                        listAllTransaksi.add(tempTransaksiData)
+                                        setTransaksi(listAllTransaksi)
 
+                                    }
+                                })
                             }
-                        })
+                        }
                     }
                 }
             }
