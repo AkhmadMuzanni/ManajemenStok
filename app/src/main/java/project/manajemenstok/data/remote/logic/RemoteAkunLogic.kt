@@ -7,6 +7,6 @@ import project.manajemenstok.utils.Resource
 interface RemoteAkunLogic {
     fun createAkun(akun: Akun): String
     fun getAkun(): MutableLiveData<Resource<Akun>>
-    fun fetchAkun()
+    fun fetchAkun(username: String)
     fun setAkun(akun: Akun)
 }
