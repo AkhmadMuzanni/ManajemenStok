@@ -8,6 +8,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
 import project.manajemenstok.R
+import project.manajemenstok.utils.Constants
 
 class ActivityLogin : AppCompatActivity(), View.OnClickListener{
 
@@ -23,6 +24,7 @@ class ActivityLogin : AppCompatActivity(), View.OnClickListener{
     override fun onClick(v: View) {
         when(v.id){
             R.id.btn_login->{
+                Constants.USER_ID = input_username.text.toString()
                 val intent = Intent(this, ActivityMain::class.java)
                 startActivity(intent)
             }

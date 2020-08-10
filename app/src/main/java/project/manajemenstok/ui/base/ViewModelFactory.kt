@@ -21,6 +21,8 @@ class ViewModelFactory(val context : Context, private val is_remote : Boolean) :
             return ViewModelBarang(context, is_remote) as T
         } else if(modelClass.isAssignableFrom(ViewModelKategori::class.java)){
             return ViewModelKategori(context, is_remote) as T
+        } else if(modelClass.isAssignableFrom(ViewModelAuth::class.java)){
+            return ViewModelAuth(context, is_remote) as T
         }
         throw IllegalArgumentException("Unknown Class Name")
     }
