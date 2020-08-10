@@ -8,6 +8,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import project.manajemenstok.utils.Constants.Companion.BUCKER_FOLDER
 import project.manajemenstok.utils.Constants.Companion.USER_ID
 import java.text.NumberFormat
 import java.util.*
@@ -48,7 +49,9 @@ class Helper {
         }
 
         fun getStorageReference(query: String): StorageReference {
-            return Firebase.storage.reference.child(query)
+//            return Firebase.storage.reference.child(query)
+//            return Firebase.storage.reference.child("bevyStock").child(query)
+            return Firebase.storage.reference.child(BUCKER_FOLDER).child(query)
         }
     }
 }
