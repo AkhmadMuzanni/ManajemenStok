@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_stock_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.main.view.activity.ActivitySignup"/>
         <activity android:name=".ui.main.view.activity.ActivityEditProfile"/>
         <activity android:name=".ui.main.view.activity.ActivityMemberType" />
         <activity android:name=".ui.main.view.activity.ActivityChangePassword" />

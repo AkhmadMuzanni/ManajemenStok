@@ -17,12 +17,17 @@ class ActivityLogin : AppCompatActivity(), View.OnClickListener{
         setContentView(R.layout.activity_login)
 
         btn_login.setOnClickListener(this)
+        btn_signup.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when(v.id){
             R.id.btn_login->{
                 val intent = Intent(this, ActivityMain::class.java)
+                startActivity(intent)
+            }
+            R.id.btn_signup->{
+                val intent = Intent(this, ActivitySignup::class.java)
                 startActivity(intent)
             }
         }
