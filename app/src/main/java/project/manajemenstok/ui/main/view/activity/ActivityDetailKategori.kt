@@ -109,6 +109,8 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
             rv_barang_kategori.visibility = View.GONE
             separator.visibility = View.GONE
             text_empty_state.visibility = View.GONE
+            sv_detail_kategori.visibility = View.GONE
+
             setEnable(true)
         }
     }
