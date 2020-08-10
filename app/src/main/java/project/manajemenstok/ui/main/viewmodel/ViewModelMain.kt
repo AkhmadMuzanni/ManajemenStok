@@ -105,10 +105,6 @@ class ViewModelMain (val context : Context, private val is_remote : Boolean) : V
         return barangs
     }
 
-    fun getDbReference(query: String): DatabaseReference{
-        return barangRepository.getDbReference(query)
-    }
-
     fun getLiveBarang(): MutableLiveData<ArrayList<Barang>>{
         return barangRepository.getLiveBarang()
     }

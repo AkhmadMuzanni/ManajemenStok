@@ -3,18 +3,17 @@ package project.manajemenstok.data.remote.impl
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.rx2androidnetworking.Rx2AndroidNetworking
 import io.reactivex.Single
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.remote.logic.RemoteBarangLogic
 import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.Helper.Companion.getDbReference
+import project.manajemenstok.utils.Helper.Companion.getStorageReference
 
 class RemoteBarangLogicImpl : RemoteBarangLogic {
-    val database = Firebase.database
     private var liveBarang = MutableLiveData<ArrayList<Barang>>()
     private var unusedBarang = MutableLiveData<ArrayList<Barang>>()
     private var tempBarang = MutableLiveData<Barang>()
@@ -31,9 +30,6 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
             .getObjectListSingle(Barang::class.java)
     }
 
-    override fun getDbReference(query: String): DatabaseReference {
-        return database.getReference(query)
-    }
 
     override fun setLiveBarang(listBarang: ArrayList<Barang>) {
         liveBarang.postValue(listBarang)
@@ -153,10 +149,10 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
                 var result = ArrayList<Barang>()
                 for(barang in listBarang){
                     var isUsed = false
-                    var existedBarang = Barang()
+//                    var existedBarang = Barang()
                     var resultBarang = Barang()
                     dataSnapshot.children.forEach {
-                        existedBarang = it.getValue<Barang>(Barang::class.java)!!
+                        var existedBarang = it.getValue<Barang>(Barang::class.java)!!
                         if(barang.uuid == existedBarang.uuid && existedBarang.isDeleted == Constants.DeleteStatus.ACTIVE){
                             isUsed = true
                             resultBarang = existedBarang
@@ -180,10 +176,6 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
 
     override fun setBarangTransaksi(listBarang: ArrayList<Barang>) {
         barangTransaksi.postValue(listBarang)
-    }
-
-    override fun getStorageReference(query: String): StorageReference {
-        return Firebase.storage.reference.child(query)
     }
 
     override fun getImageUrl(): MutableLiveData<String> {

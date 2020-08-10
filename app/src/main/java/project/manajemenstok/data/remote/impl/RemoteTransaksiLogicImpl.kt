@@ -2,21 +2,15 @@ package project.manajemenstok.data.remote.impl
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import project.manajemenstok.data.model.*
 import project.manajemenstok.data.remote.logic.RemoteTransaksiLogic
+import project.manajemenstok.utils.Helper.Companion.getDbReference
 import project.manajemenstok.utils.Resource
 
 class RemoteTransaksiLogicImpl :
     RemoteTransaksiLogic {
     private var liveDataTransaksi = MutableLiveData<Resource<ArrayList<TransaksiData>>>()
     private var liveDataDetailTransaksi = MutableLiveData<Resource<ArrayList<DetailTransaksiData>>>()
-
-    override fun getDbReference(query: String): DatabaseReference {
-        val database = Firebase.database
-        return database.getReference(query)
-    }
 
     override fun createTransaksi(transaksi: TransaksiFirebase): String {
         val dbTransaksi = getDbReference("transaksi")

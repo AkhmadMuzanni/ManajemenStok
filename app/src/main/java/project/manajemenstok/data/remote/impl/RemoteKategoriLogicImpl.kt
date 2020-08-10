@@ -3,7 +3,6 @@ package project.manajemenstok.data.remote.impl
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
@@ -11,6 +10,8 @@ import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.data.remote.logic.RemoteKategoriLogic
 import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.Helper.Companion.getDbReference
+import project.manajemenstok.utils.Helper.Companion.getStorageReference
 import project.manajemenstok.utils.Resource
 
 class RemoteKategoriLogicImpl :
@@ -19,11 +20,6 @@ class RemoteKategoriLogicImpl :
     private var liveDataKategori = MutableLiveData<Resource<ArrayList<Kategori>>>()
     private var imageUrl = MutableLiveData<String>()
     private var listBarangKategori = MutableLiveData<Resource<ArrayList<Barang>>>()
-
-    override fun getDbReference(query: String): DatabaseReference {
-        val database = Firebase.database
-        return database.getReference(query)
-    }
 
     override fun getKategori(): MutableLiveData<Resource<ArrayList<Kategori>>> {
         return liveDataKategori
@@ -112,10 +108,6 @@ class RemoteKategoriLogicImpl :
         }.addOnSuccessListener {
             fetchImageUrl(storageRef.path)
         }
-    }
-
-    override fun getStorageReference(query: String): StorageReference {
-        return Firebase.storage.reference.child(query)
     }
 
     override fun createKategori(kategori: Kategori): String {
