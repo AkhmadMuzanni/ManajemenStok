@@ -24,8 +24,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ActivityKonfirmasiPembelian : AppCompatActivity(), View.OnClickListener {
-    private lateinit var viewModelPembelian: ViewModelPembelian
-    private lateinit var viewModelPenjualan: ViewModelPenjualan
+    private lateinit var pembelianViewModel: ViewModelPembelian
+    private lateinit var penjualanViewModel: ViewModelPenjualan
     private lateinit var dataPembelianAdapter: KonfirmasiPembelianAdapter
     private lateinit var rvDataPembelian: RecyclerView
     private lateinit var bundlePembelian: Bundle

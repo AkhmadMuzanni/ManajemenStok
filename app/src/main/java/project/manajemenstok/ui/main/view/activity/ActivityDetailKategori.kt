@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,11 +28,12 @@ import project.manajemenstok.ui.main.adapter.ListBarangKategoriAdapter
 import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
 import project.manajemenstok.ui.main.viewmodel.ViewModelKategori
 import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.Helper
 import project.manajemenstok.utils.Status
 
-class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener{
-    private lateinit var viewModelKategori: ViewModelKategori
-    private lateinit var viewModelBarang: ViewModelBarang
+class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, SearchView.OnQueryTextListener{
+    private lateinit var kategoriViewModel: ViewModelKategori
+    private lateinit var barangViewModel: ViewModelBarang
     private lateinit var objKategori: Kategori
     private var listKategori = ArrayList<Kategori>()
     private var intentMode = 0
@@ -57,9 +59,11 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener{
                         if(barang.size == 0){
                             rv_barang_kategori.visibility = View.GONE
                             text_empty_state.visibility = View.VISIBLE
+//                            sv_detail_kategori.visibility = View.GONE
                         } else {
                             rv_barang_kategori.visibility = View.VISIBLE
                             text_empty_state.visibility = View.GONE
+//                            sv_detail_kategori.visibility = View.VISIBLE
 
                             renderList(barang)
                         }
@@ -77,11 +81,16 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener{
 
         Glide.with(image_view_kategori.context).load(resources.getString(R.string.defaultImageIcon)).into(image_view_kategori)
 
+        Helper.setFontSizeSearchView(sv_detail_kategori, 14f)
+        sv_detail_kategori.setIconifiedByDefault(false)
+
         icon_back.setOnClickListener(this)
         btn_edit.setOnClickListener(this)
         btn_simpan.setOnClickListener(this)
         image_view_kategori.setOnClickListener(this)
         icon_delete.setOnClickListener(this)
+
+        sv_detail_kategori.setOnQueryTextListener(this)
 
     }
 
@@ -100,6 +109,8 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener{
             rv_barang_kategori.visibility = View.GONE
             separator.visibility = View.GONE
             text_empty_state.visibility = View.GONE
+            sv_detail_kategori.visibility = View.GONE
+
             setEnable(true)
         }
     }
@@ -123,8 +134,8 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener{
                             Glide.with(image_view_kategori.context).load(it).into(image_view_kategori)
                             Toast.makeText(this, "Foto Kategori Berhasil Diubah", Toast.LENGTH_LONG).show()
                         })
-//
-                        viewModelKategori.uploadImage(imageUri!!, resources.getString(R.string.bucketStorage) + objKategori.uuid + resources.getString(R.string.extensionImage))
+
+                        kategoriViewModel.uploadImage(imageUri!!, objKategori.uuid + resources.getString(R.string.extensionImage))
                     } else {
                         Glide.with(image_view_kategori.context).load(imageUri).into(image_view_kategori)
                         tempImageUri = imageUri!!
@@ -209,7 +220,7 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener{
                             finish()
                         })
 
-                        viewModelKategori.uploadImage(tempImageUri, resources.getString(R.string.bucketStorage) + uuidSaved + resources.getString(R.string.extensionImage))
+                        kategoriViewModel.uploadImage(tempImageUri, uuidSaved + resources.getString(R.string.extensionImage))
                         progressBar_kategori.visibility = View.VISIBLE
                         btn_simpan.isEnabled = false
 
@@ -264,5 +275,18 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener{
     private fun renderList(listBarang: ArrayList<Barang>) {
         adapter.setData(listBarang, listKategori)
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if(newText == ""){
+            kategoriViewModel.fetchBarangKategori(objKategori.uuid)
+        } else {
+            kategoriViewModel.fetchBarangKategori(objKategori.uuid, newText!!.toLowerCase())
+        }
+        return true
     }
 }

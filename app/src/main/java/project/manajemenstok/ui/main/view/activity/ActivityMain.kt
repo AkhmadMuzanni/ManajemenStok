@@ -95,4 +95,8 @@ class ActivityMain : AppCompatActivity(){
         }
     }
 
+    override fun onBackPressed() {
+        
+    }
+
 }

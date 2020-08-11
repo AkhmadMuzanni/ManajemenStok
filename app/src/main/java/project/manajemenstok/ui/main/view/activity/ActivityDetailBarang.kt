@@ -25,7 +25,7 @@ import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Helper
 
 class ActivityDetailBarang : AppCompatActivity(), View.OnClickListener{
-    private lateinit var viewModelBarang: ViewModelBarang
+    private lateinit var barangViewModel: ViewModelBarang
     private lateinit var objBarang: Barang
     private var listKategori = ArrayList<Kategori>()
 
@@ -84,7 +84,7 @@ class ActivityDetailBarang : AppCompatActivity(), View.OnClickListener{
                         Toast.makeText(this, "Foto Barang Berhasil Diubah", Toast.LENGTH_LONG).show()
                     })
 
-                    viewModelBarang.uploadImage(imageUri!!, resources.getString(R.string.bucketStorage) + objBarang.uuid + resources.getString(R.string.extensionImage))
+                    barangViewModel.uploadImage(imageUri!!, objBarang.uuid + resources.getString(R.string.extensionImage))
                 }
             }
         }

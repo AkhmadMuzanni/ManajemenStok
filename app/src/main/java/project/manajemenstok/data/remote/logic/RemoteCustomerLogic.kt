@@ -1,6 +1,5 @@
 package project.manajemenstok.data.remote.logic
 
-import com.google.firebase.database.DatabaseReference
 import io.reactivex.Single
 import project.manajemenstok.data.model.KlienFirebase
 import project.manajemenstok.data.model.Penjual
@@ -8,5 +7,4 @@ import project.manajemenstok.data.model.Penjual
 interface RemoteCustomerLogic {
     fun getPenjual(): Single<List<Penjual>>
     fun setKlien(klien: KlienFirebase): String
-    fun getDbReference(query: String): DatabaseReference
 }

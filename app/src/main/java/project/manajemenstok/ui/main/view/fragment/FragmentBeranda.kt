@@ -112,7 +112,21 @@ class FragmentBeranda : Fragment(), View.OnClickListener, OnRiwayatItemClickList
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarBeranda.visibility = View.GONE
-                    it.data?.let { users -> renderList(users) }
+                    it.data?.let { transaksi ->
+                        if(transaksi.size == 0){
+                            text_empty_state.visibility = View.VISIBLE
+                            rv_riwayat_transaksi.visibility = View.GONE
+
+                            viewFragmentBeranda.tv_total_pemasukan.text = "Rp. 0"
+                            viewFragmentBeranda.tv_total_pengeluaran.text = "Rp. 0"
+                        } else {
+                            text_empty_state.visibility = View.GONE
+                            rv_riwayat_transaksi.visibility = View.VISIBLE
+
+                            renderList(transaksi)
+                        }
+
+                    }
                     rv.visibility = View.VISIBLE
                 }
                 Status.LOADING -> {

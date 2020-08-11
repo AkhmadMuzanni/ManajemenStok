@@ -16,7 +16,7 @@ import kotlin.collections.ArrayList
 class ListKategoriAdapter (
     private var kategori: ArrayList<Kategori>,
     private var fragment: FragmentBarang,
-    private var viewModelBarang: ViewModelBarang,
+    private var barangViewModel: ViewModelBarang,
     private val MAX_LENGTH: Int = 5
 
 ): RecyclerView.Adapter<ListKategoriAdapter.DataViewHolder>() {

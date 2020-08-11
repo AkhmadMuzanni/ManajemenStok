@@ -3,18 +3,17 @@ package project.manajemenstok.data.remote.impl
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.rx2androidnetworking.Rx2AndroidNetworking
 import io.reactivex.Single
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.remote.logic.RemoteBarangLogic
 import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.Helper.Companion.getDbReference
+import project.manajemenstok.utils.Helper.Companion.getStorageReference
 
 class RemoteBarangLogicImpl : RemoteBarangLogic {
-    val database = Firebase.database
     private var liveBarang = MutableLiveData<ArrayList<Barang>>()
     private var unusedBarang = MutableLiveData<ArrayList<Barang>>()
     private var tempBarang = MutableLiveData<Barang>()
@@ -31,9 +30,6 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
             .getObjectListSingle(Barang::class.java)
     }
 
-    override fun getDbReference(query: String): DatabaseReference {
-        return database.getReference(query)
-    }
 
     override fun setLiveBarang(listBarang: ArrayList<Barang>) {
         liveBarang.postValue(listBarang)
@@ -51,6 +47,35 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
                 dataSnapshot.children.forEach {
                     val barang = it.getValue<Barang>(Barang::class.java)!!
                     if(barang.isDeleted == Constants.DeleteStatus.ACTIVE){
+                        var isUsed = false
+                        for(used in barangUsed){
+                            if(barang.uuid == used.uuid){
+                                isUsed = true
+                                break
+                            }
+                        }
+                        if(!isUsed){
+                            result.add(barang)
+                        }
+                    }
+                }
+                setUnusedBarang(result)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
+    }
+
+    override fun fetchUnusedBarang(barangUsed: ArrayList<Barang>, query: String) {
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var result = ArrayList<Barang>()
+                dataSnapshot.children.forEach {
+                    val barang = it.getValue<Barang>(Barang::class.java)!!
+                    if(barang.isDeleted == Constants.DeleteStatus.ACTIVE && barang.namaBarang.toLowerCase().contains(query)){
                         var isUsed = false
                         for(used in barangUsed){
                             if(barang.uuid == used.uuid){
@@ -124,10 +149,10 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
                 var result = ArrayList<Barang>()
                 for(barang in listBarang){
                     var isUsed = false
-                    var existedBarang = Barang()
+//                    var existedBarang = Barang()
                     var resultBarang = Barang()
                     dataSnapshot.children.forEach {
-                        existedBarang = it.getValue<Barang>(Barang::class.java)!!
+                        var existedBarang = it.getValue<Barang>(Barang::class.java)!!
                         if(barang.uuid == existedBarang.uuid && existedBarang.isDeleted == Constants.DeleteStatus.ACTIVE){
                             isUsed = true
                             resultBarang = existedBarang
@@ -153,10 +178,6 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
         barangTransaksi.postValue(listBarang)
     }
 
-    override fun getStorageReference(query: String): StorageReference {
-        return Firebase.storage.reference.child(query)
-    }
-
     override fun getImageUrl(): MutableLiveData<String> {
         return imageUrl
     }
@@ -175,14 +196,14 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
     }
 
     override fun uploadImage(imageUri: Uri, path: String) {
-        val storageRef = Firebase.storage.reference.child(path)
+        val storageRef = getStorageReference(path)
 
         val uploadTask = storageRef.putFile(imageUri)
 
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
         }.addOnSuccessListener {
-            fetchImageUrl(storageRef.path)
+            fetchImageUrl(path)
         }
     }
 
@@ -221,6 +242,49 @@ class RemoteBarangLogicImpl : RemoteBarangLogic {
                 dataSnapshot.children.forEach {
                     val tempBarang = it.getValue<Barang>(Barang::class.java)!!
                     if(tempBarang.isDeleted == Constants.DeleteStatus.ACTIVE){
+                        listBarang.add(tempBarang)
+                    }
+                }
+                setLiveBarang(listBarang)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
+    }
+
+    override fun fetchLiveBarang(query: String) {
+        getDbReference("barang").addChildEventListener(object : ChildEventListener{
+            var listBarang = ArrayList<Barang>()
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                setLiveBarang(listBarang)
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+//                setLiveBarang(listBarang)
+            }
+        })
+
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var listBarang = ArrayList<Barang>()
+                dataSnapshot.children.forEach {
+                    val tempBarang = it.getValue<Barang>(Barang::class.java)!!
+                    if(tempBarang.isDeleted == Constants.DeleteStatus.ACTIVE && tempBarang.namaBarang.toLowerCase().contains(query)){
                         listBarang.add(tempBarang)
                     }
                 }

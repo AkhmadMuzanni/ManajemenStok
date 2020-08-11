@@ -3,7 +3,6 @@ package project.manajemenstok.data.remote.impl
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
@@ -11,6 +10,8 @@ import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.data.remote.logic.RemoteKategoriLogic
 import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.Helper.Companion.getDbReference
+import project.manajemenstok.utils.Helper.Companion.getStorageReference
 import project.manajemenstok.utils.Resource
 
 class RemoteKategoriLogicImpl :
@@ -19,11 +20,6 @@ class RemoteKategoriLogicImpl :
     private var liveDataKategori = MutableLiveData<Resource<ArrayList<Kategori>>>()
     private var imageUrl = MutableLiveData<String>()
     private var listBarangKategori = MutableLiveData<Resource<ArrayList<Barang>>>()
-
-    override fun getDbReference(query: String): DatabaseReference {
-        val database = Firebase.database
-        return database.getReference(query)
-    }
 
     override fun getKategori(): MutableLiveData<Resource<ArrayList<Kategori>>> {
         return liveDataKategori
@@ -103,19 +99,15 @@ class RemoteKategoriLogicImpl :
     }
 
     override fun uploadImage(imageUri: Uri, path: String) {
-        val storageRef = Firebase.storage.reference.child(path)
+        val storageRef = getStorageReference(path)
 
         val uploadTask = storageRef.putFile(imageUri)
 
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
         }.addOnSuccessListener {
-            fetchImageUrl(storageRef.path)
+            fetchImageUrl(path)
         }
-    }
-
-    override fun getStorageReference(query: String): StorageReference {
-        return Firebase.storage.reference.child(query)
     }
 
     override fun createKategori(kategori: Kategori): String {
@@ -141,6 +133,25 @@ class RemoteKategoriLogicImpl :
                 }
 
                 countKategoriOnBarang(result)
+            }
+        })
+    }
+
+    override fun syncKategori(query: String) {
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var result = ArrayList<Barang>()
+                snapshot.children.forEach{
+                    val tempBarang = it.getValue<Barang>(Barang::class.java)!!
+                    result.add(tempBarang)
+                }
+
+                countKategoriOnBarang(result, query)
             }
         })
     }
@@ -194,6 +205,27 @@ class RemoteKategoriLogicImpl :
         })
     }
 
+    override fun countKategoriOnBarang(listBarang: ArrayList<Barang>, query: String) {
+        getDbReference("kategori").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var listKategori = ArrayList<Kategori>()
+                snapshot.children.forEach{
+                    val tempKategori = it.getValue<Kategori>(Kategori::class.java)!!
+                    if(tempKategori.isDeleted == Constants.DeleteStatus.ACTIVE && tempKategori.nama.toLowerCase().contains(query)){
+                        listKategori.add(tempKategori)
+                    }
+                }
+
+                setKategori(listKategori)
+            }
+        })
+    }
+
     override fun updateBarang(barang: Barang) {
         val dbBarang = getDbReference("barang")
         val barangUpdates: MutableMap<String, Any> = HashMap()
@@ -237,6 +269,49 @@ class RemoteKategoriLogicImpl :
                 dataSnapshot.children.forEach {
                     val tempBarang = it.getValue<Barang>(Barang::class.java)!!
                     if(tempBarang.isDeleted == Constants.DeleteStatus.ACTIVE && tempBarang.kategori == uuidKategori){
+                        listBarang.add(tempBarang)
+                    }
+                }
+                setBarangKategori(listBarang)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+//                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        })
+    }
+
+    override fun fetchBarangKategori(uuidKategori: String, query: String) {
+        getDbReference("barang").addChildEventListener(object : ChildEventListener{
+            var listBarang = ArrayList<Barang>()
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+//                fetchLiveBarang()
+            }
+
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                setLiveBarang(listBarang)
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+//                setLiveBarang(listBarang)
+            }
+        })
+
+        getDbReference("barang").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var listBarang = ArrayList<Barang>()
+                dataSnapshot.children.forEach {
+                    val tempBarang = it.getValue<Barang>(Barang::class.java)!!
+                    if(tempBarang.isDeleted == Constants.DeleteStatus.ACTIVE && tempBarang.kategori == uuidKategori && tempBarang.namaBarang.toLowerCase().contains(query)){
                         listBarang.add(tempBarang)
                     }
                 }

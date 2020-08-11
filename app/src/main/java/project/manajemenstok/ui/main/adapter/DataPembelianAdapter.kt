@@ -22,12 +22,12 @@ import kotlin.collections.ArrayList
 
 class DataPembelianAdapter (
     private val barangs: ArrayList<Barang>,
-    private val viewModelPembelian: ViewModelPembelian,
+    private val pembelianViewModel: ViewModelPembelian,
     private val fragment: FragmentPembelian
 ): RecyclerView.Adapter<DataPembelianAdapter.DataViewHolder>() {
 
     class DataViewHolder(
-        itemView: View, viewModelPembelian: ViewModelPembelian, fragment: FragmentPembelian, dataAdapter: DataPembelianAdapter
+        itemView: View, pembelianViewModel: ViewModelPembelian, fragment: FragmentPembelian, dataAdapter: DataPembelianAdapter
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnFocusChangeListener {
         var objBarang = Barang()
         var pos = 0

@@ -54,4 +54,8 @@ class ViewModelBarang (val context : Context, private val is_remote : Boolean) :
     fun syncKategori(){
         kategoriRepository.syncKategori()
     }
+
+    fun fetchLiveBarang(query: String){
+        barangRepository.fetchLiveBarang(query)
+    }
 }

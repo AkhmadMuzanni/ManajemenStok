@@ -44,4 +44,12 @@ class KategoriRepository(private val remoteKategori: RemoteKategoriLogic) {
         return remoteKategori.getBarangKategori()
     }
 
+    fun fetchBarangKategori(uuidKategori: String, query: String){
+        remoteKategori.fetchBarangKategori(uuidKategori, query)
+    }
+
+    fun syncKategori(query: String){
+        remoteKategori.syncKategori(query)
+    }
+
 }

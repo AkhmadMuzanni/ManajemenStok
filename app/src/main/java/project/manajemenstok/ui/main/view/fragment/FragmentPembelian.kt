@@ -32,7 +32,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
 
     private val INPUT_BARANG_INTENT = 1
     private val KONFIRMASI_INTENT = 2
-    private lateinit var viewModelPembelian: ViewModelPembelian
+    private lateinit var pembelianViewModel: ViewModelPembelian
     private lateinit var viewPembelian: View
     private lateinit var dataPembelianAdapter: DataPembelianAdapter
     private lateinit var rvDataPembelian: RecyclerView
@@ -52,7 +52,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             viewPembelian.text_input_total.setText(ActivityMain.tempPembelian.getString("dataTotal"))
 
             if(ActivityMain.tempPembelian.getString("dataOngkir") != ""){
-                viewModelPembelian.setTempOngkir(getAngka(ActivityMain.tempPembelian.getString("dataOngkir")))
+                pembelianViewModel.setTempOngkir(getAngka(ActivityMain.tempPembelian.getString("dataOngkir")))
             }
         }
 
@@ -69,10 +69,10 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
 
     override fun onResume() {
         super.onResume()
-        var tempBarang = viewModelPembelian.getTempBarang()
+        var tempBarang = pembelianViewModel.getTempBarang()
         if(ActivityMain.tempPembelian.getSerializable("dataBarang") != null){
             tempBarang = ActivityMain.tempPembelian.getSerializable("dataBarang") as ArrayList<Barang>
-            viewModelPembelian.setTempBarang(tempBarang)
+            pembelianViewModel.setTempBarang(tempBarang)
         }
         renderDataPembelian(tempBarang)
     }
@@ -206,8 +206,8 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
         var bundle = Bundle()
 
         val inputBarangIntent =  Intent(v.context, ActivityInputBarang::class.java)
-        if(viewModelPembelian.getBarangUsed().size != 0){
-            bundle.putSerializable("dataBarangUsed", viewModelPembelian.getBarangUsed())
+        if(pembelianViewModel.getBarangUsed().size != 0){
+            bundle.putSerializable("dataBarangUsed", pembelianViewModel.getBarangUsed())
             bundle.putBoolean("isBarangUsed", true)
             inputBarangIntent.putExtra("dataTransaksi", bundle)
         }

@@ -3,11 +3,12 @@ package project.manajemenstok.ui.main.view.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -22,14 +23,16 @@ import project.manajemenstok.ui.main.adapter.ListBarangAdapter
 import project.manajemenstok.ui.main.adapter.ListKategoriAdapter
 import project.manajemenstok.ui.main.view.activity.ActivityKategori
 import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
+import project.manajemenstok.utils.Helper
 import project.manajemenstok.utils.Status
+
 
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBarang : Fragment(), View.OnClickListener {
+class FragmentBarang : Fragment(), View.OnClickListener, SearchView.OnQueryTextListener {
 
-    private lateinit var viewModelBarang: ViewModelBarang
+    private lateinit var barangViewModel: ViewModelBarang
     private lateinit var adapter: ListBarangAdapter
     private lateinit var viewFragmentBarang: View
     private lateinit var rv: RecyclerView
@@ -46,8 +49,18 @@ class FragmentBarang : Fragment(), View.OnClickListener {
         setupViewModel()
         setupUI()
 
-        viewModelBarang.getLiveBarang().observe(this, Observer {
-            renderList(it)
+        barangViewModel.getLiveBarang().observe(this, Observer {
+            if(it.size == 0){
+                rv_beranda.visibility = View.GONE
+                text_empty_state.visibility = View.VISIBLE
+//                sv_barang.visibility = View.GONE
+            } else {
+                rv_beranda.visibility = View.VISIBLE
+                text_empty_state.visibility = View.GONE
+//                sv_barang.visibility = View.VISIBLE
+
+                renderList(it)
+            }
         })
 
         viewModelBarang.getKategori().observe(this, Observer {
@@ -78,7 +91,12 @@ class FragmentBarang : Fragment(), View.OnClickListener {
         viewModelBarang.syncKategori()
         viewModelBarang.fetchKategori()
 
+        Helper.setFontSizeSearchView(sv_barang, 14f)
+
+        sv_barang.setIconifiedByDefault(false)
+
         btn_see_all_kategori.setOnClickListener(this)
+        sv_barang.setOnQueryTextListener(this)
     }
 
     private fun setupUI(){
@@ -128,6 +146,19 @@ class FragmentBarang : Fragment(), View.OnClickListener {
                 startActivity(kategoriIntent)
             }
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if(newText == ""){
+            barangViewModel.fetchLiveBarang()
+        } else {
+            barangViewModel.fetchLiveBarang(newText!!.toLowerCase())
+        }
+        return true
     }
 
 

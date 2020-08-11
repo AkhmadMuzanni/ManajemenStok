@@ -6,22 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivityForResult
 import project.manajemenstok.R
-import java.util.*
+import project.manajemenstok.ui.base.ViewModelFactory
+import project.manajemenstok.ui.main.viewmodel.ViewModelAuth
+import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.Status
 
 class ActivityLogin : AppCompatActivity(), View.OnClickListener{
 
-//    lateinit var providers : List<AuthUI.IdpConfig>
-
-    lateinit var auth : FirebaseAuth
+    private lateinit var authViewModel: ViewModelAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,23 +28,46 @@ class ActivityLogin : AppCompatActivity(), View.OnClickListener{
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
 
+        setupViewModel()
+
+        authViewModel.getAkun().observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { akun ->
+                        Constants.USER_ID = akun.akun_id
+                        val intent = Intent(this, ActivityMain::class.java)
+                        startActivity(intent)
+                    }
+                }
+                Status.LOADING -> {
+
+                }
+                Status.ERROR -> {
+                    //Handle Error
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+
         btn_login.setOnClickListener(this)
-
-//        providers = Arrays.asList<AuthUI.IdpConfig>(
-//            AuthUI.IdpConfig.EmailBuilder().build(),
-//            AuthUI.IdpConfig.GoogleBuilder().build()
-//        )
-
-//        showSignInOptions()
+        btn_signup.setOnClickListener(this)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onResume() {
+        super.onResume()
 
-        if (requestCode == 12345){
-            val response = IdpResponse.fromResultIntent(data)
-            if (resultCode == Activity.RESULT_OK){
-                val intent = Intent(this, ActivityMain::class.java)
+        input_username.setText("")
+        input_password.setText("")
+    }
+
+    override fun onClick(v: View) {
+        when(v.id){
+            R.id.btn_login->{
+                val username = input_username.text.toString()
+                authViewModel.fetchAkun(username)
+            }
+            R.id.btn_signup->{
+                val intent = Intent(this, ActivitySignup::class.java)
                 startActivity(intent)
 //                tombol keluar enable
             }else{
@@ -54,19 +76,11 @@ class ActivityLogin : AppCompatActivity(), View.OnClickListener{
         }
     }
 
-//    private fun showSignInOptions(){
-//        startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
-//            .setAvailableProviders(providers)
-//            .setTheme(R.style.AppTheme)
-//            .build(), 12345) //request code bebas
-//    }
-
-    override fun onClick(v: View) {
-        when(v.id){
-//            R.id.btn_login->{
-//                val intent = Intent(this, ActivityMain::class.java)
-//                startActivity(intent)
-//            }
-        }
+    private fun setupViewModel() {
+        val is_remote = true
+        authViewModel = ViewModelProviders.of(
+            this,
+            ViewModelFactory(this,is_remote)
+        ).get(ViewModelAuth::class.java)
     }
 }

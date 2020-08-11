@@ -344,4 +344,8 @@ class ViewModelPembelian (val context : Context, private val is_remote : Boolean
     fun getKategori(): MutableLiveData<Resource<ArrayList<Kategori>>> {
         return kategoriRepository.getKategori()
     }
+
+    fun fetchUnusedBarang(barangUsed: ArrayList<Barang>, query: String){
+        barangRepository.fetchUnusedBarang(barangUsed, query)
+    }
 }

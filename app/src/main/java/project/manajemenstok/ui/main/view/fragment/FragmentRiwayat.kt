@@ -21,7 +21,7 @@ import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
 import project.manajemenstok.ui.main.view.activity.ActivityDetailRiwayat
-import project.manajemenstok.ui.main.viewmodel.ViewModelRiwayat
+import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
 import project.manajemenstok.utils.Status
 
 /**
@@ -72,8 +72,16 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarRiwayat.visibility = View.GONE
-                    it.data?.let {
-                            transaksi -> renderList(transaksi)
+                    it.data?.let { transaksi ->
+                        if(transaksi.size == 0){
+                            text_empty_state.visibility = View.VISIBLE
+                            rv_riwayat.visibility = View.GONE
+                        } else {
+                            text_empty_state.visibility = View.GONE
+                            rv_riwayat.visibility = View.VISIBLE
+
+                            renderList(transaksi)
+                        }
                     }
                     rv.visibility = View.VISIBLE
                 }

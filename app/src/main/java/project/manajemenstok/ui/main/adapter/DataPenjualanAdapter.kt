@@ -22,12 +22,12 @@ import kotlin.collections.ArrayList
 
 class DataPenjualanAdapter (
     private val barangs: ArrayList<Barang>,
-    private val viewModelPenjualan: ViewModelPenjualan,
-    private val activityPenjualan: ActivityPenjualan
+    private val penjualanViewModel: ViewModelPenjualan,
+    private val penjualanActivity: ActivityPenjualan
 ): RecyclerView.Adapter<DataPenjualanAdapter.DataViewHolder>() {
 
     class DataViewHolder(
-        itemView: View, private val viewModelPenjualan: ViewModelPenjualan, private val activityPenjualan: ActivityPenjualan, private val dataAdapter: DataPenjualanAdapter
+        itemView: View, private val viewModel: ViewModelPenjualan, private val activity: ActivityPenjualan, private val dataAdapter: DataPenjualanAdapter
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnFocusChangeListener {
         var objBarang = Barang()
         var pos = 0

@@ -1,12 +1,10 @@
 package project.manajemenstok.data.remote.impl
 
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import io.reactivex.Single
 import project.manajemenstok.data.model.KlienFirebase
 import project.manajemenstok.data.model.Penjual
 import project.manajemenstok.data.remote.logic.RemoteCustomerLogic
+import project.manajemenstok.utils.Helper.Companion.getDbReference
 
 class RemoteCustomerLogicImpl :
     RemoteCustomerLogic {
@@ -20,10 +18,5 @@ class RemoteCustomerLogicImpl :
         klien.uuid = key
         dbKlien.child(key).setValue(klien)
         return key
-    }
-
-    override fun getDbReference(query: String): DatabaseReference {
-        val database = Firebase.database
-        return database.getReference(query)
     }
 }

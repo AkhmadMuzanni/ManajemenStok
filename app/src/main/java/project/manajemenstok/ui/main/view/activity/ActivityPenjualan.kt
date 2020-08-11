@@ -26,7 +26,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener {
-    private lateinit var viewModelPenjualan: ViewModelPenjualan
+    private lateinit var penjualanViewModel: ViewModelPenjualan
     private lateinit var dataPenjualanAdapter: DataPenjualanAdapter
     private lateinit var rvDataPenjualan: RecyclerView
 
@@ -45,7 +45,7 @@ class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocu
             text_input_total.setText(ActivityMain.tempPenjualan.getString("dataTotal"))
 
             if(ActivityMain.tempPenjualan.getString("dataOngkir") != ""){
-                viewModelPenjualan.setTempOngkir(getAngka(ActivityMain.tempPenjualan.getString("dataOngkir")))
+                penjualanViewModel.setTempOngkir(getAngka(ActivityMain.tempPenjualan.getString("dataOngkir")))
             }
         }
 
@@ -62,10 +62,10 @@ class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocu
 
     override fun onResume() {
         super.onResume()
-        var tempBarang = viewModelPenjualan.getTempBarang()
+        var tempBarang = penjualanViewModel.getTempBarang()
         if(ActivityMain.tempPenjualan.getSerializable("dataBarang") != null){
             tempBarang = ActivityMain.tempPenjualan.getSerializable("dataBarang") as ArrayList<Barang>
-            viewModelPenjualan.setTempBarang(tempBarang)
+            penjualanViewModel.setTempBarang(tempBarang)
         }
         renderDataPenjualan(tempBarang)
     }
@@ -170,8 +170,8 @@ class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocu
         var bundle = Bundle()
 
         val inputBarangIntent =  Intent(v.context, ActivityInputBarang::class.java)
-        if(viewModelPenjualan.getBarangUsed().size != 0){
-            bundle.putSerializable("dataBarangUsed", viewModelPenjualan.getBarangUsed())
+        if(penjualanViewModel.getBarangUsed().size != 0){
+            bundle.putSerializable("dataBarangUsed", penjualanViewModel.getBarangUsed())
             bundle.putBoolean("isBarangUsed", true)
             inputBarangIntent.putExtra("dataTransaksi", bundle)
         }

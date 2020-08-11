@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,12 +16,13 @@ import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.KategoriGridAdapter
 import project.manajemenstok.ui.main.viewmodel.ViewModelKategori
 import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.Helper
 import project.manajemenstok.utils.Status
 import kotlin.collections.ArrayList
 
-class ActivityKategori : AppCompatActivity(), AdapterView.OnItemClickListener, View.OnClickListener {
+class ActivityKategori : AppCompatActivity(), AdapterView.OnItemClickListener, View.OnClickListener, SearchView.OnQueryTextListener {
 
-    private lateinit var viewModelKategori: ViewModelKategori
+    private lateinit var kategoriViewModel: ViewModelKategori
     private lateinit var gridAdapter: KategoriGridAdapter
     private lateinit var listKategori: ArrayList<Kategori>
 
@@ -48,12 +50,21 @@ class ActivityKategori : AppCompatActivity(), AdapterView.OnItemClickListener, V
             }
         })
 
+        Helper.setFontSizeSearchView(sv_kategori, 14f)
+        sv_kategori.setIconifiedByDefault(false)
+
         btn_tambah_kategori.setOnClickListener(this)
+
+        sv_kategori.setOnQueryTextListener(this)
     }
 
     override fun onResume() {
         super.onResume()
-        viewModelKategori.syncKategori()
+
+        val txt_search_kategori = Helper.getTextViewSearchView(sv_kategori)
+        txt_search_kategori.setText("")
+
+        kategoriViewModel.syncKategori()
     }
 
     private fun setupUI(){
@@ -91,5 +102,18 @@ class ActivityKategori : AppCompatActivity(), AdapterView.OnItemClickListener, V
                 startActivityForResult(detailKategoriIntent, Constants.RequestCodeIntent.DETAIL_KATEGORI)
             }
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if(newText == ""){
+            kategoriViewModel.syncKategori()
+        } else {
+            kategoriViewModel.syncKategori(newText!!.toLowerCase())
+        }
+        return true
     }
 }

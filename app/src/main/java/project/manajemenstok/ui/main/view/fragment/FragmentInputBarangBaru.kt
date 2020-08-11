@@ -25,7 +25,7 @@ import project.manajemenstok.utils.Status
 
 
 class FragmentInputBarangBaru : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener{
-    private lateinit var viewModelPembelian: ViewModelPembelian
+    private lateinit var pembelianViewModel: ViewModelPembelian
     private lateinit var listKategori: ArrayList<Kategori>
     private lateinit var arrayAdapter: ArrayAdapter<Kategori>
     private var uuidNewKategori = "nonKategori"

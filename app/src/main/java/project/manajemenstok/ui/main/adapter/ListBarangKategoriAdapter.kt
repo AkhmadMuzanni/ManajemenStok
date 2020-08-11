@@ -26,13 +26,13 @@ import kotlin.collections.ArrayList
 
 class ListBarangKategoriAdapter (
     private var barangs: ArrayList<Barang>,
-    private var activityDetailKategori: ActivityDetailKategori,
-    private var viewModelBarang: ViewModelBarang
+    private var activity: ActivityDetailKategori,
+    private var barangViewModel: ViewModelBarang
 ): RecyclerView.Adapter<ListBarangKategoriAdapter.DataViewHolder>() {
 
     private var kategori = ArrayList<Kategori>()
 
-    class DataViewHolder(itemView: View, val dataAdapter: ListBarangKategoriAdapter, val activityDetailKategori: ActivityDetailKategori) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class DataViewHolder(itemView: View, val dataAdapter: ListBarangKategoriAdapter, val activity: ActivityDetailKategori) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var objBarang = Barang()
         fun bind(barang: Barang, dataKategori: ArrayList<Kategori>){
             objBarang = barang
