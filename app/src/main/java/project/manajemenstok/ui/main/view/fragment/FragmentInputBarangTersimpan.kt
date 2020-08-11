@@ -18,13 +18,13 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.InputBarangTersimpanAdapter
-import project.manajemenstok.ui.main.view.activity.InputBarangActivity
-import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityInputBarang
+import project.manajemenstok.ui.main.viewmodel.ViewModelPembelian
 import project.manajemenstok.utils.Status
 
 
 class FragmentInputBarangTersimpan : Fragment(){
-    private lateinit var pembelianViewModel: PembelianViewModel
+    private lateinit var viewModelPembelian: ViewModelPembelian
     private lateinit var adapter: InputBarangTersimpanAdapter
     private lateinit var viewBarang : View
     private lateinit var rvBarang : RecyclerView
@@ -39,13 +39,13 @@ class FragmentInputBarangTersimpan : Fragment(){
         setupUI()
         setupViewModel()
 
-        pembelianViewModel.getUnusedBarang().observe(this, Observer {
+        viewModelPembelian.getUnusedBarang().observe(this, Observer {
             renderList(it)
         })
 
-        val barangUsed = (activity as InputBarangActivity).getBarangUsed()
+        val barangUsed = (activity as ActivityInputBarang).getBarangUsed()
 
-        pembelianViewModel.fetchUnusedBarang(barangUsed)
+        viewModelPembelian.fetchUnusedBarang(barangUsed)
 
         return viewBarang
 //        return inflater!!.inflate(R.layout.fragment_input_barang_tersimpan, container, false)
@@ -68,14 +68,14 @@ class FragmentInputBarangTersimpan : Fragment(){
 
     private fun setupViewModel() {
         val is_remote = true
-        pembelianViewModel = ViewModelProviders.of(
+        viewModelPembelian = ViewModelProviders.of(
             this,
             ViewModelFactory(viewBarang.context,is_remote)
-        ).get(PembelianViewModel::class.java)
+        ).get(ViewModelPembelian::class.java)
     }
 
     private fun setupObserver() {
-        pembelianViewModel.getBarangs().observe(this, Observer {
+        viewModelPembelian.getBarangs().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
 //                    progressBar.visibility = View.GONE

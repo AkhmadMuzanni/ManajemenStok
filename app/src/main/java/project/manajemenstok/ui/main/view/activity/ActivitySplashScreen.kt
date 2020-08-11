@@ -7,7 +7,7 @@ import android.os.Handler
 import project.manajemenstok.R
 import project.manajemenstok.utils.Constants
 
-class SplashScreenActivity : AppCompatActivity(){
+class ActivitySplashScreen : AppCompatActivity(){
 
     lateinit var handler: Handler
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +16,7 @@ class SplashScreenActivity : AppCompatActivity(){
 
         handler = Handler()
         handler.postDelayed({
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, ActivityLogin::class.java)
             startActivity(intent)
             finish()
         }, Constants.TIME_SPLASH_SCREEN)

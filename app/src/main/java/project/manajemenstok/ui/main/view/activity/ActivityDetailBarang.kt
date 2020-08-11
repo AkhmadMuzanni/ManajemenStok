@@ -20,12 +20,12 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
-import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Helper
 
-class DetailBarangActivity : AppCompatActivity(), View.OnClickListener{
-    private lateinit var barangViewModel: BarangViewModel
+class ActivityDetailBarang : AppCompatActivity(), View.OnClickListener{
+    private lateinit var viewModelBarang: ViewModelBarang
     private lateinit var objBarang: Barang
     private var listKategori = ArrayList<Kategori>()
 
@@ -77,14 +77,14 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener{
                 if(resultCode == Activity.RESULT_OK){
                     val imageUri = data?.data
 
-                    barangViewModel.getUploadResult().observe(this, Observer {
+                    viewModelBarang.getUploadResult().observe(this, Observer {
                         objBarang.foto = it
-                        barangViewModel.saveBarang(objBarang)
+                        viewModelBarang.saveBarang(objBarang)
                         Glide.with(image_view_barang.context).load(it).into(image_view_barang)
                         Toast.makeText(this, "Foto Barang Berhasil Diubah", Toast.LENGTH_LONG).show()
                     })
 
-                    barangViewModel.uploadImage(imageUri!!, resources.getString(R.string.bucketStorage) + objBarang.uuid + resources.getString(R.string.extensionImage))
+                    viewModelBarang.uploadImage(imageUri!!, resources.getString(R.string.bucketStorage) + objBarang.uuid + resources.getString(R.string.extensionImage))
                 }
             }
         }
@@ -92,10 +92,10 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener{
 
     private fun setupViewModel() {
         val is_remote = true
-        barangViewModel = ViewModelProviders.of(
+        viewModelBarang = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext, is_remote)
-        ).get(BarangViewModel::class.java)
+        ).get(ViewModelBarang::class.java)
     }
 
     override fun onClick(v: View) {
@@ -125,7 +125,7 @@ class DetailBarangActivity : AppCompatActivity(), View.OnClickListener{
 
                 val objKategori = kategori_spinner.selectedItem as Kategori
                 objBarang.kategori = objKategori.uuid
-                barangViewModel.saveBarang(objBarang)
+                viewModelBarang.saveBarang(objBarang)
 
                 Toast.makeText(v.context, "Perubahan berhasil disimpan", Toast.LENGTH_LONG).show()
             }

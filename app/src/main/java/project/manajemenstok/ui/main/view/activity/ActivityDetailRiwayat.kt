@@ -13,14 +13,14 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.DetailTransaksiData
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.DetailRiwayatAdapter
-import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelRiwayat
 import project.manajemenstok.utils.Status
 import java.text.NumberFormat
 import java.util.*
 
-class DetailRiwayatActivity : AppCompatActivity() {
+class ActivityDetailRiwayat : AppCompatActivity() {
 
-    private lateinit var riwayatViewModel: RiwayatViewModel
+    private lateinit var viewModelRiwayat: ViewModelRiwayat
     private lateinit var adapter: DetailRiwayatAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class DetailRiwayatActivity : AppCompatActivity() {
         val totalOngkir = intent.getBundleExtra("historyTransaction").get("totalOngkir").toString()
         val totalTransaksi = intent.getBundleExtra("historyTransaction").get("totalTransaksi").toString()
 
-        riwayatViewModel.fetchDetailTransaksi(idTransaksi)
+        viewModelRiwayat.fetchDetailTransaksi(idTransaksi)
         tv_detail_riwayat_total_ongkir.text = "Rp. "+ getFormat(totalOngkir.toInt())
         tv_detail_riwayat_total_price.text =  "Rp. "+ getFormat(totalTransaksi.toInt())
 
@@ -60,14 +60,14 @@ class DetailRiwayatActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         val is_remote = true
-        riwayatViewModel = ViewModelProviders.of(
+        viewModelRiwayat = ViewModelProviders.of(
             this,
             ViewModelFactory(this,is_remote)
-        ).get(RiwayatViewModel::class.java)
+        ).get(ViewModelRiwayat::class.java)
     }
 
     private fun setupObserver() {
-        riwayatViewModel.getDetailTrasaksi().observe(this, Observer {
+        viewModelRiwayat.getDetailTrasaksi().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarDetailRiwayat.visibility = View.GONE

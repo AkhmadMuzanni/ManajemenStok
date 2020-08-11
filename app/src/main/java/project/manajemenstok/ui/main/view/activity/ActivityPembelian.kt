@@ -12,7 +12,7 @@ import project.manajemenstok.R
 import project.manajemenstok.ui.main.adapter.PembelianAdapter
 import project.manajemenstok.ui.main.view.fragment.FragmentPembelian
 
-class PembelianActivity : AppCompatActivity(), View.OnClickListener {
+class ActivityPembelian : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

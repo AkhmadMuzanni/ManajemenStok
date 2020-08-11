@@ -27,7 +27,7 @@ import project.manajemenstok.ui.main.view.activity.ActivityKonfirmasiPembelian
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Resource
 
-class PembelianViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
+class ViewModelPembelian (val context : Context, private val is_remote : Boolean) : ViewModel() {
 
     private val barangRepository = BarangRepository(
         RemoteBarangLogicImpl(),

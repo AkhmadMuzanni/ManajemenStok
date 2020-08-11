@@ -20,9 +20,8 @@ import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.ListBarangAdapter
 import project.manajemenstok.ui.main.adapter.ListKategoriAdapter
-import project.manajemenstok.ui.main.view.KategoriActivity
-import project.manajemenstok.ui.main.view.MainActivity
-import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityKategori
+import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
 import project.manajemenstok.utils.Status
 
 /**
@@ -30,7 +29,7 @@ import project.manajemenstok.utils.Status
  */
 class FragmentBarang : Fragment(), View.OnClickListener {
 
-    private lateinit var barangViewModel: BarangViewModel
+    private lateinit var viewModelBarang: ViewModelBarang
     private lateinit var adapter: ListBarangAdapter
     private lateinit var viewFragmentBarang: View
     private lateinit var rv: RecyclerView
@@ -47,18 +46,18 @@ class FragmentBarang : Fragment(), View.OnClickListener {
         setupViewModel()
         setupUI()
 
-        barangViewModel.getLiveBarang().observe(this, Observer {
+        viewModelBarang.getLiveBarang().observe(this, Observer {
             renderList(it)
         })
 
-        barangViewModel.getKategori().observe(this, Observer {
+        viewModelBarang.getKategori().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { kategori ->
                         renderListKategori(kategori)
                         listKategori.clear()
                         listKategori.addAll(kategori)
-                        barangViewModel.fetchLiveBarang()
+                        viewModelBarang.fetchLiveBarang()
                     }
                 }
                 Status.LOADING -> {
@@ -76,8 +75,8 @@ class FragmentBarang : Fragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        barangViewModel.syncKategori()
-        barangViewModel.fetchKategori()
+        viewModelBarang.syncKategori()
+        viewModelBarang.fetchKategori()
 
         btn_see_all_kategori.setOnClickListener(this)
     }
@@ -85,7 +84,7 @@ class FragmentBarang : Fragment(), View.OnClickListener {
     private fun setupUI(){
         rv = viewFragmentBarang.findViewById(R.id.rv_beranda)
         rv.layoutManager = LinearLayoutManager(viewFragmentBarang.context)
-        adapter = ListBarangAdapter(arrayListOf(), this, barangViewModel)
+        adapter = ListBarangAdapter(arrayListOf(), this, viewModelBarang)
         rv.addItemDecoration(
             DividerItemDecoration(
                 rv.context,
@@ -96,16 +95,16 @@ class FragmentBarang : Fragment(), View.OnClickListener {
 
         rvKategori = viewFragmentBarang.findViewById(R.id.rv_kategori)
         rvKategori.layoutManager = LinearLayoutManager(viewFragmentBarang.context, LinearLayoutManager.HORIZONTAL, false)
-        kategoriAdapter = ListKategoriAdapter(arrayListOf(), this, barangViewModel)
+        kategoriAdapter = ListKategoriAdapter(arrayListOf(), this, viewModelBarang)
         rvKategori.adapter = kategoriAdapter
     }
 
     private fun setupViewModel() {
         val is_remote = true
-        barangViewModel = ViewModelProviders.of(
+        viewModelBarang = ViewModelProviders.of(
             this,
             ViewModelFactory(viewFragmentBarang.context,is_remote)
-        ).get(BarangViewModel::class.java)
+        ).get(ViewModelBarang::class.java)
     }
 
     private fun renderList(barangs: List<Barang>) {
@@ -125,7 +124,7 @@ class FragmentBarang : Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when(v.id){
             R.id.btn_see_all_kategori->{
-                val kategoriIntent = Intent(this.context, KategoriActivity::class.java)
+                val kategoriIntent = Intent(this.context, ActivityKategori::class.java)
                 startActivity(kategoriIntent)
             }
         }

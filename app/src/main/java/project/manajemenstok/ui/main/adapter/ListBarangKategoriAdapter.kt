@@ -16,9 +16,9 @@ import project.manajemenstok.data.model.Barang
 import kotlinx.android.synthetic.main.item_layout.view.imageViewFoto
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Kategori
-import project.manajemenstok.ui.main.view.DetailBarangActivity
-import project.manajemenstok.ui.main.view.DetailKategoriActivity
-import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityDetailBarang
+import project.manajemenstok.ui.main.view.activity.ActivityDetailKategori
+import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Helper
 
@@ -26,13 +26,13 @@ import kotlin.collections.ArrayList
 
 class ListBarangKategoriAdapter (
     private var barangs: ArrayList<Barang>,
-    private var activity: DetailKategoriActivity,
-    private var barangViewModel: BarangViewModel
+    private var activityDetailKategori: ActivityDetailKategori,
+    private var viewModelBarang: ViewModelBarang
 ): RecyclerView.Adapter<ListBarangKategoriAdapter.DataViewHolder>() {
 
     private var kategori = ArrayList<Kategori>()
 
-    class DataViewHolder(itemView: View, val dataAdapter: ListBarangKategoriAdapter, val activity: DetailKategoriActivity) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class DataViewHolder(itemView: View, val dataAdapter: ListBarangKategoriAdapter, val activityDetailKategori: ActivityDetailKategori) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var objBarang = Barang()
         fun bind(barang: Barang, dataKategori: ArrayList<Kategori>){
             objBarang = barang
@@ -66,11 +66,11 @@ class ListBarangKategoriAdapter (
                 R.id.imageViewFoto,
                 R.id.content_bottom->{
                     val bundle = Bundle()
-                    val detailBarangIntent =  Intent(v.context, DetailBarangActivity::class.java)
+                    val detailBarangIntent =  Intent(v.context, ActivityDetailBarang::class.java)
                     detailBarangIntent.putExtra("dataBarang", objBarang)
-                    detailBarangIntent.putExtra("dataKategori", activity.getListKategori())
+                    detailBarangIntent.putExtra("dataKategori", activityDetailKategori.getListKategori())
 //                    startActivityForResult(activity, detailBarangIntent, Constants.RequestCodeIntent.DETAIL_BARANG, bundle)
-                    startActivity(activity, detailBarangIntent, bundle)
+                    startActivity(activityDetailKategori, detailBarangIntent, bundle)
                 }
             }
         }
@@ -81,7 +81,7 @@ class ListBarangKategoriAdapter (
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_barang_layout, parent,
                 false
-            ), this, activity
+            ), this, activityDetailKategori
         )
 
     override fun getItemCount(): Int = barangs.size
@@ -100,15 +100,15 @@ class ListBarangKategoriAdapter (
     }
 
     fun hapusBarang(barang: Barang){
-        var builder = AlertDialog.Builder(activity, R.style.CustomDialogTheme)
+        var builder = AlertDialog.Builder(activityDetailKategori, R.style.CustomDialogTheme)
         builder.setTitle("Konfirmasi")
         builder.setMessage("Anda Yakin ingin menghapus " + barang.namaBarang + " ?")
 
         builder.setPositiveButton("HAPUS") { _, _ ->
             barang.isDeleted = Constants.DeleteStatus.DELETED
-            barangViewModel.saveBarang(barang)
-            Toast.makeText(activity, "Barang berhasil dihapus", Toast.LENGTH_LONG).show()
-            activity.onResume()
+            viewModelBarang.saveBarang(barang)
+            Toast.makeText(activityDetailKategori, "Barang berhasil dihapus", Toast.LENGTH_LONG).show()
+            activityDetailKategori.onResume()
         }
 
         builder.setNegativeButton("BATAL") { _, _ ->

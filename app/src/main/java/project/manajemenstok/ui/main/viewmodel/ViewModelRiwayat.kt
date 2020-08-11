@@ -9,7 +9,7 @@ import project.manajemenstok.data.remote.impl.RemoteTransaksiLogicImpl
 import project.manajemenstok.data.repository.TransaksiRepository
 import project.manajemenstok.utils.Resource
 
-class RiwayatViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
+class ViewModelRiwayat (val context : Context, private val is_remote : Boolean) : ViewModel() {
 
     private val transaksiRepository = TransaksiRepository(
         RemoteTransaksiLogicImpl(),

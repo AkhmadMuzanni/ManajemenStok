@@ -9,14 +9,14 @@ import kotlinx.android.synthetic.main.item_kategori_layout.view.*
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.main.view.fragment.FragmentBarang
-import project.manajemenstok.ui.main.viewmodel.BarangViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelBarang
 
 import kotlin.collections.ArrayList
 
 class ListKategoriAdapter (
     private var kategori: ArrayList<Kategori>,
     private var fragment: FragmentBarang,
-    private var barangViewModel: BarangViewModel,
+    private var viewModelBarang: ViewModelBarang,
     private val MAX_LENGTH: Int = 5
 
 ): RecyclerView.Adapter<ListKategoriAdapter.DataViewHolder>() {

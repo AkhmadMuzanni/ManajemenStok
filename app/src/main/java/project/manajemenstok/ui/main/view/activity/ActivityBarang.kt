@@ -7,7 +7,7 @@ import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import project.manajemenstok.R
 
-class BarangActivity : AppCompatActivity(), View.OnClickListener {
+class ActivityBarang : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class BarangActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id){
             R.id.navigation_beranda->{
-                val berandaIntent =  Intent(this@BarangActivity, MainActivity::class.java)
+                val berandaIntent =  Intent(this@ActivityBarang, ActivityMain::class.java)
                 startActivity(berandaIntent)
             }
         }

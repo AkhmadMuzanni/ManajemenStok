@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "854189089540-molto4ej2psjge5hos1nqusala51ctp8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "project.manajemenstok",
+            "certificate_hash": "ea8dddaea798226ef1e483b348c50b6b640628e2"
+          }
+        },
+        {
           "client_id": "854189089540-ftfuvdsngt7vpjelkcgq9ceoccnlc23b.apps.googleusercontent.com",
           "client_type": 3
         }

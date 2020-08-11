@@ -3,10 +3,13 @@ package project.manajemenstok.ui.main.view.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.TokenWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.fragment_akun.view.*
 
 import project.manajemenstok.R
@@ -54,7 +57,7 @@ class FragmentAkun : Fragment(), View.OnClickListener {
             }
 
             R.id.lyt_keuntungan -> {
-                val keuntungan = Intent(viewFragmentProfile.context, KeuntunganAplikasiActivity::class.java)
+                val keuntungan = Intent(viewFragmentProfile.context, ActivityKeuntunganAplikasi::class.java)
                 startActivity(keuntungan)
             }
 
@@ -73,7 +76,14 @@ class FragmentAkun : Fragment(), View.OnClickListener {
                 startActivity(help)
             }
             R.id.btn_logout->{
-                activity?.finish()
+                AuthUI.getInstance().signOut(viewFragmentProfile.context)
+                    .addOnCompleteListener{
+                        activity?.finish()
+                    }
+                    .addOnFailureListener{
+                        e-> Toast.makeText(viewFragmentProfile.context, e.message, Toast.LENGTH_SHORT).show()
+                    }
+
             }
         }
     }

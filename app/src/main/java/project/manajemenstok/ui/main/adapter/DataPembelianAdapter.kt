@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_layout.view.textViewNamaBarang
 import kotlinx.android.synthetic.main.item_pembelian_layout.view.*
 import project.manajemenstok.R
 import project.manajemenstok.ui.main.view.fragment.FragmentPembelian
-import project.manajemenstok.ui.main.viewmodel.PembelianViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelPembelian
 import project.manajemenstok.utils.NumberTextWatcher
 import java.text.NumberFormat
 import java.util.*
@@ -22,16 +22,16 @@ import kotlin.collections.ArrayList
 
 class DataPembelianAdapter (
     private val barangs: ArrayList<Barang>,
-    private val pembelianViewModel: PembelianViewModel,
+    private val viewModelPembelian: ViewModelPembelian,
     private val fragment: FragmentPembelian
 ): RecyclerView.Adapter<DataPembelianAdapter.DataViewHolder>() {
 
     class DataViewHolder(
-        itemView: View, pembelianViewModel: PembelianViewModel, fragment: FragmentPembelian, dataAdapter: DataPembelianAdapter
+        itemView: View, viewModelPembelian: ViewModelPembelian, fragment: FragmentPembelian, dataAdapter: DataPembelianAdapter
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnFocusChangeListener {
         var objBarang = Barang()
         var pos = 0
-        val viewModel = pembelianViewModel
+        val viewModel = viewModelPembelian
         val fragment = fragment
         val dataAdapter = dataAdapter
 
@@ -168,7 +168,7 @@ class DataPembelianAdapter (
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_pembelian_layout, parent,
                 false
-            ), pembelianViewModel, fragment, this
+            ), viewModelPembelian, fragment, this
         )
 
     override fun getItemCount(): Int = barangs.size

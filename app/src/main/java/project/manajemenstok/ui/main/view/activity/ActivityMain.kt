@@ -8,7 +8,7 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.main.view.fragment.*
 
-class MainActivity : AppCompatActivity(){
+class ActivityMain : AppCompatActivity(){
     companion object {
         var tempPembelian = Bundle()
         var tempPenjualan = Bundle()

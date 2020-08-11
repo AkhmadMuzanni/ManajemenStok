@@ -13,14 +13,14 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.KategoriGridAdapter
-import project.manajemenstok.ui.main.viewmodel.KategoriViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelKategori
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Status
 import kotlin.collections.ArrayList
 
-class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.OnClickListener {
+class ActivityKategori : AppCompatActivity(), AdapterView.OnItemClickListener, View.OnClickListener {
 
-    private lateinit var kategoriViewModel: KategoriViewModel
+    private lateinit var viewModelKategori: ViewModelKategori
     private lateinit var gridAdapter: KategoriGridAdapter
     private lateinit var listKategori: ArrayList<Kategori>
 
@@ -30,7 +30,7 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, V
         setupUI()
         setupViewModel()
 
-        kategoriViewModel.getKategori().observe(this, Observer {
+        viewModelKategori.getKategori().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { kategori ->
@@ -53,7 +53,7 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, V
 
     override fun onResume() {
         super.onResume()
-        kategoriViewModel.syncKategori()
+        viewModelKategori.syncKategori()
     }
 
     private fun setupUI(){
@@ -64,10 +64,10 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, V
 
     private fun setupViewModel() {
         val is_remote = true
-        kategoriViewModel = ViewModelProviders.of(
+        viewModelKategori = ViewModelProviders.of(
             this,
             ViewModelFactory(this,is_remote)
-        ).get(KategoriViewModel::class.java)
+        ).get(ViewModelKategori::class.java)
     }
 
     private fun renderList(item: ArrayList<Kategori>) {
@@ -76,7 +76,7 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, V
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val detailKategoriIntent =  Intent(parent?.context, DetailKategoriActivity::class.java)
+        val detailKategoriIntent =  Intent(parent?.context, ActivityDetailKategori::class.java)
         detailKategoriIntent.putExtra("dataKategori", listKategori[position])
         detailKategoriIntent.putExtra("intentMode", Constants.IntentMode.EDIT)
         detailKategoriIntent.putExtra("listKategori", listKategori)
@@ -86,7 +86,7 @@ class KategoriActivity : AppCompatActivity(), AdapterView.OnItemClickListener, V
     override fun onClick(v: View) {
         when(v.id){
             R.id.btn_tambah_kategori->{
-                val detailKategoriIntent =  Intent(applicationContext, DetailKategoriActivity::class.java)
+                val detailKategoriIntent =  Intent(applicationContext, ActivityDetailKategori::class.java)
                 detailKategoriIntent.putExtra("intentMode", Constants.IntentMode.ADD)
                 startActivityForResult(detailKategoriIntent, Constants.RequestCodeIntent.DETAIL_KATEGORI)
             }

@@ -20,8 +20,8 @@ import project.manajemenstok.data.model.TransaksiData
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
-import project.manajemenstok.ui.main.view.activity.DetailRiwayatActivity
-import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
+import project.manajemenstok.ui.main.view.activity.ActivityDetailRiwayat
+import project.manajemenstok.ui.main.viewmodel.ViewModelRiwayat
 import project.manajemenstok.utils.Status
 
 /**
@@ -29,7 +29,7 @@ import project.manajemenstok.utils.Status
  */
 class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
 
-    private lateinit var riwayatViewModel: RiwayatViewModel
+    private lateinit var viewModelRiwayat: ViewModelRiwayat
     private lateinit var adapter: RiwayatAdapter
     private lateinit var viewFragmentRiwayat: View
     private lateinit var rv: RecyclerView
@@ -42,7 +42,7 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
         setupUI()
         setupViewModel()
         setupObserver()
-        riwayatViewModel.fetchTransaksiRepository()
+        viewModelRiwayat.fetchTransaksiRepository()
         return viewFragmentRiwayat
     }
 
@@ -61,14 +61,14 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
 
     private fun setupViewModel() {
         val is_remote = true
-        riwayatViewModel = ViewModelProviders.of(
+        viewModelRiwayat = ViewModelProviders.of(
             this,
             ViewModelFactory(viewFragmentRiwayat.context,is_remote)
-        ).get(RiwayatViewModel::class.java)
+        ).get(ViewModelRiwayat::class.java)
     }
 
     private fun setupObserver() {
-        riwayatViewModel.getTransaksi().observe(this, Observer {
+        viewModelRiwayat.getTransaksi().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBarRiwayat.visibility = View.GONE
@@ -96,7 +96,7 @@ class FragmentRiwayat : Fragment(), OnRiwayatItemClickListener {
     }
 
     override fun onItemClick(item: TransaksiData, position: Int) {
-        val historyTransaction = Intent(viewFragmentRiwayat.context, DetailRiwayatActivity::class.java)
+        val historyTransaction = Intent(viewFragmentRiwayat.context, ActivityDetailRiwayat::class.java)
         val historyTransactionBundle = Bundle()
         historyTransactionBundle.putString("idTransaksi", item.uuid)
         historyTransactionBundle.putInt("totalTransaksi", item.totalTransaksi)

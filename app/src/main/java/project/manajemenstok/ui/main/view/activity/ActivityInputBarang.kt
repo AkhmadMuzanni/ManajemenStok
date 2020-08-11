@@ -14,7 +14,7 @@ import project.manajemenstok.R
 import project.manajemenstok.data.model.Barang
 import project.manajemenstok.ui.main.adapter.InputBarangAdapter
 
-class InputBarangActivity : AppCompatActivity(), View.OnClickListener {
+class ActivityInputBarang : AppCompatActivity(), View.OnClickListener {
 
     private var barangUsed = ArrayList<Barang>()
 

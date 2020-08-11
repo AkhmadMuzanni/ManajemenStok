@@ -21,7 +21,7 @@ import project.manajemenstok.data.repository.KategoriRepository
 import project.manajemenstok.data.repository.TransaksiRepository
 import project.manajemenstok.utils.Resource
 
-class MainViewModel (val context : Context, private val is_remote : Boolean) : ViewModel() {
+class ViewModelMain (val context : Context, private val is_remote : Boolean) : ViewModel() {
 
     private val barangRepository = BarangRepository(
         RemoteBarangLogicImpl(),
