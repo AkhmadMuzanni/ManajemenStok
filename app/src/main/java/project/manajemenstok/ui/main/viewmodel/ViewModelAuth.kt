@@ -14,16 +14,29 @@ class ViewModelAuth (val context : Context, private val is_remote : Boolean) : V
         RemoteAkunLogicImpl()
     )
 
-    fun registerAkun(akun: Akun): String{
-        return authRepository.createAkun(akun)
+    fun registerAkun(akun: Akun, uuid: String): String{
+        return authRepository.createAkun(akun, uuid)
     }
 
-    fun fetchAkun(username: String){
-        authRepository.fetchAkun(username)
+//    fun fetchAkun(username: String){
+//        authRepository.fetchAkun(username)
+//    }
+
+    fun fetchAkubyId(uuid: String){
+        authRepository.fetchAkunById(uuid)
     }
 
     fun getAkun(): MutableLiveData<Resource<Akun>> {
         return authRepository.getAkun()
+    }
+
+    fun updateAkun(akun: Akun, uuid: String, email: String): Resource<String> {
+
+        return authRepository.updateAkun(akun, uuid, email)
+    }
+
+    fun updatePassword(oldPass: String, newPass: String): Resource<String> {
+        return authRepository.updatePassword(oldPass, newPass)
     }
 
 

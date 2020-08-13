@@ -77,9 +77,9 @@ class ActivityDetailBarang : AppCompatActivity(), View.OnClickListener{
                 if(resultCode == Activity.RESULT_OK){
                     val imageUri = data?.data
 
-                    viewModelBarang.getUploadResult().observe(this, Observer {
+                    barangViewModel.getUploadResult().observe(this, Observer {
                         objBarang.foto = it
-                        viewModelBarang.saveBarang(objBarang)
+                        barangViewModel.saveBarang(objBarang)
                         Glide.with(image_view_barang.context).load(it).into(image_view_barang)
                         Toast.makeText(this, "Foto Barang Berhasil Diubah", Toast.LENGTH_LONG).show()
                     })
@@ -92,7 +92,7 @@ class ActivityDetailBarang : AppCompatActivity(), View.OnClickListener{
 
     private fun setupViewModel() {
         val is_remote = true
-        viewModelBarang = ViewModelProviders.of(
+        barangViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext, is_remote)
         ).get(ViewModelBarang::class.java)
@@ -125,7 +125,7 @@ class ActivityDetailBarang : AppCompatActivity(), View.OnClickListener{
 
                 val objKategori = kategori_spinner.selectedItem as Kategori
                 objBarang.kategori = objKategori.uuid
-                viewModelBarang.saveBarang(objBarang)
+                barangViewModel.saveBarang(objBarang)
 
                 Toast.makeText(v.context, "Perubahan berhasil disimpan", Toast.LENGTH_LONG).show()
             }

@@ -21,7 +21,7 @@ import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
 import project.manajemenstok.ui.main.view.activity.ActivityDetailRiwayat
-import project.manajemenstok.ui.main.viewmodel.RiwayatViewModel
+import project.manajemenstok.ui.main.viewmodel.ViewModelRiwayat
 import project.manajemenstok.utils.Status
 
 /**

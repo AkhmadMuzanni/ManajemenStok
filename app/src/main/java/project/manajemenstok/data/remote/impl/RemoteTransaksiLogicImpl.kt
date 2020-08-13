@@ -85,7 +85,7 @@ class RemoteTransaksiLogicImpl :
                                         val klien = snapshot.getValue<KlienFirebase>(KlienFirebase::class.java)!!
                                         val tempTransaksiData = TransaksiData()
                                         tempTransaksiData.uuid = transaksi.uuid
-                                        tempTransaksiData.namaKlien = klien.nama
+                                        tempTransaksiData.namaKlien = klien?.nama
                                         tempTransaksiData.tglTransaksi = transaksi.tglTransaksi
                                         tempTransaksiData.ongkir = transaksi.ongkir
                                         tempTransaksiData.totalTransaksi = transaksi.totalTransaksi

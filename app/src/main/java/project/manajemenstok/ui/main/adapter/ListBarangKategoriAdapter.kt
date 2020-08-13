@@ -68,9 +68,9 @@ class ListBarangKategoriAdapter (
                     val bundle = Bundle()
                     val detailBarangIntent =  Intent(v.context, ActivityDetailBarang::class.java)
                     detailBarangIntent.putExtra("dataBarang", objBarang)
-                    detailBarangIntent.putExtra("dataKategori", activityDetailKategori.getListKategori())
+                    detailBarangIntent.putExtra("dataKategori", activity.getListKategori())
 //                    startActivityForResult(activity, detailBarangIntent, Constants.RequestCodeIntent.DETAIL_BARANG, bundle)
-                    startActivity(activityDetailKategori, detailBarangIntent, bundle)
+                    startActivity(activity, detailBarangIntent, bundle)
                 }
             }
         }
@@ -81,7 +81,7 @@ class ListBarangKategoriAdapter (
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_barang_layout, parent,
                 false
-            ), this, activityDetailKategori
+            ), this, activity
         )
 
     override fun getItemCount(): Int = barangs.size
@@ -100,15 +100,15 @@ class ListBarangKategoriAdapter (
     }
 
     fun hapusBarang(barang: Barang){
-        var builder = AlertDialog.Builder(activityDetailKategori, R.style.CustomDialogTheme)
+        var builder = AlertDialog.Builder(activity, R.style.CustomDialogTheme)
         builder.setTitle("Konfirmasi")
         builder.setMessage("Anda Yakin ingin menghapus " + barang.namaBarang + " ?")
 
         builder.setPositiveButton("HAPUS") { _, _ ->
             barang.isDeleted = Constants.DeleteStatus.DELETED
-            viewModelBarang.saveBarang(barang)
-            Toast.makeText(activityDetailKategori, "Barang berhasil dihapus", Toast.LENGTH_LONG).show()
-            activityDetailKategori.onResume()
+            barangViewModel.saveBarang(barang)
+            Toast.makeText(activity, "Barang berhasil dihapus", Toast.LENGTH_LONG).show()
+            activity.onResume()
         }
 
         builder.setNegativeButton("BATAL") { _, _ ->

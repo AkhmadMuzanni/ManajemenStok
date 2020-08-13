@@ -77,7 +77,7 @@ class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocu
     private fun setupUI(){
         rvDataPenjualan = findViewById(R.id.rv_data_penjualan)
         rvDataPenjualan.layoutManager = LinearLayoutManager(applicationContext)
-        dataPenjualanAdapter = DataPenjualanAdapter(arrayListOf(), viewModelPenjualan, this)
+        dataPenjualanAdapter = DataPenjualanAdapter(arrayListOf(), penjualanViewModel, this)
         rvDataPenjualan.addItemDecoration(
             DividerItemDecoration(
                 rvDataPenjualan.context,
@@ -89,7 +89,7 @@ class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocu
 
     private fun setupViewModel() {
         val is_remote = true
-        viewModelPenjualan = ViewModelProviders.of(
+        penjualanViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext,is_remote)
         ).get(ViewModelPenjualan::class.java)
@@ -133,8 +133,8 @@ class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocu
                 bundle.putBundle("dataPenjual", bundlePenjual)
                 bundle.putString("dataOngkir", getAngka(text_ongkir_pembelian.text.toString()).toString())
                 bundle.putString("dataTotal", getAngka(text_input_total.text.toString()).toString())
-                bundle.putString("dataSubtotal", viewModelPenjualan.getSubtotal().toString())
-                bundle.putSerializable("dataBarang", viewModelPenjualan.getTempBarang())
+                bundle.putString("dataSubtotal", penjualanViewModel.getSubtotal().toString())
+                bundle.putSerializable("dataBarang", penjualanViewModel.getTempBarang())
 
                 val konfirmasiPembelianIntent =  Intent(v.context, ActivityKonfirmasiPembelian::class.java)
                 konfirmasiPembelianIntent.putExtra("dataPembelian", bundle)
@@ -194,7 +194,7 @@ class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocu
             tempBarang.total = 0
             tempBarang.uuid = data?.getBundleExtra("bundle")?.getString("uuid")!!
             tempBarang.maxQuantity = data?.getBundleExtra("bundle")?.getInt("maxQuantity")!!
-            viewModelPenjualan.addTempBarang(tempBarang)
+            penjualanViewModel.addTempBarang(tempBarang)
         } else if(requestCode == Constants.RequestCodeIntent.KONFIRMASI_TRANSAKSI && data != null && resultCode == Activity.RESULT_OK){
             destroyView(false)
             finish()
@@ -206,11 +206,11 @@ class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocu
             override fun afterTextChanged(s: Editable) {
                 super.afterTextChanged(s)
                 if(s.toString() == ""){
-                    viewModelPenjualan.setTempOngkir(0)
+                    penjualanViewModel.setTempOngkir(0)
                 } else {
-                    viewModelPenjualan.setTempOngkir(getAngka(text_ongkir_pembelian.text.toString()))
+                    penjualanViewModel.setTempOngkir(getAngka(text_ongkir_pembelian.text.toString()))
                 }
-                text_input_total.setText(getFormat(Integer.parseInt(viewModelPenjualan.getTotalTransaksi().toString())))
+                text_input_total.setText(getFormat(Integer.parseInt(penjualanViewModel.getTotalTransaksi().toString())))
             }
         })
     }
@@ -221,7 +221,7 @@ class ActivityPenjualan : AppCompatActivity(), View.OnClickListener, View.OnFocu
             bundle.putString("dataPenjual", text_input_pembeli.text.toString())
             bundle.putString("dataOngkir", text_ongkir_pembelian.text.toString())
             bundle.putString("dataTotal", text_input_total.text.toString())
-            bundle.putSerializable("dataBarang", viewModelPenjualan.getTempBarang())
+            bundle.putSerializable("dataBarang", penjualanViewModel.getTempBarang())
         }
 //        MainActivity.setTempData(bundle)
         ActivityMain.tempPenjualan = bundle

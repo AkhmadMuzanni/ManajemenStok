@@ -80,12 +80,12 @@ class ActivityKonfirmasiPembelian : AppCompatActivity(), View.OnClickListener {
     private fun setupViewModel() {
         val is_remote = true
         if(parentActivity == Constants.JenisTransaksiValue.PEMBELIAN){
-            viewModelPembelian = ViewModelProviders.of(
+            pembelianViewModel = ViewModelProviders.of(
                 this,
                 ViewModelFactory(applicationContext,is_remote)
             ).get(ViewModelPembelian::class.java)
         } else {
-            viewModelPenjualan = ViewModelProviders.of(
+            penjualanViewModel = ViewModelProviders.of(
                 this,
                 ViewModelFactory(applicationContext,is_remote)
             ).get(ViewModelPenjualan::class.java)
@@ -109,7 +109,7 @@ class ActivityKonfirmasiPembelian : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_simpan_transaksi->{
                 if(parentActivity == Constants.JenisTransaksiValue.PEMBELIAN){
-                    val isSuccess = viewModelPembelian.simpanPembelian(bundlePembelian, this)
+                    val isSuccess = pembelianViewModel.simpanPembelian(bundlePembelian, this)
                     if(isSuccess){
                         val konfirmasiIntent = Intent()
                         konfirmasiIntent.putExtra("bundle",bundlePembelian)
@@ -117,7 +117,7 @@ class ActivityKonfirmasiPembelian : AppCompatActivity(), View.OnClickListener {
                         finish()
                     }
                 } else {
-                    val isSuccess = viewModelPenjualan.simpanPenjualan(bundlePembelian, this)
+                    val isSuccess = penjualanViewModel.simpanPenjualan(bundlePembelian, this)
                     if(isSuccess){
                         val konfirmasiIntent = Intent()
                         konfirmasiIntent.putExtra("bundle",bundlePembelian)

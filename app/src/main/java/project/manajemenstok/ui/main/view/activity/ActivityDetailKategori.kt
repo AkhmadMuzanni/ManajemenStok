@@ -52,7 +52,7 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
 
         intentMode = intent.getIntExtra("intentMode", 0)
 
-        viewModelKategori.getBarangKategori().observe(this, Observer {
+        kategoriViewModel.getBarangKategori().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { barang ->
@@ -103,7 +103,7 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
 
             input_kategori.setText(objKategori.nama)
             Glide.with(image_view_kategori.context).load(objKategori.foto).into(image_view_kategori)
-            viewModelKategori.fetchBarangKategori(objKategori.uuid)
+            kategoriViewModel.fetchBarangKategori(objKategori.uuid)
         } else {
             btn_edit.visibility = View.GONE
             rv_barang_kategori.visibility = View.GONE
@@ -128,9 +128,9 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
                     val imageUri = data?.data
 
                     if(intentMode == Constants.IntentMode.EDIT){
-                        viewModelKategori.getUploadResult().observe(this, Observer {
+                        kategoriViewModel.getUploadResult().observe(this, Observer {
                             objKategori.foto = it
-                            viewModelKategori.saveKategori(objKategori)
+                            kategoriViewModel.saveKategori(objKategori)
                             Glide.with(image_view_kategori.context).load(it).into(image_view_kategori)
                             Toast.makeText(this, "Foto Kategori Berhasil Diubah", Toast.LENGTH_LONG).show()
                         })
@@ -148,12 +148,12 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
 
     private fun setupViewModel() {
         val is_remote = true
-        viewModelKategori = ViewModelProviders.of(
+        kategoriViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext, is_remote)
         ).get(ViewModelKategori::class.java)
 
-        viewModelBarang = ViewModelProviders.of(
+        barangViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(applicationContext, is_remote)
         ).get(ViewModelBarang::class.java)
@@ -161,7 +161,7 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
 
     private fun setupUI(){
         rv_barang_kategori.layoutManager = LinearLayoutManager(this)
-        adapter = ListBarangKategoriAdapter(arrayListOf(), this, viewModelBarang)
+        adapter = ListBarangKategoriAdapter(arrayListOf(), this, barangViewModel)
         rv_barang_kategori.addItemDecoration(
             DividerItemDecoration(
                 rv_barang_kategori.context,
@@ -196,7 +196,7 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
                     v.visibility = View.GONE
                     btn_edit.visibility = View.VISIBLE
 
-                    viewModelKategori.saveKategori(objKategori)
+                    kategoriViewModel.saveKategori(objKategori)
 
                     Toast.makeText(v.context, "Perubahan berhasil disimpan", Toast.LENGTH_LONG).show()
                 } else {
@@ -205,15 +205,15 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
                     objKategori.foto = resources.getString(R.string.defaultImageIcon)
                     objKategori.jumlah = 0
 
-                    val uuidSaved = viewModelKategori.createKategori(objKategori)
+                    val uuidSaved = kategoriViewModel.createKategori(objKategori)
 
                     val resultKategoriIntent = Intent()
                     resultKategoriIntent.putExtra("uuidNewKategori", uuidSaved)
 
                     if(isImageChange){
-                        viewModelKategori.getUploadResult().observe(this, Observer {
+                        kategoriViewModel.getUploadResult().observe(this, Observer {
                             objKategori.foto = it
-                            viewModelKategori.saveKategori(objKategori)
+                            kategoriViewModel.saveKategori(objKategori)
                             progressBar_kategori.visibility = View.GONE
                             Toast.makeText(v.context, "Kategori berhasil disimpan", Toast.LENGTH_LONG).show()
                             setResult(Activity.RESULT_OK, resultKategoriIntent)
@@ -245,7 +245,7 @@ class ActivityDetailKategori : AppCompatActivity(), View.OnClickListener, Search
 
                 builder.setPositiveButton("HAPUS") { _, _ ->
                     objKategori.isDeleted = Constants.DeleteStatus.DELETED
-                    viewModelKategori.saveKategori(objKategori)
+                    kategoriViewModel.saveKategori(objKategori)
 
                     Toast.makeText(this, "Kategori berhasil dihapus", Toast.LENGTH_LONG).show()
                     finish()

@@ -75,10 +75,10 @@ class DataPenjualanAdapter (
                 }
                 R.id.delete_icon->{
                     Toast.makeText(itemView.context, "Berhasil Dihapus", Toast.LENGTH_LONG).show()
-                    viewModelPenjualan.deleteTempBarang(pos)
-                    dataAdapter.setData(viewModelPenjualan.getTempBarang())
+                    viewModel.deleteTempBarang(pos)
+                    dataAdapter.setData(viewModel.getTempBarang())
                     dataAdapter.notifyItemRemoved(pos)
-                    dataAdapter.notifyItemRangeChanged(pos, viewModelPenjualan.getTempBarang().size)
+                    dataAdapter.notifyItemRangeChanged(pos, viewModel.getTempBarang().size)
                     updateTotalTransaksi()
                 }
             }
@@ -160,8 +160,8 @@ class DataPenjualanAdapter (
         }
 
         fun updateTotalTransaksi(){
-            val total = viewModelPenjualan.getTotalTransaksi()
-            activityPenjualan.findViewById<TextView>(R.id.text_input_total)?.setText(dataAdapter.getFormat(total))
+            val total = viewModel.getTotalTransaksi()
+            activity.findViewById<TextView>(R.id.text_input_total)?.setText(dataAdapter.getFormat(total))
         }
     }
 
@@ -170,7 +170,7 @@ class DataPenjualanAdapter (
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_pembelian_layout, parent,
                 false
-            ), viewModelPenjualan, activityPenjualan, this
+            ), penjualanViewModel, penjualanActivity, this
         )
 
     override fun getItemCount(): Int = barangs.size

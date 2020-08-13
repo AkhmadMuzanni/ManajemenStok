@@ -59,7 +59,7 @@ class FragmentInputBarangTersimpan : Fragment(), SearchView.OnQueryTextListener{
 
         barangUsed = (activity as ActivityInputBarang).getBarangUsed()
 
-        viewModelPembelian.fetchUnusedBarang(barangUsed)
+        pembelianViewModel.fetchUnusedBarang(barangUsed)
 
         return viewBarang
 //        return inflater!!.inflate(R.layout.fragment_input_barang_tersimpan, container, false)
@@ -89,14 +89,14 @@ class FragmentInputBarangTersimpan : Fragment(), SearchView.OnQueryTextListener{
 
     private fun setupViewModel() {
         val is_remote = true
-        viewModelPembelian = ViewModelProviders.of(
+        pembelianViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewBarang.context,is_remote)
         ).get(ViewModelPembelian::class.java)
     }
 
     private fun setupObserver() {
-        viewModelPembelian.getBarangs().observe(this, Observer {
+        pembelianViewModel.getBarangs().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
 //                    progressBar.visibility = View.GONE

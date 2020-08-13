@@ -15,8 +15,8 @@ class ViewModelFactory(val context : Context, private val is_remote : Boolean) :
             return ViewModelPembelian(context, is_remote) as T
         } else if(modelClass.isAssignableFrom(ViewModelPenjualan::class.java)){
             return ViewModelPenjualan(context, is_remote) as T
-        } else if(modelClass.isAssignableFrom(RiwayatViewModel::class.java)){
-            return RiwayatViewModel(context, is_remote) as T
+        } else if(modelClass.isAssignableFrom(ViewModelRiwayat::class.java)){
+            return ViewModelRiwayat(context, is_remote) as T
         } else if(modelClass.isAssignableFrom(ViewModelBarang::class.java)){
             return ViewModelBarang(context, is_remote) as T
         } else if(modelClass.isAssignableFrom(ViewModelKategori::class.java)){

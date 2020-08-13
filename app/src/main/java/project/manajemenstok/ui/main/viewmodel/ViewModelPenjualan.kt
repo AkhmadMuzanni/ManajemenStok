@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import project.manajemenstok.data.local.DbHelper
 import project.manajemenstok.data.model.*
 import project.manajemenstok.data.remote.impl.RemoteBarangLogicImpl
@@ -91,10 +92,12 @@ class ViewModelPenjualan (val context : Context, private val is_remote : Boolean
         dataPembeli.noTelp = bundle.getBundle("dataPenjual")!!.getString("noTelp")!!
 
         val idPembeli = penjualRepository.createKlien(dataPembeli)
+        val dateNow = LocalDateTime.now()
 
         var dataPenjualan = TransaksiFirebase()
         dataPenjualan.idKlien = idPembeli
-        dataPenjualan.tglTransaksi = LocalDateTime.now().toString()
+
+        dataPenjualan.tglTransaksi = dateNow.format(DateTimeFormatter.ofPattern("dd MMM yyy hh:mm:ss"))
         dataPenjualan.ongkir = Integer.parseInt(bundle.getString("dataOngkir")!!)
         dataPenjualan.totalTransaksi = Integer.parseInt(bundle.getString("dataTotal")!!)
         dataPenjualan.metode = Constants.MetodePembayaran.CASH

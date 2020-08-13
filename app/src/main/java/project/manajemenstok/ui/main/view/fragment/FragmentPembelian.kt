@@ -80,7 +80,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
     private fun setupUI(){
         rvDataPembelian = viewPembelian.rv_data_pembelian
         rvDataPembelian.layoutManager = LinearLayoutManager(viewPembelian.context)
-        dataPembelianAdapter = DataPembelianAdapter(arrayListOf(), viewModelPembelian, this)
+        dataPembelianAdapter = DataPembelianAdapter(arrayListOf(), pembelianViewModel, this)
         rvDataPembelian.addItemDecoration(
             DividerItemDecoration(
                 rvDataPembelian.context,
@@ -92,7 +92,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
 
     private fun setupViewModel() {
         val is_remote = true
-        viewModelPembelian = ViewModelProviders.of(
+        pembelianViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewPembelian.context,is_remote)
         ).get(ViewModelPembelian::class.java)
@@ -117,8 +117,8 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
                 bundle.putBundle("dataPenjual", bundlePenjual)
                 bundle.putString("dataOngkir", getAngka(viewPembelian.text_ongkir_pembelian.text.toString()).toString())
                 bundle.putString("dataTotal", getAngka(viewPembelian.text_input_total.text.toString()).toString())
-                bundle.putString("dataSubtotal", viewModelPembelian.getSubtotal().toString())
-                bundle.putSerializable("dataBarang", viewModelPembelian.getTempBarang())
+                bundle.putString("dataSubtotal", pembelianViewModel.getSubtotal().toString())
+                bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
 
                 val konfirmasiPembelianIntent =  Intent(v.context, ActivityKonfirmasiPembelian::class.java)
                 konfirmasiPembelianIntent.putExtra("dataPembelian", bundle)
@@ -141,7 +141,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             tempBarang.uuid = data?.getBundleExtra("bundle")?.getString("uuid")!!
             tempBarang.kategori = data?.getBundleExtra("bundle")?.getString("kategori")!!
 //            input_barang_pembelian.setText(tempBarang.namaBarang)
-            viewModelPembelian.addTempBarang(tempBarang)
+            pembelianViewModel.addTempBarang(tempBarang)
         } else if(requestCode == KONFIRMASI_INTENT && data != null && resultCode == RESULT_OK){
             destroyView(false)
             activity?.finish()
@@ -155,7 +155,7 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             bundle.putString("dataPenjual", viewPembelian.text_input_penjual.text.toString())
             bundle.putString("dataOngkir", viewPembelian.text_ongkir_pembelian.text.toString())
             bundle.putString("dataTotal", viewPembelian.text_input_total.text.toString())
-            bundle.putSerializable("dataBarang", viewModelPembelian.getTempBarang())
+            bundle.putSerializable("dataBarang", pembelianViewModel.getTempBarang())
         }
 //        MainActivity.setTempData(bundle)
         ActivityMain.tempPembelian = bundle
@@ -166,11 +166,11 @@ class FragmentPembelian : Fragment(), View.OnClickListener, View.OnFocusChangeLi
             override fun afterTextChanged(s: Editable) {
                 super.afterTextChanged(s)
                 if(s.toString() == ""){
-                    viewModelPembelian.setTempOngkir(0)
+                    pembelianViewModel.setTempOngkir(0)
                 } else {
-                    viewModelPembelian.setTempOngkir(getAngka(viewPembelian.text_ongkir_pembelian.text.toString()))
+                    pembelianViewModel.setTempOngkir(getAngka(viewPembelian.text_ongkir_pembelian.text.toString()))
                 }
-                viewPembelian.text_input_total.setText(getFormat(Integer.parseInt(viewModelPembelian.getTotalTransaksi().toString())))
+                viewPembelian.text_input_total.setText(getFormat(Integer.parseInt(pembelianViewModel.getTotalTransaksi().toString())))
             }
         })
     }

@@ -31,7 +31,7 @@ class DataPembelianAdapter (
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnFocusChangeListener {
         var objBarang = Barang()
         var pos = 0
-        val viewModel = viewModelPembelian
+        val viewModel = pembelianViewModel
         val fragment = fragment
         val dataAdapter = dataAdapter
 
@@ -168,7 +168,7 @@ class DataPembelianAdapter (
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_pembelian_layout, parent,
                 false
-            ), viewModelPembelian, fragment, this
+            ), pembelianViewModel, fragment, this
         )
 
     override fun getItemCount(): Int = barangs.size

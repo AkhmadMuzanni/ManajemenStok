@@ -9,8 +9,8 @@ import project.manajemenstok.utils.Resource
 
 class AuthRepository(private val remoteAkun: RemoteAkunLogic) {
 
-    fun createAkun(akun: Akun): String {
-        return remoteAkun.createAkun(akun)
+    fun createAkun(akun: Akun, uuid: String): String {
+        return remoteAkun.createAkun(akun, uuid)
     }
 
     fun fetchAkun(username: String){
@@ -19,6 +19,18 @@ class AuthRepository(private val remoteAkun: RemoteAkunLogic) {
 
     fun getAkun(): MutableLiveData<Resource<Akun>> {
         return remoteAkun.getAkun()
+    }
+
+    fun fetchAkunById(uuid: String){
+        return remoteAkun.fetchAkunById(uuid)
+    }
+
+    fun updateAkun(akun: Akun, uuid: String, email: String): Resource<String> {
+        return remoteAkun.updateAkun(akun, uuid, email)
+    }
+
+    fun updatePassword(oldPass: String, newPass: String): Resource<String> {
+        return remoteAkun.updatePassword(oldPass, newPass)
     }
 
 }

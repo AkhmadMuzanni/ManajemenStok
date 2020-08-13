@@ -40,7 +40,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener, AdapterView.On
 
         setupViewModel()
 
-        viewModelPembelian.getKategori().observe(this, Observer {
+        pembelianViewModel.getKategori().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { kategori ->
@@ -78,7 +78,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener, AdapterView.On
     override fun onResume() {
         super.onResume()
 
-        viewModelPembelian.fetchKategori()
+        pembelianViewModel.fetchKategori()
 
         kategori_spinner.onItemSelectedListener = this
     }
@@ -126,7 +126,7 @@ class FragmentInputBarangBaru : Fragment(), View.OnClickListener, AdapterView.On
 
     private fun setupViewModel() {
         val is_remote = true
-        viewModelPembelian = ViewModelProviders.of(
+        pembelianViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(context!!,is_remote)
         ).get(ViewModelPembelian::class.java)

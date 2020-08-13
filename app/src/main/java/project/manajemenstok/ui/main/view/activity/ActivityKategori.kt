@@ -32,7 +32,7 @@ class ActivityKategori : AppCompatActivity(), AdapterView.OnItemClickListener, V
         setupUI()
         setupViewModel()
 
-        viewModelKategori.getKategori().observe(this, Observer {
+        kategoriViewModel.getKategori().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { kategori ->
@@ -75,7 +75,7 @@ class ActivityKategori : AppCompatActivity(), AdapterView.OnItemClickListener, V
 
     private fun setupViewModel() {
         val is_remote = true
-        viewModelKategori = ViewModelProviders.of(
+        kategoriViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(this,is_remote)
         ).get(ViewModelKategori::class.java)

@@ -63,14 +63,14 @@ class FragmentBarang : Fragment(), View.OnClickListener, SearchView.OnQueryTextL
             }
         })
 
-        viewModelBarang.getKategori().observe(this, Observer {
+        barangViewModel.getKategori().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { kategori ->
                         renderListKategori(kategori)
                         listKategori.clear()
                         listKategori.addAll(kategori)
-                        viewModelBarang.fetchLiveBarang()
+                        barangViewModel.fetchLiveBarang()
                     }
                 }
                 Status.LOADING -> {
@@ -88,8 +88,8 @@ class FragmentBarang : Fragment(), View.OnClickListener, SearchView.OnQueryTextL
 
     override fun onResume() {
         super.onResume()
-        viewModelBarang.syncKategori()
-        viewModelBarang.fetchKategori()
+        barangViewModel.syncKategori()
+        barangViewModel.fetchKategori()
 
         Helper.setFontSizeSearchView(sv_barang, 14f)
 
@@ -102,7 +102,7 @@ class FragmentBarang : Fragment(), View.OnClickListener, SearchView.OnQueryTextL
     private fun setupUI(){
         rv = viewFragmentBarang.findViewById(R.id.rv_beranda)
         rv.layoutManager = LinearLayoutManager(viewFragmentBarang.context)
-        adapter = ListBarangAdapter(arrayListOf(), this, viewModelBarang)
+        adapter = ListBarangAdapter(arrayListOf(), this, barangViewModel)
         rv.addItemDecoration(
             DividerItemDecoration(
                 rv.context,
@@ -113,13 +113,13 @@ class FragmentBarang : Fragment(), View.OnClickListener, SearchView.OnQueryTextL
 
         rvKategori = viewFragmentBarang.findViewById(R.id.rv_kategori)
         rvKategori.layoutManager = LinearLayoutManager(viewFragmentBarang.context, LinearLayoutManager.HORIZONTAL, false)
-        kategoriAdapter = ListKategoriAdapter(arrayListOf(), this, viewModelBarang)
+        kategoriAdapter = ListKategoriAdapter(arrayListOf(), this, barangViewModel)
         rvKategori.adapter = kategoriAdapter
     }
 
     private fun setupViewModel() {
         val is_remote = true
-        viewModelBarang = ViewModelProviders.of(
+        barangViewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(viewFragmentBarang.context,is_remote)
         ).get(ViewModelBarang::class.java)

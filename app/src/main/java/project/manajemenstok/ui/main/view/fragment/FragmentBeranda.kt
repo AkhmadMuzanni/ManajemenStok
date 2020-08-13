@@ -1,6 +1,7 @@
 package project.manajemenstok.ui.main.view.fragment
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +14,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_beranda.*
 import kotlinx.android.synthetic.main.fragment_beranda.view.*
 
@@ -21,10 +24,7 @@ import project.manajemenstok.data.model.TransaksiData
 import project.manajemenstok.ui.base.ViewModelFactory
 import project.manajemenstok.ui.main.adapter.OnRiwayatItemClickListener
 import project.manajemenstok.ui.main.adapter.RiwayatAdapter
-import project.manajemenstok.ui.main.view.activity.ActivityDetailRiwayat
-import project.manajemenstok.ui.main.view.activity.ActivityMain
-import project.manajemenstok.ui.main.view.activity.ActivityPembelian
-import project.manajemenstok.ui.main.view.activity.ActivityPenjualan
+import project.manajemenstok.ui.main.view.activity.*
 import project.manajemenstok.ui.main.viewmodel.ViewModelMain
 import project.manajemenstok.utils.Constants
 import project.manajemenstok.utils.Status
@@ -40,6 +40,8 @@ class FragmentBeranda : Fragment(), View.OnClickListener, OnRiwayatItemClickList
     private lateinit var adapter: RiwayatAdapter
     private lateinit var viewFragmentBeranda: View
     private lateinit var rv: RecyclerView
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +56,10 @@ class FragmentBeranda : Fragment(), View.OnClickListener, OnRiwayatItemClickList
         setupViewModel()
         setupObserver()
         viewModelMain.fetchTransaksiRepository()
+
+        auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
+        println(user?.uid)
 
 //        mainViewModel.getLiveBarang().observe(this, Observer {
 //            renderListBarang(it)
@@ -194,6 +200,15 @@ class FragmentBeranda : Fragment(), View.OnClickListener, OnRiwayatItemClickList
         historyTransactionBundle.putInt("totalOngkir", item.ongkir)
         historyTransaction.putExtra("historyTransaction", historyTransactionBundle)
         startActivity(historyTransaction)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            val intent = Intent(viewFragmentBeranda.context, ActivityLogin::class.java)
+            startActivity(intent)
+        }
     }
 
 
