@@ -218,12 +218,13 @@
 
     <Button
         android:id="@+id/btn_input_barang"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/menu_corner"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/btn_corner"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="SIMPAN TRANSAKSI"
+        android:text="Simpan Transaksi"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

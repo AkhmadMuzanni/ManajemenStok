@@ -520,7 +520,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="32dp"
-                        android:background="@drawable/menu_corner"
+                        android:background="@drawable/btn_corner"
                         android:text="Keluar"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
