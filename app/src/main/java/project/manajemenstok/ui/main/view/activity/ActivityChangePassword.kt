@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_change_password.*
 import project.manajemenstok.R
 import project.manajemenstok.ui.base.ViewModelFactory
@@ -20,6 +21,7 @@ class ActivityChangePassword : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_password)
+        AndroidThreeTen.init(this)
         setupViewModel()
 
         btn_save_chpass.setOnClickListener(this)

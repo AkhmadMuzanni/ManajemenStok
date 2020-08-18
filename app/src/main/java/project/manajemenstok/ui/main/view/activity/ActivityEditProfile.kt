@@ -7,8 +7,11 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_login.*
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import project.manajemenstok.R
 import project.manajemenstok.data.model.Akun
 import project.manajemenstok.ui.base.ViewModelFactory
@@ -24,6 +27,7 @@ class ActivityEditProfile : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         auth = FirebaseAuth.getInstance()
+        AndroidThreeTen.init(this)
         setupViewModel()
         setupObserver()
         authViewModel.fetchAkubyId(auth.currentUser?.uid.toString())
@@ -66,6 +70,9 @@ class ActivityEditProfile : AppCompatActivity(), View.OnClickListener {
                 val email = input_edit_email.text.toString()
                 val toko = input_edit_toko.text.toString()
 
+                val dateNow = LocalDateTime.now()
+                val dateFormat = dateNow.format(DateTimeFormatter.ofPattern("dd MMM yyy hh:mm:ss"))
+
                 var editAkun = Akun()
                 editAkun.akun_id = uuid
                 editAkun.email = email
@@ -73,6 +80,8 @@ class ActivityEditProfile : AppCompatActivity(), View.OnClickListener {
                 editAkun.nama = username
                 editAkun.nama_toko = toko
                 editAkun.paket = Constants.CONSAKUN.paket
+                editAkun.dtm_crt = Constants.CONSAKUN.dtm_crt
+                editAkun.dtm_upd = dateFormat.toString()
 
                 when(authViewModel.updateAkun(editAkun, uuid, email).status){
                     Status.SUCCESS -> {

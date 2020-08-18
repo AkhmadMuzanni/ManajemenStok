@@ -8,7 +8,7 @@ class Constants {
         val TIME_SPLASH_SCREEN: Long = 4000
         var USER_ID = "akun2"
         var CONSAKUN = Akun()
-        val BUCKER_FOLDER = "bevyStock/$USER_ID/"
+        val BUCKER_FOLDER = "bevyStock/${CONSAKUN.akun_id}/"
     }
 
     class JenisTransaksiValue{

@@ -1,5 +1,6 @@
 package project.manajemenstok.data.remote.impl
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.*
 import com.google.firebase.database.ChildEventListener
@@ -12,6 +13,7 @@ import project.manajemenstok.data.model.Akun
 import project.manajemenstok.data.model.Kategori
 import project.manajemenstok.data.remote.logic.RemoteAkunLogic
 import project.manajemenstok.utils.Constants
+import project.manajemenstok.utils.Helper
 import project.manajemenstok.utils.Resource
 import java.lang.Exception
 
@@ -19,6 +21,7 @@ class RemoteAkunLogicImpl :
     RemoteAkunLogic {
 
     private var dataAkun = MutableLiveData<Resource<Akun>>()
+    private var imageUrl = MutableLiveData<String>()
 
     override fun createAkun(akun: Akun, uuid: String): String {
         val dbAkun = Firebase.database.getReference("akun")
@@ -96,8 +99,10 @@ class RemoteAkunLogicImpl :
         akunUpdates[uuid] = akun
 
         try {
-            changeEmail(email, Constants.CONSAKUN.password)
-            dbAkun.updateChildren(akunUpdates)
+            dbAkun.updateChildren(akunUpdates).addOnCompleteListener {
+                Constants.CONSAKUN = akun
+                changeEmail(email, Constants.CONSAKUN.password)
+            }
             return Resource.success(uuid)
         }catch (e: Exception){
             return Resource.error(e.toString(),uuid)
@@ -169,5 +174,37 @@ class RemoteAkunLogicImpl :
 
     }
 
+
+    override fun uploadImage(imageUri: Uri, path: String) {
+        val storageRef = Helper.getStorageReference(path)
+
+        val uploadTask = storageRef.putFile(imageUri)
+
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+        }.addOnSuccessListener {
+//            var akun = Constants.CONSAKUN
+//            akun.foto = path
+//            updateAkun(akun,Constants.CONSAKUN.akun_id,Constants.CONSAKUN.email)
+            fetchImageUrl(path)
+        }
+    }
+
+    override fun fetchImageUrl(path: String) {
+        val imageReference = Helper.getStorageReference(path)
+        imageReference.downloadUrl.addOnSuccessListener {
+            setImageUrl(it.toString())
+        }.addOnFailureListener {
+            // Handle any errors
+        }
+    }
+
+    override fun getImageUrl(): MutableLiveData<String> {
+        return imageUrl
+    }
+
+    override fun setImageUrl(url: String) {
+        imageUrl.postValue(url)
+    }
 
 }

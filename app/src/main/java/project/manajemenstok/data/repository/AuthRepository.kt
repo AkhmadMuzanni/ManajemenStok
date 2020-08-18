@@ -1,6 +1,7 @@
 package project.manajemenstok.data.repository
 
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import project.manajemenstok.data.model.Akun
 import project.manajemenstok.data.remote.logic.RemoteAkunLogic
@@ -31,6 +32,14 @@ class AuthRepository(private val remoteAkun: RemoteAkunLogic) {
 
     fun updatePassword(oldPass: String, newPass: String): Resource<String> {
         return remoteAkun.updatePassword(oldPass, newPass)
+    }
+
+    fun uploadImage(imageUri: Uri, path: String){
+        remoteAkun.uploadImage(imageUri, path)
+    }
+
+    fun getUploadResult(): MutableLiveData<String>{
+        return remoteAkun.getImageUrl()
     }
 
 }

@@ -16,6 +16,8 @@ data class Akun (
     var nama_toko: String="",
     @SerializedName("paket")
     var paket: String="",
+    @SerializedName("foto")
+    var foto: String="",
     @SerializedName("dtm_crt")
     var dtm_crt: String="",
     @SerializedName("dtm_upd")

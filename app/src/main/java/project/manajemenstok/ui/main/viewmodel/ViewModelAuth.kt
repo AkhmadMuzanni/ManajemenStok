@@ -1,6 +1,7 @@
 package project.manajemenstok.ui.main.viewmodel
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import project.manajemenstok.data.model.Akun
@@ -37,6 +38,14 @@ class ViewModelAuth (val context : Context, private val is_remote : Boolean) : V
 
     fun updatePassword(oldPass: String, newPass: String): Resource<String> {
         return authRepository.updatePassword(oldPass, newPass)
+    }
+
+    fun getUploadResult(): MutableLiveData<String> {
+        return authRepository.getUploadResult()
+    }
+
+    fun uploadImage(imageUri: Uri, path: String){
+        authRepository.uploadImage(imageUri, path)
     }
 
 
